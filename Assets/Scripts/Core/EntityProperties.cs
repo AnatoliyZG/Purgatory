@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityProperties : MonoBehaviour
+[CreateAssetMenu(fileName = "Stats", menuName = "Entity Properties", order = 51)]
+public class EntityProperties : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string Name;
+    public float Hp;
+    public float MoveSpeed;
 
-    // Update is called once per frame
-    void Update()
+    public EntityProperties Clone()
     {
-        
+        return (EntityProperties)MemberwiseClone();
     }
 }
