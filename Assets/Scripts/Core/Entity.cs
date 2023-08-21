@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public EntityProperties properties;
+
+    public InputController controller;
+
+    public EntityType type;
+
+    public enum EntityType
     {
-        
+        Ally,
+        Monster,
+        Neutral
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Start()
     {
-        
+        properties = properties.Clone();
     }
 }
