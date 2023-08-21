@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputController : MonoBehaviour
+public abstract class InputController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float MoveSpeed => entity.properties.MoveSpeed;
+    private Entity entity;
+    private Rigidbody rig;
+
+    public void Move(Vector3 direction)
     {
-        
+        direction.y = rig.velocity.y;
+        rig.velocity = direction * MoveSpeed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Start()
     {
-        
+        entity = GetComponent<Entity>();
+        rig = GetComponent<Rigidbody>();
     }
 }
