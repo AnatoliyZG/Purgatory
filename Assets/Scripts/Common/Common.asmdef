@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "GUID:12b58fcad206feb4683237ab87669e6a",
-        "GUID:fafb7e51f187ff84fba99219a8a00f0f"
+        "GUID:fafb7e51f187ff84fba99219a8a00f0f",
+        "GUID:c1e13466feceaed489fed3e8afda40d4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -12,6 +13,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "",
+            "define": ""
+        }
+    ],
     "noEngineReferences": false
 }

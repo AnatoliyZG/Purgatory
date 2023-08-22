@@ -263,7 +263,7 @@ namespace MegaFiers
 			{
 				case "Bend":
 					{
-						MegaFiers.MegaBend bmod = (MegaFiers.MegaBend)mod;
+						MegaBend bmod = (MegaBend)mod;
 						bmod.angle	= AngleSlider("Angle", bmod.angle, 2.0f);
 						bmod.dir	= AngleSlider("Direction", bmod.dir, 1.0f);
 						bmod.axis	= (MegaAxis)XYZ("Axis", (int)bmod.axis);

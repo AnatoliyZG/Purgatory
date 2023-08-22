@@ -13,4 +13,9 @@ public class PlayerInput : InputController
     {
         Move(new Vector3(Input.GetAxis("Horizontal"), 0 , Input.GetAxis("Vertical")));
     }
+
+    public void StartPath(Vector3 point)
+    {
+
+    }
 }
