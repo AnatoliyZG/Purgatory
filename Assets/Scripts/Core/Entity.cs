@@ -8,6 +8,8 @@ public abstract class Entity : MonoBehaviour
 
     public InputController controller;
 
+    public Fighting fighting;
+
     public EntityType type;
 
     public enum EntityType
