@@ -10,8 +10,8 @@ public abstract class InputController : MonoBehaviour
 
     public void Move(Vector3 direction)
     {
-        direction.y = rig.velocity.y;
-        rig.velocity = direction * MoveSpeed;
+        direction = new Vector3(direction.x * MoveSpeed, rig.velocity.y, direction.z * MoveSpeed);
+        rig.velocity = direction;
     }
 
     public virtual void Start()
