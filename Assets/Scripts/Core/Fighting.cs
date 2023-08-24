@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Fighting : MonoBehaviour
+public class Fighting : EntityFeature<Entity>
 {
     public event Action<Impact> onGetHit;
     public event Action<Impact> onAttack;
 
     public float Damage;
-    public float ChanceCritDamage = 10f;
 
-    public void Attack(Entity target, float currentDamege, EntityProperties.DmgType type)
+    public void Attack(Entity target)
     {
-        Impact impact = new Impact(target, currentDamege, type, ChanceCritDamage);
+        Impact impact = new Impact(target, entity);
         onAttack?.Invoke(impact);
 
         target.fighting.GetHit(impact);
@@ -24,77 +23,101 @@ public class Fighting : MonoBehaviour
     {
         onGetHit?.Invoke(impact);
 
-        transform.GetComponent<EntityProperties>().Hp -= impact.Damage;
+        entity.properties.Hp -= impact.damage;
+    }
+
+    public Fighting(Entity entity) : base(entity)
+    {
+
     }
 }
 
 public class Impact
 {
-    public float Damage;
-    private float _changeDamage = 1;
+    public Entity offender;
+    public Entity target;
 
-    public Impact(Entity target, float currentDamege, EntityProperties.DmgType offenceType, float chanceCrit = 0)
+    public DmgType dmgType;
+
+    public float damage;
+
+    private float damageMultily = 1;
+
+    public Impact(Entity target, Entity offender)
     {
-        DifferentType(target.properties.ArmorType, offenceType);
+        this.target = target;
+        this.offender = null;
 
-        Damage = (currentDamege - target.properties.Armor) * _changeDamage;
+        dmgType = offender.properties.DamageType;
+        damage = offender.properties.Damage;
 
-        IsCrit(chanceCrit);
+        DifferentType(target.properties.ArmorType, dmgType);
+
+       // Damage = (currentDamege - target.properties.Armor) * damageMultily;
     }
 
-    private void DifferentType(EntityProperties.DmgType targetType, EntityProperties.DmgType damageType)
+    public Impact(Entity target, DmgType dmgType, float damage)
     {
-        
-        if (damageType == EntityProperties.DmgType.None || targetType == EntityProperties.DmgType.None)
-            _changeDamage = 0;
+        this.target = target;
+        this.dmgType = dmgType;
+        this.damage = damage;
+
+        DifferentType(target.properties.ArmorType, dmgType);
+    }
+
+
+    private void DifferentType(DmgType targetType, DmgType damageType)
+    {
+        if (damageType == DmgType.None || targetType == DmgType.None)
+            damageMultily = 0;
         else
         {
             switch (damageType)
             {
-                case EntityProperties.DmgType.Stabbing:
+                case DmgType.Stabbing:
                     switch (targetType)
                     {
-                        case EntityProperties.DmgType.Normal:
-                            _changeDamage -= 0.25f;
+                        case DmgType.Normal:
+                            damageMultily -= 0.25f;
                             break;
-                        case EntityProperties.DmgType.Magic:
-                            _changeDamage += 0.25f;
+                        case DmgType.Magic:
+                            damageMultily += 0.25f;
                             break;
                     }
                     break;
 
-                case EntityProperties.DmgType.Normal:
+                case DmgType.Normal:
                     switch (targetType)
                     {
-                        case EntityProperties.DmgType.Heavy:
-                            _changeDamage -= 0.25f;
+                        case DmgType.Heavy:
+                            damageMultily -= 0.25f;
                             break;
-                        case EntityProperties.DmgType.Stabbing:
-                            _changeDamage += 0.25f;
+                        case DmgType.Stabbing:
+                            damageMultily += 0.25f;
                             break;
                     }
                     break;
 
-                case EntityProperties.DmgType.Heavy:
+                case DmgType.Heavy:
                     switch (targetType)
                     {
-                        case EntityProperties.DmgType.Magic:
-                            _changeDamage -= 0.25f;
+                        case DmgType.Magic:
+                            damageMultily -= 0.25f;
                             break;
-                        case EntityProperties.DmgType.Normal:
-                            _changeDamage += 0.25f;
+                        case DmgType.Normal:
+                            damageMultily += 0.25f;
                             break;
                     }
                     break;
 
-                case EntityProperties.DmgType.Magic:
+                case DmgType.Magic:
                     switch (targetType)
                     {
-                        case EntityProperties.DmgType.Stabbing:
-                            _changeDamage -= 0.25f;
+                        case DmgType.Stabbing:
+                            damageMultily -= 0.25f;
                             break;
-                        case EntityProperties.DmgType.Heavy:
-                            _changeDamage += 0.25f;
+                        case DmgType.Heavy:
+                            damageMultily += 0.25f;
                             break;
                     }
                     break;
@@ -102,9 +125,8 @@ public class Impact
         }
     }
 
-    private void IsCrit(float chance)
+    private bool IsCrit(float chance)
     {
-        if (Random.Range(0f, 100f) < chance)
-            Damage *= 2;
+        return (Random.Range(0f, 100f) < chance) ;
     }
 }

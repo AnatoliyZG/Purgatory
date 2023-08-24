@@ -4,4 +4,26 @@ using UnityEngine;
 
 public class Unit : Entity
 {
+    public override EntityProperties properties => unitProperties;
+
+    public UnitProperties unitProperties;
+
+    public InputController inputController;
+
+
+    public override void Start()
+    {
+        base.Start();
+
+        unitProperties = unitProperties.Clone() as UnitProperties;
+
+        if(type == EntityType.Ally)
+        {
+            inputController = new PlayerInput(this);
+        }
+        else
+        {
+            inputController = new BotInput(this);
+        }
+    }
 }

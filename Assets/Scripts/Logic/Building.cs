@@ -1,11 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Building : MonoBehaviour
+public class Building : Entity
 {
-    public Vector2Int Size = Vector2Int.one;
+    public override EntityProperties properties => buildProperties;
 
-    public Renderer MainRenderer; // GetComponentInChildren<Renderer>() ?
+    public Vector2Int Size => buildProperties.Size;
+
+    public BuildProperties buildProperties;
+
+    private Renderer MainRenderer;
+
+
+    public override void Start()
+    {
+        base.Start();
+
+        MainRenderer = GetComponentInChildren<Renderer>();
+
+        buildProperties = buildProperties.Clone() as BuildProperties;
+    }
 
     public void SetStateColor(bool available)
     {
@@ -18,11 +32,11 @@ public class Building : MonoBehaviour
         MainRenderer.material.color = Color.white;
     }
 
-    private void OnDrawGizmos() // Эти клетки видны только в редакторе
+    private void OnDrawGizmos()
     {
-        for (int x = 0; x < Size.x; x++)
+        for (int x = 0; x < buildProperties.Size.x; x++)
         {
-            for (int y = 0; y < Size.y; y++)
+            for (int y = 0; y < buildProperties.Size.y; y++)
             {
                 if ((x + y) % 2 == 0) Gizmos.color = new Color(0f, 1f, 0.22f, 1f);
                 else Gizmos.color = new Color(0f, 0.48f, 0.1f, 1f);

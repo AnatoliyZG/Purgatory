@@ -7,13 +7,13 @@ public class CameraController : MonoBehaviour
 {
     Camera _camera;
 
-    PlayerInput _playerInput;
+    public Entity selecteEntity;
 
     public float MoveSpeed;
 
     public float ZoomSpeed;
 
-    public event Action IsChosen;
+    public event Action<Entity> IsChosen;
 
     private void Start()
     {
@@ -47,16 +47,14 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit,100, 7 << 7)) 
         {
-            _playerInput = hit.collider.GetComponent<PlayerInput>();
-            IsChosen?.Invoke();
+            selecteEntity = hit.transform.GetComponent<Entity>();
+            IsChosen?.Invoke(selecteEntity);
         }
-        else if (Input.GetKey(KeyCode.Mouse0) && _playerInput != null) 
+        else if (Input.GetKey(KeyCode.Mouse0) && selecteEntity != null && selecteEntity is Unit unit) 
         {
             Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
-            StartCoroutine(_playerInput.StartPath(hit.point));
+            StartCoroutine(unit.inputController.StartPath(hit.point));
         }
-        else if (Input.GetKey(KeyCode.Mouse1))
-            _playerInput = null;
 
         MoveX(Input.mousePosition.x);
         MoveZ(Input.mousePosition.y);

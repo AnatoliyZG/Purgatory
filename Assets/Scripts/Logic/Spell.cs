@@ -7,27 +7,28 @@ public class Spell : MonoBehaviour
 {
     public float Damage;
     public float Radius;
-    public float Force = 0;
 
-    public EntityProperties.SpellType type;
-
+    public DmgType type;
 
     public void Execute(Vector3 position)
     {
         Collider[] colliders = Physics.OverlapSphere(position, Radius);
         if (colliders != null)
+        {
             foreach (Collider c in colliders)
-                if (c.attachedRigidbody != null)
-                {
-                    c.attachedRigidbody.AddExplosionForce(Force, position, Radius);
+            {
+                Entity entity = c.GetComponent<Entity>();
 
-                    Entity goal = c.transform.GetComponent<Entity>();
-                    goal.fighting.Attack(goal, Damage, EntityProperties.DmgType.Magic);
+                if(entity != null)
+                {
+                    Execute(entity);
                 }
+            }
+        }
     }
 
-    public void Execute(Entity[] targets)
+    public void Execute(Entity target)
     {
-
+        target.fighting.GetHit(new Impact(target, type, Damage));
     }
 }

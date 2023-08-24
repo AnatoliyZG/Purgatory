@@ -4,9 +4,7 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-    public EntityProperties properties;
-
-    public InputController controller;
+    public abstract EntityProperties properties { get; }
 
     public Fighting fighting;
 
@@ -21,6 +19,6 @@ public abstract class Entity : MonoBehaviour
 
     public virtual void Start()
     {
-        properties = properties.Clone();
+        fighting = new Fighting(this);
     }
 }
