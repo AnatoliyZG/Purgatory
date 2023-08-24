@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 123231759}
   - component: {fileID: 123231758}
   - component: {fileID: 123231757}
-  - component: {fileID: 123231756}
   - component: {fileID: 123231755}
   - component: {fileID: 123231754}
   m_Layer: 7
@@ -158,10 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c2931b0b97b404cb46c43a4dcdf0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  properties: {fileID: 11400000, guid: 8942c7db6ca8c4dd0ad1966d5d0b54e7, type: 2}
-  controller: {fileID: 0}
-  fighting: {fileID: 0}
   type: 0
+  unitProperties: {fileID: 11400000, guid: 110a50f0a38164d0e83ade599f76855c, type: 2}
 --- !u!54 &123231755
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -178,18 +175,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &123231756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123231753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529206df9e70c4644931ae6efac57fb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &123231757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,7 +702,6 @@ GameObject:
   - component: {fileID: 1271818725}
   - component: {fileID: 1271818724}
   - component: {fileID: 1271818723}
-  - component: {fileID: 1271818722}
   - component: {fileID: 1271818728}
   - component: {fileID: 1271818729}
   m_Layer: 7
@@ -727,18 +711,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1271818722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271818721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529206df9e70c4644931ae6efac57fb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1271818723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,10 +845,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c2931b0b97b404cb46c43a4dcdf0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  properties: {fileID: 11400000, guid: 8942c7db6ca8c4dd0ad1966d5d0b54e7, type: 2}
-  controller: {fileID: 0}
-  fighting: {fileID: 0}
   type: 0
+  unitProperties: {fileID: 11400000, guid: 110a50f0a38164d0e83ade599f76855c, type: 2}
 --- !u!1 &1345656138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,5 +1072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d19e4adc347d84a21afb8e08068e457b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selecteEntity: {fileID: 0}
   MoveSpeed: 45
   ZoomSpeed: 0

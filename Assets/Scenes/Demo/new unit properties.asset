@@ -19,6 +19,6 @@ MonoBehaviour:
   Armor: 0
   ArmorType: 0
   SpellArmorType: 0
-  MoveSpeed: 0
+  MoveSpeed: 3
   CriticalChanse: 10
   CriticalDamage: 1.5

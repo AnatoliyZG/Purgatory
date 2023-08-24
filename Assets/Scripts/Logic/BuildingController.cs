@@ -38,7 +38,7 @@ public class BuildingController : MonoBehaviour
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 100, 1 << 6))
+            if (Physics.Raycast(ray, out hit, 100, 1 << 6 | 1 << 8))
             {
                 Vector3 worldPos = hit.point;
 
@@ -83,7 +83,7 @@ public class BuildingController : MonoBehaviour
 
     }
 
-    private bool IsPlaceBuilding(int placeX, int placeY) // код дублируется, упростить?
+    private bool IsPlaceBuilding(int placeX, int placeY)
     {
         for (int x = 0; x < unplacedBuilding.Size.x; x++)
         {
