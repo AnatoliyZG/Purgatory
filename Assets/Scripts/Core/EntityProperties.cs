@@ -24,6 +24,18 @@ public class EntityProperties : ScriptableObject
         // Кто кого лучше бъёт: magic => heavy => normal => stabbing => magic
     }
 
+    public SpellType SpellArmorType;
+
+    public enum SpellType
+    {
+        Fire,
+        Water,
+        Earth,
+        Air,
+        Light,
+        Darkness
+    }
+
     public EntityProperties Clone()
     {
         return (EntityProperties)MemberwiseClone();

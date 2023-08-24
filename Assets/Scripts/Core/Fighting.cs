@@ -12,9 +12,9 @@ public class Fighting : MonoBehaviour
     public float Damage;
     public float ChanceCritDamage = 10f;
 
-    public void Attack(Entity target)
+    public void Attack(Entity target, float currentDamege, EntityProperties.DmgType type)
     {
-        Impact impact = new Impact(transform.GetComponent<Entity>(), target);
+        Impact impact = new Impact(target, currentDamege, type, ChanceCritDamage);
         onAttack?.Invoke(impact);
 
         target.fighting.GetHit(impact);
@@ -33,76 +33,78 @@ public class Impact
     public float Damage;
     private float _changeDamage = 1;
 
-    public Impact(Entity agressor, Entity target)
+    public Impact(Entity target, float currentDamege, EntityProperties.DmgType offenceType, float chanceCrit = 0)
     {
-        DifferentType(agressor, target);
+        DifferentType(target.properties.ArmorType, offenceType);
 
-        Damage = (agressor.fighting.Damage - target.properties.Armor) * _changeDamage;
+        Damage = (currentDamege - target.properties.Armor) * _changeDamage;
 
-        // Определяем будет ли крит
-        if (Random.Range(0f, 100f) < agressor.fighting.ChanceCritDamage)
-            Damage *= 2;
+        IsCrit(chanceCrit);
     }
 
-    private void DifferentType(Entity agressor, Entity target)
+    private void DifferentType(EntityProperties.DmgType targetType, EntityProperties.DmgType damageType)
     {
-        var damageType = agressor.properties.DamageType;
-        var offenceType = target.properties.ArmorType;
         
-        if (damageType == EntityProperties.DmgType.None || offenceType == EntityProperties.DmgType.None)
+        if (damageType == EntityProperties.DmgType.None || targetType == EntityProperties.DmgType.None)
             _changeDamage = 0;
         else
         {
             switch (damageType)
             {
                 case EntityProperties.DmgType.Stabbing:
-                    switch (offenceType)
+                    switch (targetType)
                     {
                         case EntityProperties.DmgType.Normal:
-                            _changeDamage = 0.75f;
+                            _changeDamage -= 0.25f;
                             break;
                         case EntityProperties.DmgType.Magic:
-                            _changeDamage = 1.25f;
+                            _changeDamage += 0.25f;
                             break;
                     }
                     break;
 
                 case EntityProperties.DmgType.Normal:
-                    switch (offenceType)
+                    switch (targetType)
                     {
                         case EntityProperties.DmgType.Heavy:
-                            _changeDamage = 0.75f;
+                            _changeDamage -= 0.25f;
                             break;
                         case EntityProperties.DmgType.Stabbing:
-                            _changeDamage = 1.25f;
+                            _changeDamage += 0.25f;
                             break;
                     }
                     break;
 
                 case EntityProperties.DmgType.Heavy:
-                    switch (offenceType)
+                    switch (targetType)
                     {
                         case EntityProperties.DmgType.Magic:
-                            _changeDamage = 0.75f;
+                            _changeDamage -= 0.25f;
                             break;
                         case EntityProperties.DmgType.Normal:
-                            _changeDamage = 1.25f;
+                            _changeDamage += 0.25f;
                             break;
                     }
                     break;
 
                 case EntityProperties.DmgType.Magic:
-                    switch (offenceType)
+                    switch (targetType)
                     {
                         case EntityProperties.DmgType.Stabbing:
-                            _changeDamage = 0.75f;
+                            _changeDamage -= 0.25f;
                             break;
                         case EntityProperties.DmgType.Heavy:
-                            _changeDamage = 1.25f;
+                            _changeDamage += 0.25f;
                             break;
                     }
                     break;
             }
         }
+    }
+
+    private void IsCrit(float chance)
+    {
+        if (Random.Range(0f, 100f) < chance)
+            Damage *= 2;
     }
 }
