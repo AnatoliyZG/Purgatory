@@ -1,18 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager instance;
+
+    public DayPhase currentPhase = DayPhase.day;
+
+    public event Action<DayPhase> dayChange;
+
+    public uint Wood;
+
+    public uint Stone;
+
+    public List<Entity> enemies;
+
+    public List<Entity> allies;
+
+    public List<Entity> buildings;
+
+    private void Awake()
     {
-        
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangePhase()
     {
-        
+        currentPhase = currentPhase == DayPhase.day ? DayPhase.night : DayPhase.day;
+        dayChange?.Invoke(currentPhase);
     }
+}
+
+public enum DayPhase
+{
+    day,
+    night,
 }

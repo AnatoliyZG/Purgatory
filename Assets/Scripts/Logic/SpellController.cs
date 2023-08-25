@@ -6,15 +6,8 @@ public class SpellController : MonoBehaviour
 {
     public Spell curentSpell;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
-
-        //Это потом перекинуть в PlayerInput
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
