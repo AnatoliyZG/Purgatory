@@ -5,35 +5,32 @@ using System;
 
 public class CameraController : MonoBehaviour
 {
-    Camera _camera;
+    public static float MoveSpeed = 15;
 
-    public Entity selecteEntity;
+    public static float ZoomSpeed;
 
-    public float MoveSpeed;
+    public Entity selectedEntity;
 
-    public float ZoomSpeed;
+    public float MoveBorder = 40;
 
-    public event Action<Entity> IsChosen;
+    public event Action<Entity> onFocused;
+
+    private Camera _camera;
 
     private void Start()
     {
         _camera = Camera.main;
     }
 
-    private void MoveX(float x)
+    private void Move(float point, float maxBorder, Vector3 direction)
     {
-        if (x < 40)
-            transform.position -= new Vector3(MoveSpeed / x * Time.deltaTime, 0);
-        else if (x > Screen.width - 40)
-            transform.position += new Vector3(MoveSpeed / (Screen.width - x) * Time.deltaTime, 0);
-    }
-
-    private void MoveZ(float z)
-    {
-        if (z < 20)
-            transform.position -= new Vector3(0, 0, MoveSpeed / z * Time.deltaTime);
-        else if (z > Screen.height - 20)
-            transform.position += new Vector3(0, 0, MoveSpeed / (Screen.height - z) * Time.deltaTime);
+        if (point < MoveBorder)
+        {
+            transform.position -= direction * MoveSpeed * Time.deltaTime;
+        }
+        else if(point > maxBorder - MoveBorder) {
+            transform.position += direction * MoveSpeed * Time.deltaTime;
+        }
     }
 
     private void Zoom(float scroll)
@@ -47,17 +44,18 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit,100, 7 << 7)) 
         {
-            selecteEntity = hit.transform.GetComponent<Entity>();
-            IsChosen?.Invoke(selecteEntity);
+            selectedEntity = hit.transform.GetComponent<Entity>();
+            onFocused?.Invoke(selectedEntity);
         }
-        else if (Input.GetKey(KeyCode.Mouse0) && selecteEntity != null && selecteEntity is Unit unit) 
+        else if (Input.GetKey(KeyCode.Mouse0) && selectedEntity != null && selectedEntity is Unit unit) 
         {
             Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
             StartCoroutine(unit.inputController.StartPath(hit.point));
         }
 
-        MoveX(Input.mousePosition.x);
-        MoveZ(Input.mousePosition.y);
+        Move(Input.mousePosition.x, Screen.width, Vector3.right);
+        Move(Input.mousePosition.y, Screen.height, Vector3.forward);
+
         Zoom(Input.GetAxis("Mouse ScrollWheel"));
     }
 }

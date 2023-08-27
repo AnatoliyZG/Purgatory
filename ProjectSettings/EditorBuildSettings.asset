@@ -4,5 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 5b6642b7e53d1ee4cba0be48aea95be8
+  - enabled: 1
+    path: Assets/Scenes/Demo/_DemoController.unity
+    guid: 34f99c6da9f3d304db4743b657f1c749
+  - enabled: 1
+    path: Assets/Scenes/Demo/DemoBuilding.unity
+    guid: 609b004e49eab0f47ad4e4666122baff
+  - enabled: 1
+    path: Assets/Scenes/Demo/DemoFighting.unity
+    guid: c1c12c8ccbcdb1d4a9ca6dd7ac0e9463
+  - enabled: 1
+    path: Assets/Scenes/Demo/DemoGeneration.unity
+    guid: 9473239fdf1b6b14183acfd8164dbe1c
+  - enabled: 1
+    path: Assets/Scenes/Demo/DemoMovement.unity
+    guid: 6e9893c9d209ceb47ad22520c0d68568
   m_configObjects: {}
