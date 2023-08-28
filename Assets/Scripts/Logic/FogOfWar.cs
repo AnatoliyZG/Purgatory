@@ -6,11 +6,13 @@ using System.Linq;
 
 public class FogOfWar : MonoBehaviour
 {
-    public Texture2D tex;
+    private Texture2D tex;
+
+    private GameManager manager => GameManager.instance;
 
     void Start()
     {
-        tex = new Texture2D(GameManager.instance.width, GameManager.instance.height);
+        tex = new Texture2D(manager.width, manager.height);
         GetComponent<Renderer>().material.mainTexture = tex;
         tex.filterMode = FilterMode.Point;
 
@@ -19,17 +21,22 @@ public class FogOfWar : MonoBehaviour
 
     IEnumerator StartFogOfWar()
     {
-
         while (true)
         {
-            Color[] colors = new Color[GameManager.instance.width * GameManager.instance.height];
-            foreach (Entity item in GameManager.instance.allies.Concat(GameManager.instance.buildings))
+            Color[] colors = new Color[manager.width * manager.height];
+            foreach (Entity item in manager.allies.Concat(manager.buildings))
             {
-                //tex.SetPixels(colors);
-                Vector2Int Pos = new Vector2Int((int)item.transform.position.x, (int)item.transform.position.z);
-                tex.SetPixel(Pos.x, Pos.x, Color.white);
-            }
+                Vector2Int pos = new Vector2Int(Mathf.Abs(Mathf.RoundToInt(item.transform.position.x) - manager.width / 2), Mathf.Abs(Mathf.RoundToInt(item.transform.position.z) - manager.height / 2));
 
+                int vision = item.properties.visionDistance;
+                float rSquared = vision * vision;
+
+                for (int u = pos.x - vision; u < pos.x + vision + 1; u++)
+                    for (int v = pos.y - vision; v < pos.y + vision + 1; v++)
+                        if ((pos.x - u) * (pos.x - u) + (pos.y - v) * (pos.y - v) < rSquared)
+                            colors[Mathf.Clamp(u, 0, manager.width-1) + Mathf.Clamp(v * manager.width, 0, manager.width * manager.height - manager.width)] = Color.white;
+            }
+            tex.SetPixels(colors);
             tex.Apply();
             yield return new WaitForSeconds(0.2f);
         }
