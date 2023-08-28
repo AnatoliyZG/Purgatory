@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
         currentPhase = currentPhase == DayPhase.day ? DayPhase.night : DayPhase.day;
         dayChange?.Invoke(currentPhase);
     }
+
+    public int height;
+
+    public int width;
 }
 
 public enum DayPhase
