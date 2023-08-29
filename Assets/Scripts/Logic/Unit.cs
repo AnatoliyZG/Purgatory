@@ -15,7 +15,7 @@ public class Unit : Entity
     {
         base.Start();
 
-        unitProperties = unitProperties.Clone() as UnitProperties;
+        unitProperties = unitProperties.Clone<UnitProperties>();
 
         if(type == EntityType.Ally)
         {

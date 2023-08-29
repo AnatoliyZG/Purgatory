@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 //[CreateAssetMenu(fileName = "Stats", menuName = "Entity Properties", order = 51)]
+
 public abstract class EntityProperties : ScriptableObject
 {
     public string Name;
@@ -27,9 +27,9 @@ public abstract class EntityProperties : ScriptableObject
         Darkness
     }
 
-    public EntityProperties Clone()
+    public T Clone<T>() where T: EntityProperties
     {
-        return MemberwiseClone() as EntityProperties;
+        return MemberwiseClone() as T;
     }
 }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Hp: 0
-  visionDistance: 4
+  visionDistance: 7
   Damage: 0
   DamageType: 0
   Armor: 0

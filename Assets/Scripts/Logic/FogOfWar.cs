@@ -34,7 +34,7 @@ public class FogOfWar : MonoBehaviour
                 for (int u = pos.x - vision; u < pos.x + vision + 1; u++)
                     for (int v = pos.y - vision; v < pos.y + vision + 1; v++)
                         if ((pos.x - u) * (pos.x - u) + (pos.y - v) * (pos.y - v) < rSquared)
-                            colors[Mathf.Clamp(u, 0, manager.width-1) + Mathf.Clamp(v * manager.width, 0, manager.width * manager.height - manager.width)] = Color.white;
+                            colors[Mathf.Clamp(u, 0, manager.width-1) + Mathf.Clamp(v, 0, manager.height) * manager.width] = Color.white;
             }
             tex.SetPixels(colors);
             tex.Apply();

@@ -18,7 +18,7 @@ public class Building : Entity
 
         MainRenderer = GetComponentInChildren<Renderer>();
 
-        buildProperties = buildProperties.Clone() as BuildProperties;
+        buildProperties = buildProperties.Clone<BuildProperties>();
     }
 
     public void SetStateColor(bool available)
