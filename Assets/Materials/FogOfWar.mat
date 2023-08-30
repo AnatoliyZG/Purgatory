@@ -21,13 +21,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FogOfWar
-  m_Shader: {fileID: -6465566751694194690, guid: 0f4e803868aaacc40b3fdc102b3dd82c, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 54e48567a123a7f49822a033bb73111a, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 5000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -77,7 +77,7 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 1
     - _BUILTIN_QueueOffset: 0
-    - _Blur: 0
+    - _Blur: 0.01
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -97,5 +97,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FogColor: {r: 0.3032663, g: 0.36906323, b: 0.4433962, a: 1}
+    - _FogColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

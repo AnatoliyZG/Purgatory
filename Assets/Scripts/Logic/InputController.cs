@@ -10,6 +10,8 @@ public abstract class InputController : EntityFeature<Unit>
     private Transform transform;
     private Seeker seeker;
 
+    private Coroutine movementCoroutine;
+
     public void Move(Vector3 direction)
     {
         direction = new Vector3(direction.x * MoveSpeed, rig.velocity.y, direction.z * MoveSpeed);
@@ -23,8 +25,17 @@ public abstract class InputController : EntityFeature<Unit>
         seeker = entity.GetComponent<Seeker>();
     }
 
+    public void StartPath(Vector3 point)
+    {
+        if(movementCoroutine != null)
+        {
+            entity.StopCoroutine(movementCoroutine);
+        }
 
-    public IEnumerator StartPath(Vector3 point)
+        movementCoroutine = entity.StartCoroutine(_pathCoroutine(point));
+    }
+
+    private IEnumerator _pathCoroutine(Vector3 point)
     {
         Path path = seeker.StartPath(transform.position, point);
 

@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
 
     public List<Entity> buildings;
 
-    public Texture2D fog;
-
     private void Awake()
     {
         instance = this;

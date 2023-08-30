@@ -47,11 +47,11 @@ public class CameraController : MonoBehaviour
             selectedEntity = hit.transform.GetComponent<Entity>();
             onFocused?.Invoke(selectedEntity);
         }
-        else if (Input.GetKey(KeyCode.Mouse1) && selectedEntity != null && selectedEntity is Unit unit &&
-                GameManager.instance.fog.GetPixel((int)unit.transform.position.x, (int)unit.transform.position.z) != Color.black) 
+        else if (Input.GetKey(KeyCode.Mouse1) && selectedEntity != null && selectedEntity is Unit unit)// &&
+              //  GameManager.instance.fog.GetPixel((int)unit.transform.position.x, (int)unit.transform.position.z) != Color.black) 
         {
             Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
-            StartCoroutine(unit.inputController.StartPath(hit.point));
+            unit.inputController.StartPath(hit.point);
         }
 
         Move(Input.mousePosition.x, Screen.width, Vector3.right);

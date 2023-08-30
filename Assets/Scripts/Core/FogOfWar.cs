@@ -5,24 +5,20 @@ using System.Linq;
 
 public class FogOfWar : MonoBehaviour
 {
-    private Texture2D tex;
-    public Texture2D visible;
+    public static Texture2D fog;
 
     private GameManager manager => GameManager.instance;
 
     void Start()
     {
-        tex = new Texture2D(manager.width, manager.height);
-        GetComponent<Renderer>().material.mainTexture = tex;
-        tex.filterMode = FilterMode.Point;
-
-        visible = new Texture2D(manager.width, manager.height);
-        visible.filterMode = FilterMode.Point;
-
-        GameManager.instance.fog = tex;
+        fog = new Texture2D(manager.width, manager.height);
+        GetComponent<Renderer>().material.mainTexture = fog;
+        fog.filterMode = FilterMode.Point;
 
         StartCoroutine(StartFogOfWar());
     }
+
+
 
     IEnumerator StartFogOfWar()
     {
@@ -41,13 +37,25 @@ public class FogOfWar : MonoBehaviour
                     for (int v = pos.y - vision; v < pos.y + vision + 1; v++)
                         if ((pos.x - u) * (pos.x - u) + (pos.y - v) * (pos.y - v) < rSquared)
                         {
-                            colors[Mathf.Clamp(u, 0, manager.width - 1) + Mathf.Clamp(v, 0, manager.height) * manager.width] = Color.white;
-                            visible.SetPixel(Mathf.Clamp(u, 0, manager.width - 1), Mathf.Clamp(v, 0, manager.height), Color.white);
+                            colors[Mathf.Clamp(u, 0, manager.width - 1) + Mathf.Clamp(v, 0, manager.height-1) * manager.width] = Color.white;
                         }
             }
-            tex.SetPixels(colors);
-            tex.Apply();
-            visible.Apply();
+
+           
+            for(int x = 0; x < manager.width; x++)
+            {
+                for(int y = 0; y < manager.height; y++)
+                {
+                    if(colors[x + y * manager.width] == Color.clear && fog.GetPixel(x,y).r == 1)
+                    {
+                        colors[x + y * manager.width] = new Color(1,1,1, .5f);
+                    }
+                }
+            }
+            
+
+            fog.SetPixels(colors);
+            fog.Apply();
             yield return new WaitForSeconds(0.2f);
 
         }
