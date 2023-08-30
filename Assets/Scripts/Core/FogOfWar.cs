@@ -1,4 +1,3 @@
-using Pathfinding.Examples;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +19,8 @@ public class FogOfWar : MonoBehaviour
         visible = new Texture2D(manager.width, manager.height);
         visible.filterMode = FilterMode.Point;
 
+        GameManager.instance.fog = tex;
+
         StartCoroutine(StartFogOfWar());
     }
 
@@ -28,6 +29,7 @@ public class FogOfWar : MonoBehaviour
         while (true)
         {
             Color[] colors = new Color[manager.width * manager.height];
+
             foreach (Entity item in manager.allies.Concat(manager.buildings))
             {
                 Vector2Int pos = new Vector2Int(Mathf.Abs(Mathf.RoundToInt(item.transform.position.x) - manager.width / 2), Mathf.Abs(Mathf.RoundToInt(item.transform.position.z) - manager.height / 2));
@@ -47,8 +49,7 @@ public class FogOfWar : MonoBehaviour
             tex.Apply();
             visible.Apply();
             yield return new WaitForSeconds(0.2f);
+
         }
-
-
     }
 }
