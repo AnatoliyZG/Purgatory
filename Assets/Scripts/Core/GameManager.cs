@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public event Action<DayPhase> dayChange;
 
+    public uint CurrentDay = 0;
+
     public uint Wood;
 
     public uint Stone;
@@ -29,6 +31,12 @@ public class GameManager : MonoBehaviour
     public void ChangePhase()
     {
         currentPhase = currentPhase == DayPhase.day ? DayPhase.night : DayPhase.day;
+
+        if(currentPhase == DayPhase.day)
+        {
+            CurrentDay++;
+        }
+
         dayChange?.Invoke(currentPhase);
     }
 
