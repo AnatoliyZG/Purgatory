@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
 
     public Entity selectedEntity;
 
+    private SoulPick _soulPick;
+
     public float MoveBorder = 40;
 
     public event Action<Entity> onFocused;
@@ -20,6 +22,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
+        _soulPick = GetComponent<SoulPick>();
     }
 
     private void Move(float point, float maxBorder, Vector3 direction)
