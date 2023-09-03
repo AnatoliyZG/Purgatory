@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Sirenix.OdinInspector;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    [Button]
     public void ChangePhase()
     {
         currentPhase = currentPhase == DayPhase.day ? DayPhase.night : DayPhase.day;

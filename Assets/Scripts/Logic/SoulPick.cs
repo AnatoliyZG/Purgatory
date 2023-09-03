@@ -10,7 +10,13 @@ public class SoulPick:MonoBehaviour
 
     public Unit soul;
 
+    private uint _maxPickUp = 2;
+
+    public List<(UnitProperties properties, int index)> pickUp = new();
+
     public GameObject soulCards;
+
+    private int _cycle = 1;
 
     public Image[] cards;
 
@@ -18,20 +24,14 @@ public class SoulPick:MonoBehaviour
 
     public void Start()
     {
-        cards = soulCards.GetComponentsInChildren<Image>(true);
-
-        //yield return new WaitForSeconds(5f);
-        SoulGenerate(3);
-        //yield return new WaitForSeconds(1f);
+        gameManager.dayChange += SoulsCheck;
+        cards = soulCards.transform.GetChild(0).GetComponentsInChildren<Image>(true);
     }
 
-    public void SoulPickUp(UnitProperties unitProperties, int index)
+    private void SoulsCheck(DayPhase phase)
     {
-        Unit unit = Instantiate(soul, new Vector3(0, 1, 0), Quaternion.identity);
-        unit.unitProperties = unitProperties;
-        souls.Remove(unitProperties);
-        cards[index].gameObject.SetActive(false);
-        gameManager.allies.Add(unit);
+        if(phase == DayPhase.day && gameManager.CurrentDay % _cycle == 0)
+            SoulGenerate(3);
     }
 
     private void SoulGenerate(int quantity)
@@ -46,25 +46,64 @@ public class SoulPick:MonoBehaviour
             };
 
             souls.Add(prop);
+
             cards[i].GetComponent<Button>().onClick.RemoveAllListeners();
-            cards[i].GetComponent<Button>().onClick.AddListener(() => SoulPickUp(prop, q));
+            cards[i].GetComponent<Button>().onClick.AddListener(() => SoulChoose(prop, q));
             cards[i].GetComponentInChildren<TextMeshProUGUI>(true).text = $"Damage={souls[i].Damage}\n Hp={souls[i].Hp}";
         }
+
+        soulCards.SetActive(true);
     }
 
     public void StopPickUp()
     {
-        for (int i = 0; i < souls.Count; i++)
+        soulCards.SetActive(false);
+
+        foreach(var c in cards)
+            c.GetComponentInChildren<TextMeshProUGUI>(true).text = "";
+
+        foreach (var c in pickUp)
         {
-            gameManager.enemies.Add(new Unit()
+            Unit unit = Instantiate(soul, new Vector3(0, 1, 0), Quaternion.identity);
+            unit.unitProperties = c.properties;
+            souls.Remove(c.properties);
+
+            gameManager.allies.Add(new Unit()
             {
-                unitProperties = souls[i]
+                unitProperties = c.properties
             });
         }
+
+        foreach (var c in souls)
+            gameManager.enemies.Add(new Unit()
+            {
+                unitProperties = c
+            });
+
+        souls = null;
+        pickUp = null;
     }
 
-    public void ShowCards()
-    {
-        soulCards.SetActive(!soulCards.activeSelf);
+    public void SoulChoose(UnitProperties prop,int index)
+    { 
+        Debug.Log(index);
+        
+        if (cards[index].GetComponent<Image>().color == Color.grey)
+        {
+            cards[index].GetComponent<Image>().color = Color.white;
+            pickUp.Remove((prop,index));
+        }
+        else
+        {
+            cards[index].GetComponent<Image>().color = Color.grey;
+
+            if (pickUp.Count == _maxPickUp)
+            {
+                cards[pickUp[0].index].GetComponent<Image>().color = Color.white;
+                pickUp[0] = (prop, index);
+            }
+            else
+                pickUp.Add((prop, index));
+        }
     }
 }
