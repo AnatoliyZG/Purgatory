@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
             onFocused?.Invoke(selectedEntity);
         }
         else if (Input.GetKey(KeyCode.Mouse1) && selectedEntity != null && selectedEntity is Unit unit &&
-                 FogOfWar.fog.GetPixel((int)unit.transform.position.x, (int)unit.transform.position.z) != Color.clear)
+                 FogOfWar.IsPixelScouted(unit.transform.position))
         {
             Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
             unit.inputController.StartPath(hit.point);

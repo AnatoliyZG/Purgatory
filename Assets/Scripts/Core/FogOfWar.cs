@@ -60,4 +60,19 @@ public class FogOfWar : MonoBehaviour
 
         }
     }
+
+    public static bool IsPixelScouted(Vector3 position)
+    {
+        return IsPixelScouted(new Vector2Int((int)position.x, (int)position.z));
+    }
+
+    public static bool IsPixelScouted(Vector2 position)
+    {
+        return IsPixelScouted(new Vector2Int((int)position.x, (int)position.y));
+    }
+
+    public static bool IsPixelScouted(Vector2Int position)
+    {
+        return fog.GetPixel((int)position.x, (int)position.y).r > 0;
+    }
 }
