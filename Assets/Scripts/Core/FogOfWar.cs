@@ -7,7 +7,7 @@ public class FogOfWar : MonoBehaviour
 {
     public static Texture2D fog;
 
-    private GameManager manager => GameManager.instance;
+    private static GameManager manager => GameManager.instance;
 
     void Start()
     {
@@ -30,7 +30,7 @@ public class FogOfWar : MonoBehaviour
             {
                 Vector2Int pos = new Vector2Int(Mathf.Abs(Mathf.RoundToInt(item.transform.position.x) - manager.width / 2), Mathf.Abs(Mathf.RoundToInt(item.transform.position.z) - manager.height / 2));
 
-                int vision = item.properties.visionDistance;
+                int vision = item.properties.VisionDistance;
                 float rSquared = vision * vision;
 
                 for (int u = pos.x - vision; u < pos.x + vision + 1; u++)
@@ -63,7 +63,7 @@ public class FogOfWar : MonoBehaviour
 
     public static bool IsPixelScouted(Vector3 position)
     {
-        return IsPixelScouted(new Vector2Int((int)position.x, (int)position.z));
+        return IsPixelScouted(new Vector2Int(Mathf.Abs(Mathf.RoundToInt(position.x) - manager.width / 2), Mathf.Abs(Mathf.RoundToInt(position.z) - manager.height / 2)));
     }
 
     public static bool IsPixelScouted(Vector2 position)

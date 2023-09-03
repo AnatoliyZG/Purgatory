@@ -7,9 +7,9 @@ public abstract class EntityProperties : ScriptableObject
 {
     public string Name;
     public float Hp;
-    public int visionDistance;
+    public int VisionDistance;
 
-    public float visionAttach;
+    public float AttackRange;
     public float Damage;
     public DmgType DamageType;
 
