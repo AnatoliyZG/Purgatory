@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public abstract class InputController : EntityFeature<Unit>
 {
     public float moveSpeed => entity.unitProperties.MoveSpeed;
+
+    public Action<Entity> OnNear;
 
     private Rigidbody rig;
     private Transform transform;
@@ -43,6 +46,22 @@ public abstract class InputController : EntityFeature<Unit>
             entity.StopCoroutine(movementCoroutine);
         }
 
+        OnNear = (Build) =>
+        {
+            if (target is Building build)
+            {
+                //ЕСЛИ ЦЕЛЬ ЗДАНИЕ
+            
+            }else if(target.type == entity.type)
+            {
+                //ЕСЛИ ЦЕЛЬ СЮЗНИК
+            }
+            else
+            {
+                //ЕСЛИ ЦЕЛЬ ВРАГ
+            }
+        };
+
         movementCoroutine = entity.StartCoroutine(_trackCoroutine(target));
 
     }
@@ -72,6 +91,9 @@ public abstract class InputController : EntityFeature<Unit>
 
                     yield return new WaitForEndOfFrame();
                 }
+
+                //TODO:
+                OnNear?.Invoke(target);
             }
             else
             {
@@ -88,7 +110,7 @@ public abstract class InputController : EntityFeature<Unit>
                 }
 
                 //TODO:
-
+                OnNear?.Invoke(target);
             }
 
             yield return new WaitWhile(() => Vector3.Distance(targetPos, target.transform.position) < .5f);
