@@ -46,7 +46,7 @@ public abstract class InputController : EntityFeature<Unit>
             entity.StopCoroutine(movementCoroutine);
         }
 
-        OnNear = (Build) =>
+        OnNear = (a) =>
         {
             if (target is Building build)
             {
@@ -59,6 +59,7 @@ public abstract class InputController : EntityFeature<Unit>
             else
             {
                 //ЕСЛИ ЦЕЛЬ ВРАГ
+                entity.fighting.Attack(target);
             }
         };
 

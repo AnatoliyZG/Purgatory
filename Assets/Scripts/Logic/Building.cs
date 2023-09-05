@@ -9,6 +9,10 @@ public class Building : Entity
 
     public BuildProperties buildProperties;
 
+    public SphereCollider attackRadius;
+
+    public List<Unit> workers = new List<Unit>();
+
     private Renderer MainRenderer;
 
 
