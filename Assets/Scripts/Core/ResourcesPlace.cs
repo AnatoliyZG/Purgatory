@@ -15,10 +15,9 @@ public class ResourcesPlace : Entity
         get => _resource;
         set
         {
-            if (value <= 0) 
+            if (value <= 0)
                 Destroy(gameObject);
-            else
-                _resource = value;
+            _resource = value;
         }
     }
 

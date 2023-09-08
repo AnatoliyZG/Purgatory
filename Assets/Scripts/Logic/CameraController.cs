@@ -44,6 +44,9 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.mousePosition.x < 0 || Input.mousePosition.x > Screen.width || Input.mousePosition.y < 0 || Input.mousePosition.y > Screen.height)
+            return;
+
         RaycastHit hit;
 
         if (Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 7 << 7))

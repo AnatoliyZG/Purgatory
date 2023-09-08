@@ -2,26 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+using Sirenix.OdinInspector;
 
 public class BuildingController : MonoBehaviour
 {
     private Camera _camera;
-    public GameObject Build;
-
-    public Vector2Int PlaneSize = new Vector2Int(20, 20); //
 
     private Building[,] buildings;
     private Building unplacedBuilding;
 
-    //private List<Building> _buildingList;
-
     private void Awake()
     {
-        buildings = new Building[PlaneSize.x, PlaneSize.y];
+        buildings = new Building[GameManager.instance.width, GameManager.instance.height];
         _camera = Camera.main;
     }
 
+    [Button]
     public void StartBuildForPlace(Building Build)
     {
         if (unplacedBuilding != null)
@@ -46,12 +42,7 @@ public class BuildingController : MonoBehaviour
                 int y = Mathf.RoundToInt(worldPos.z);
 
 
-                bool _available = true;
-
-                if (x > PlaneSize.x - unplacedBuilding.Size.x) _available = false;
-                if (y > PlaneSize.y - unplacedBuilding.Size.y) _available = false;
-
-                if (_available && IsPlaceBuilding(x, y)) _available = false;
+                bool _available = IsPlaceBuilding(x, y);
 
                 unplacedBuilding.transform.position = new Vector3(x, 0, y);
 
@@ -63,28 +54,14 @@ public class BuildingController : MonoBehaviour
                 }
             }
         }
-
-        /*
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-        if (groundPlane.Raycast(ray, out float pos))
-        {
-            Vector3 worldPos = ray.GetPoint(pos);
-
-            unplacedBuilding.transform.position = worldPos;
-
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                unplacedBuilding = null;
-            }
-        }
-        */
-
     }
 
     private bool IsPlaceBuilding(int placeX, int placeY)
     {
+        if (placeX < 0 || placeX >= buildings.GetLength(0) + unplacedBuilding.Size.x 
+            || placeY < 0 || placeY >= buildings.GetLength(1) + unplacedBuilding.Size.y)
+            return false;
+
         for (int x = 0; x < unplacedBuilding.Size.x; x++)
         {
             for (int y = 0; y < unplacedBuilding.Size.y; y++)
