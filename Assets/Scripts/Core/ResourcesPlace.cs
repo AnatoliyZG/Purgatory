@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourcesPlace : MonoBehaviour
+public class ResourcesPlace : Entity
 {
+    public override EntityProperties properties => resourcesPlaceProperties;
+
     public ResourcesPlaceProperties resourcesPlaceProperties;
 
-    private float _resource;
+    public float _resource;
 
     public float Resource
     {
         get => _resource;
         set
         {
-            if (value <= 0)
-                Destroy(GetComponent<GameObject>());
+            if (value <= 0) 
+                Destroy(gameObject);
             else
                 _resource = value;
         }
     }
 
-    private void Start()
+    public override void Start()
     {
         _resource = resourcesPlaceProperties.resource;
     }

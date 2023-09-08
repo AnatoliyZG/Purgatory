@@ -10,7 +10,6 @@ public class Unit : Entity
 
     public InputController inputController;
 
-
     public override void Start()
     {
         base.Start();

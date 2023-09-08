@@ -14,7 +14,7 @@ public abstract class InputController : EntityFeature<Unit>
     private Transform transform;
     private Seeker seeker;
 
-    private Coroutine movementCoroutine;
+    public Coroutine movementCoroutine;
 
     public void Move(Vector3 direction)
     {
@@ -46,11 +46,13 @@ public abstract class InputController : EntityFeature<Unit>
             entity.StopCoroutine(movementCoroutine);
         }
 
-        OnNear = (a) =>
+        OnNear = (target) =>
         {
             if (target is Building build)
             {
                 //ЕСЛИ ЦЕЛЬ ЗДАНИЕ
+                entity.gameObject.SetActive(false);
+                build.AddWorker(entity);
             
             }else if(target.type == entity.type)
             {
@@ -85,7 +87,7 @@ public abstract class InputController : EntityFeature<Unit>
                     if (DirectMove(points[0]))
                     {
                         points.RemoveAt(0);
-                    }
+                    } 
 
                     if (Vector3.Distance(targetPos, target.transform.position) > .5f) break;
                     

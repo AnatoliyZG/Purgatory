@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourcesPlaceProperties
+[CreateAssetMenu(fileName = "new resource properties", menuName = "Resource Properties", order = 51)]
+public class ResourcesPlaceProperties : EntityProperties 
 {
     public enum ResourcesType
     {

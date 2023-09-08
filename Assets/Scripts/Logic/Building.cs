@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 public class Building : Entity
 {
     public override EntityProperties properties => buildProperties;
@@ -15,6 +17,15 @@ public class Building : Entity
 
     private Renderer MainRenderer;
 
+    public Action OnPlace;
+
+    public Action<Unit> OnEnter;
+
+    public void AddWorker(Unit unit)
+    {
+        workers.Add(unit);
+        OnEnter?.Invoke(unit);
+    }
 
     public override void Start()
     {

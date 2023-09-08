@@ -96,6 +96,7 @@ public class BuildingController : MonoBehaviour
     }
     private void PlaceBuilding(int placeX, int placeY)
     {
+        unplacedBuilding.OnPlace?.Invoke();
         for (int x = 0; x < unplacedBuilding.Size.x; x++)
         {
             for (int y = 0; y < unplacedBuilding.Size.y; y++)
