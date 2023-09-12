@@ -41,8 +41,11 @@ public class BuildingController : MonoBehaviour
                 int x = Mathf.RoundToInt(worldPos.x);
                 int y = Mathf.RoundToInt(worldPos.z);
 
+                //Debug.Log(x + " " + y);
 
                 bool _available = IsPlaceBuilding(x, y);
+
+                //Debug.Log(_available);
 
                 unplacedBuilding.transform.position = new Vector3(x, 0, y);
 
@@ -58,21 +61,27 @@ public class BuildingController : MonoBehaviour
 
     private bool IsPlaceBuilding(int placeX, int placeY)
     {
+        placeX += buildings.GetLength(0) / 2;
+        placeY += buildings.GetLength(1) / 2;
+
         if (placeX < 0 || placeX >= buildings.GetLength(0) + unplacedBuilding.Size.x 
-            || placeY < 0 || placeY >= buildings.GetLength(1) + unplacedBuilding.Size.y)
+            || placeY < 0  || placeY >= buildings.GetLength(1) + unplacedBuilding.Size.y)
             return false;
 
         for (int x = 0; x < unplacedBuilding.Size.x; x++)
         {
             for (int y = 0; y < unplacedBuilding.Size.y; y++)
             {
-                if(buildings[placeX + x, placeY + y] != null) return true;
+                if(buildings[placeX + x, placeY + y] != null) return false;
             }
         }
-        return false;
+        return true;
     }
     private void PlaceBuilding(int placeX, int placeY)
     {
+        placeX += buildings.GetLength(0) / 2;
+        placeY += buildings.GetLength(1) / 2;
+
         unplacedBuilding.OnPlace?.Invoke();
         for (int x = 0; x < unplacedBuilding.Size.x; x++)
         {

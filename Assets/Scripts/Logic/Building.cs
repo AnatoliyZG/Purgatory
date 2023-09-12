@@ -38,6 +38,10 @@ public class Building : Entity
 
     public void SetStateColor(bool available)
     {
+        if(MainRenderer == null)
+        {
+            return;
+        }
         if (available) MainRenderer.material.color = Color.green;
         else MainRenderer.material.color = Color.red;
 
