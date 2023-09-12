@@ -1010,8 +1010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f0c947f352b0b4fbbbf3933e98c3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 3, y: 3}
-  MainRenderer: {fileID: 195717280}
+  type: 0
+  buildProperties: {fileID: 11400000, guid: 7fa1baa16bcb2498cbae099ccbe52617, type: 2}
 --- !u!4 &2132083297
 Transform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[RequireComponent(typeof(Seeker))]
 
 public class Unit : Entity
 {
