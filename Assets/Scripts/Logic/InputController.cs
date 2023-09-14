@@ -58,10 +58,10 @@ public abstract class InputController : EntityFeature<Unit>
             {
                 //ЕСЛИ ЦЕЛЬ СЮЗНИК
             }
-            else
+            else 
             {
                 //ЕСЛИ ЦЕЛЬ ВРАГ
-                entity.fighting.Attack(target);
+                entity.fighting.BeginAttacking(target);
             }
         };
 

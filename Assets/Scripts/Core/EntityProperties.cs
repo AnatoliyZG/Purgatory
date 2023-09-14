@@ -10,6 +10,7 @@ public abstract class EntityProperties : ScriptableObject
     public int VisionDistance;
 
     public float AttackRange;
+    public float AttackFrequency;
     public float Damage;
     public DmgType DamageType;
 

@@ -17,6 +17,7 @@ public class Fighting : EntityFeature<Entity>
         onAttack?.Invoke(impact);
 
         target.fighting.GetHit(impact);
+        _lastAttack = Time.time;
     }
 
     public void GetHit(Impact impact)
@@ -30,6 +31,14 @@ public class Fighting : EntityFeature<Entity>
     {
 
     }
+
+    public void BeginAttacking(Entity target)
+    {
+        if (Time.time - _lastAttack >= entity.properties.AttackFrequency)
+            Attack(target);
+    }
+
+    private float _lastAttack;
 }
 
 public class Impact
