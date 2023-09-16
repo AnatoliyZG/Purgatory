@@ -8,16 +8,11 @@ using static UnityEngine.UI.CanvasScaler;
 public class UnitAI : MonoBehaviour
 {
     private Unit unit;
-    private SphereCollider SphereCollider;
-    private BoxCollider BoxCollider;
     private Entity target;
-    private Coroutine PersecutionCoroutine;
 
     private void Start()
     {
         unit = GetComponent<Unit>();
-        // SphereCollider = GetComponent<SphereCollider>();
-        // BoxCollider = GetComponent<BoxCollider>();
         GameManager.instance.dayChange += OnDayChange;
     }
 
@@ -29,28 +24,14 @@ public class UnitAI : MonoBehaviour
         }
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         Entity entity = other.GetComponent<Unit>();
 
-        if (unit != null && entity.type == Entity.EntityType.Ally)
+        if (entity != null && entity.type == Entity.EntityType.Ally)
         {
             target = entity;
-
-            if (PersecutionCoroutine != null)
-                StartCoroutine(Persecution());
-
-            PersecutionCoroutine = StartCoroutine(Persecution());
-        }
-    }*/
-
-    private IEnumerator Persecution()
-    {
-        while (true)
-        {
-            unit.inputController.StartPath(target.transform.position);
-
-            yield return new WaitForSeconds(.3f);
+            unit.inputController.StartPath(target);
         }
     }
 }
