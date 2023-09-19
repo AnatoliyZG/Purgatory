@@ -19,10 +19,15 @@ public class CameraController : MonoBehaviour
 
     private Camera _camera;
 
+    public BuildingUI BuildingUI;
+
+    public event Action<Building> TapOnBuilding;
+
     private void Start()
     {
         _camera = Camera.main;
         _soulPick = GetComponent<SoulPick>();
+        TapOnBuilding += BuildingUI.OpenUI;
     }
 
     private void Move(float point, float maxBorder, Vector3 direction)
@@ -49,7 +54,7 @@ public class CameraController : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 7 << 7))
+        if (Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 7))
         {
             selectedEntity = hit.transform.GetComponent<Entity>();
             onFocused?.Invoke(selectedEntity);
@@ -68,6 +73,10 @@ public class CameraController : MonoBehaviour
             {
                 unit.inputController.StartPath(hit.point);
             }
+        }
+        else if(Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 8))
+        {
+            BuildingUI.OpenUI(hit.collider.GetComponent<Building>());
         }
 
         Move(Input.mousePosition.x, Screen.width, Vector3.right);

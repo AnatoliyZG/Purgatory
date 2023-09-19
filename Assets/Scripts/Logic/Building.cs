@@ -21,6 +21,8 @@ public class Building : Entity
 
     public Action<Unit> OnEnter;
 
+    public Action<Unit> OnQuit;
+
     public void AddWorker(Unit unit)
     {
         workers.Add(unit);

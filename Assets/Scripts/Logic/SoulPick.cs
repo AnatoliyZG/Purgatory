@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class SoulPick:MonoBehaviour
+public class SoulPick : MonoBehaviour 
 {
     public GameObject content => transform.GetChild(0).gameObject;
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class InputController : EntityFeature<Unit>
 {
@@ -57,6 +58,9 @@ public abstract class InputController : EntityFeature<Unit>
             }else if(target.type == entity.type)
             {
                 //ЕСЛИ ЦЕЛЬ СЮЗНИК
+            }else if(target is Traps)
+            {
+
             }
             else 
             {
@@ -147,6 +151,10 @@ public abstract class InputController : EntityFeature<Unit>
             return true;
 
         Move((point - transform.position).normalized);
+
+        Vector3 relative = point - transform.position;
+        float angle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
+        transform.eulerAngles=new Vector3(0, Mathf.MoveTowardsAngle(transform.eulerAngles.y, angle, 140 * Time.deltaTime), 0);
 
         return false;
     }
