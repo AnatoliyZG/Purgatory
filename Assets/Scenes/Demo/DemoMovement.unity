@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 123231757}
   - component: {fileID: 123231755}
   - component: {fileID: 123231754}
+  - component: {fileID: 123231762}
   m_Layer: 7
   m_Name: Sphere (1)
   m_TagString: Untagged
@@ -416,6 +417,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &123231762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123231753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a537d958aa5bb4f35b0d7b40d72278f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  penalty: 1000
+  randomStep: 10
 --- !u!1 &211215411
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +767,7 @@ GameObject:
   - component: {fileID: 395029679}
   - component: {fileID: 395029678}
   - component: {fileID: 395029677}
+  - component: {fileID: 395029684}
   m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -771,7 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  unitProperties: {fileID: 11400000, guid: 110a50f0a38164d0e83ade599f76855c, type: 2}
+  unitProperties: {fileID: 11400000, guid: adb0ed41d12cf724fa71ee8193f8fa84, type: 2}
 --- !u!114 &395029678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -894,6 +911,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: -1.342, z: 0}
+--- !u!114 &395029684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395029676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a537d958aa5bb4f35b0d7b40d72278f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  penalty: 1000
+  randomStep: 10
 --- !u!114 &860216489 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4107299631078996808, guid: 8d4239f9397ac4ea4ab8259994085c00, type: 3}
@@ -1329,6 +1361,7 @@ GameObject:
   - component: {fileID: 1271818723}
   - component: {fileID: 1271818728}
   - component: {fileID: 1271818729}
+  - component: {fileID: 1271818730}
   m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
@@ -1472,6 +1505,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   unitProperties: {fileID: 11400000, guid: 110a50f0a38164d0e83ade599f76855c, type: 2}
+--- !u!114 &1271818730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271818721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a537d958aa5bb4f35b0d7b40d72278f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  penalty: 1000
+  randomStep: 10
 --- !u!1 &1345656138
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,14 +2210,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062658495}
-  m_LocalRotation: {x: 0.27633324, y: -0, z: -0, w: 0.9610619}
-  m_LocalPosition: {x: 0, y: 5.73, z: -5.1}
+  m_LocalRotation: {x: 0.60876137, y: 0, z: 0, w: 0.7933534}
+  m_LocalPosition: {x: 0, y: 8, z: -5.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 32.083, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 75, y: 0, z: 0}
 --- !u!114 &2062658499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2183,6 +2231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedEntity: {fileID: 0}
+  selectedEntities: []
   MoveBorder: 40
   BuildingUI: {fileID: 1081616354}
 --- !u!114 &2062658500
@@ -2204,6 +2253,8 @@ MonoBehaviour:
   enemies: []
   allies: []
   buildings: []
+  DayLength: 1
+  Day: 1
   height: 50
   width: 50
 --- !u!114 &2062658501

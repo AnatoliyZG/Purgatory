@@ -26,9 +26,10 @@ public class GameManager : MonoBehaviour
 
     public int DayLength = 8;
 
+    [PropertyRange(0, "DayLength")]
     public float Day;
 
-    public float Night => 1 - Day;
+    public float Night => DayLength - Day;
 
     private void Awake()
     {
@@ -52,11 +53,15 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator DayPass()
     {
-        yield return new WaitForSeconds(DayLength * Day * 60);
-        ChangePhase();
+        while (true)
+        {
 
-        yield return new WaitForSeconds(DayLength * Night * 60);
-        ChangePhase();
+            yield return new WaitForSeconds(DayLength * Day * 60);
+            ChangePhase();
+
+            yield return new WaitForSeconds(DayLength * Night * 60);
+            ChangePhase();
+        }
     }
 
     public int height;
