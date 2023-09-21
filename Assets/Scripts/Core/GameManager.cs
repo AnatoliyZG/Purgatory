@@ -24,9 +24,17 @@ public class GameManager : MonoBehaviour
 
     public List<Entity> buildings;
 
+    public int DayLength = 8;
+
+    public float Day;
+
+    public float Night => 1 - Day;
+
     private void Awake()
     {
         instance = this;
+
+        StartCoroutine(DayPass());
     }
 
     [Button]
@@ -40,6 +48,15 @@ public class GameManager : MonoBehaviour
         }
 
         dayChange?.Invoke(currentPhase);
+    }
+
+    public IEnumerator DayPass()
+    {
+        yield return new WaitForSeconds(DayLength * Day * 60);
+        ChangePhase();
+
+        yield return new WaitForSeconds(DayLength * Night * 60);
+        ChangePhase();
     }
 
     public int height;

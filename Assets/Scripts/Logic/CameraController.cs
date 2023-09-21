@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UIElements;
+using static UnityEngine.UI.CanvasScaler;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class CameraController : MonoBehaviour
     public static float ZoomSpeed;
 
     public Entity selectedEntity;
+
+    public List<Unit> selectedEntities = new();
 
     private SoulPick _soulPick;
 
@@ -20,6 +24,8 @@ public class CameraController : MonoBehaviour
     private Camera _camera;
 
     public BuildingUI BuildingUI;
+
+    private Vector3 position1;
 
     public event Action<Building> TapOnBuilding;
 
@@ -54,31 +60,63 @@ public class CameraController : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 7))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            selectedEntity = hit.transform.GetComponent<Entity>();
-            onFocused?.Invoke(selectedEntity);
+            if(Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 7))
+            {
+                selectedEntity = hit.transform.GetComponent<Entity>();
+                onFocused?.Invoke(selectedEntity);
+            }
+            else if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 8))
+                BuildingUI.OpenUI(hit.collider.GetComponent<Building>());
+            else 
+            {
+                position1 = _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+            }
         }
-        else if (Input.GetKey(KeyCode.Mouse1) && selectedEntity != null && selectedEntity is Unit unit)
+        else if (Input.GetKey(KeyCode.Mouse1))
         {
             Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
 
             Entity target = hit.transform.GetComponent<Entity>();
-
-            if (target != null)
+    
+            if (selectedEntities.Count != 0)
             {
-                unit.inputController.StartPath(target);
+                if (target != null)
+                {
+                    foreach (var c in selectedEntities)
+                        c.inputController.StartPath(target);
+                }
+                else
+                {
+                    foreach (var c in selectedEntities)
+                        c.inputController.StartPath(hit.point);
+                }
             }
-            else
+            else if(selectedEntity != null && selectedEntity is Unit unit)
             {
-                unit.inputController.StartPath(hit.point);
+                if (target != null)
+                {
+                    unit.inputController.StartPath(target);
+                }
+                else
+                {
+                    unit.inputController.StartPath(hit.point);
+                }
             }
         }
-        else if(Input.GetKey(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 8))
+        else if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            BuildingUI.OpenUI(hit.collider.GetComponent<Building>());
-        }
+            Vector3 position2 = _camera.ScreenToWorldPoint(Input.mousePosition);
 
+            Collider[] hits = Physics.OverlapBox(Vector3.Lerp(position1, position2, 0.5f), new Vector3((position2.x - position1.x) * 0.5f, 100, (position2.z - position1.z) * 0.5f), Quaternion.identity, 1 << 7);
+
+            if (hits == null)
+                selectedEntities = null;
+            else
+                foreach (var c in hits)
+                    selectedEntities.Add(c.GetComponent<Unit>());
+        }
         Move(Input.mousePosition.x, Screen.width, Vector3.right);
         Move(Input.mousePosition.y, Screen.height, Vector3.forward);
 

@@ -154,7 +154,7 @@ public abstract class InputController : EntityFeature<Unit>
 
         Vector3 relative = point - transform.position;
         float angle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
-        transform.eulerAngles=new Vector3(0, Mathf.MoveTowardsAngle(transform.eulerAngles.y, angle, 140 * Time.deltaTime), 0);
+        transform.eulerAngles = new Vector3(0, Mathf.MoveTowardsAngle(transform.eulerAngles.y, angle, 140 * Time.deltaTime), 0);
 
         return false;
     }
