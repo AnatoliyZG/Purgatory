@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DayPass());
     }
 
-    public Entity Hero;
+    public Transform Hero;
 
     public List<Entity> capitans;
 

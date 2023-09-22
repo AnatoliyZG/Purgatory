@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56ff3a7d2e030459b8d7e876347010aa, type: 3}
-  m_Name: new unit properties
+  m_Name: Hero
   m_EditorClassIdentifier: 
   Name: 
-  Hp: 0
-  MaxHp: 0
-  Mp: 0
-  MaxMp: 0
-  VisionDistance: 5
+  Hp: 100
+  MaxHp: 100
+  Mp: 100
+  MaxMp: 100
+  VisionDistance: 0
   AttackRange: 2
   AttackFrequency: 0
   Damage: 0
-  DamageType: 0
+  DamageType: 1
   Armor: 0
-  ArmorType: 0
-  Image: {fileID: 0}
+  ArmorType: 1
+  Image: {fileID: 21300000, guid: 4c5e76815e72716488f271eb7cb5c253, type: 3}
   MoveSpeed: 3
-  Type: 0
+  Type: 2
   CriticalChanse: 10
   CriticalDamage: 1.5

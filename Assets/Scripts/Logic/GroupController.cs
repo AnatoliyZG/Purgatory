@@ -16,10 +16,9 @@ public class GroupController : MonoBehaviour
 
     public void CreateHeroUI(Unit hero)
     {
-        manager.UnitListUI[0] = Instantiate(manager.UnitUI, Vector3.zero, Quaternion.identity, manager.canvas);
-        Transform newUnitUI = manager.UnitListUI[0];
-        newUnitUI.GetComponent<RectTransform>().position = new Vector2(210, 995);
-        newUnitUI.transform.localScale = Vector2.one;
+        manager.Hero = Instantiate(manager.UnitUI, Vector3.zero, Quaternion.identity, manager.canvas);
+        manager.Hero.GetComponent<RectTransform>().position = new Vector2(210, 995);
+        manager.Hero.transform.localScale = Vector2.one;
 
     }
 

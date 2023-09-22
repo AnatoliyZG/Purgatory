@@ -30,7 +30,6 @@ public class Unit : Entity
             inputController = new BotInput(this);
         }
 
-
         if (type == EntityType.Ally)
         {
             if (unitProperties.Type == UnitType.Capitan)

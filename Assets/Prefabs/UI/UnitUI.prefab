@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
-  name: {fileID: 169180043743594549}
-  image: {fileID: 1339397934937895953}
-  hpSlider: {fileID: 5072958763791610737}
-  mpSlider: {fileID: 5028612030964289802}
+  nameUnit: {fileID: 0}
+  image: {fileID: 8565561923117281817}
+  hpSlider: {fileID: 6545301209937066718}
+  mpSlider: {fileID: 8315467350372921120}
