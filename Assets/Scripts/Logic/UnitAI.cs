@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Pathfinding;
-using static UnityEngine.UI.CanvasScaler;
 
 public class UnitAI : MonoBehaviour
 {

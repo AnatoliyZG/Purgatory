@@ -6,6 +6,8 @@ using System.Linq;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController controller;
+
     public static float MoveSpeed = 15;
 
     public static float ZoomSpeed;
@@ -18,21 +20,23 @@ public class CameraController : MonoBehaviour
 
     public float MoveBorder = 40;
 
-    public event Action<Entity> onFocused;
+    public event Action<Unit> onFocused;
+
+    public event Action<Building> onFocusedBuilding;
 
     private Camera _camera;
 
-    public BuildingUI BuildingUI;
-
     private Vector3 position1;
 
-    public event Action<Building> TapOnBuilding;
+    private void Awake()
+    {
+        controller = this;
+    }
 
     private void Start()
     {
         _camera = Camera.main;
         _soulPick = GetComponent<SoulPick>();
-        TapOnBuilding += BuildingUI.OpenUI;
     }
 
     private void Move(float point, float maxBorder, Vector3 direction)
@@ -67,10 +71,11 @@ public class CameraController : MonoBehaviour
                 {
                     case 7:
                         selectedEntity = hit.transform.GetComponent<Entity>();
-                        onFocused?.Invoke(selectedEntity);
+                        onFocused?.Invoke((Unit)selectedEntity);
                         break;
                     case 8:
-                        BuildingUI.OpenUI(hit.collider.GetComponent<Building>());
+                        selectedEntity = hit.transform.GetComponent<Entity>();
+                        onFocusedBuilding?.Invoke(hit.collider.GetComponent<Building>());
                         break;
                     case 6:
                         position1 = hit.point;

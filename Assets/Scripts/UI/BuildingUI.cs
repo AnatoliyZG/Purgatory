@@ -17,6 +17,7 @@ public class BuildingUI : MonoBehaviour
     private void Start()
     {
         _content = _workersCards.GetComponentsInChildren<Image>(true);
+        CameraController.controller.onFocusedBuilding += OpenUI;
     }
 
     public void Refresh()

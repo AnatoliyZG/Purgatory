@@ -44,18 +44,24 @@ public class MiningFerm : Building
             }
 
             yield return new WaitForSeconds(MiningFermProperties.MiningTime);
+            ResourcesPlace current = ResAround[0];
 
-            if(ResAround[0].Resource > 0)
+            if (current.Resource > 0)
             {
-                if (MiningFermProperties.resourcesType == ResourcesPlaceProperties.ResourcesType.Wood)
-                    ResourceController.Wood += MiningFermProperties.Efficiency;
-                else if (MiningFermProperties.resourcesType == ResourcesPlaceProperties.ResourcesType.Rock)
-                    ResourceController.Rock += MiningFermProperties.Efficiency;
+                switch (MiningFermProperties.resourcesType)
+                {
+                    case ResourcesPlaceProperties.ResourcesType.Wood:
+                        ResourceController.wood += MiningFermProperties.Efficiency;
+                        break;
+                    case ResourcesPlaceProperties.ResourcesType.Rock:
+                        ResourceController.rock += MiningFermProperties.Efficiency;
+                        break;
+                }
 
-                ResAround[0].Resource -= MiningFermProperties.Efficiency;
+                current.Resource -= MiningFermProperties.Efficiency;
             }
 
-            if(ResAround[0].Resource <= 0)
+            if(current.Resource <= 0)
             {
                 ResAround.RemoveAt(0);
             }

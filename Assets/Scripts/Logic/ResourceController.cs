@@ -1,50 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 
 public class ResourceController : MonoBehaviour 
 {
-    public TextMeshProUGUI WoodText;
+    public static ResourceController controller;
 
-    public TextMeshProUGUI RockText;
+    private float Wood = 0;
 
-    private static ResourceController _controller;
+    private float Rock = 0;
 
-    private static float _wood;
+    public Action<float> OnWoodChanged;
 
-    private static float _rock;
+    public Action<float> OnRockChanged;
 
-    public static float Wood
+    public static float wood
     {
-        get => _wood;
+        get => controller?.Wood ?? 0;
         set
         {
-            if (_controller != null)
-                _controller.WoodText.text = $"Wood = {value}";
+            if (controller == null)
+            {
+                Debug.LogError("Resource manager is null");
+                return;
+            }
 
-            _wood = value;
+            controller.OnWoodChanged?.Invoke(value);
+
+            controller.Wood = value;
         }
     }
 
-    public static float Rock
+    public static float rock
     {
-        get => _rock;
+        get => controller?.Rock ?? 0;
         set
         {
-            if (_controller != null)
-                _controller.RockText.text = $"Rock = {value}";
+            if(controller == null)
+            {
+                Debug.LogError("Resource manager is null");
+                return;
+            }
 
-            _rock = value;
+            controller.OnRockChanged?.Invoke(value);
+
+            controller.Rock = value;
         }
     }
 
-    private void Start()
+    private void Awake()
     {
-        _controller = this;
-
-        Wood = 0;
-
-        Rock = 0;
+        controller = this;
     }
 }
