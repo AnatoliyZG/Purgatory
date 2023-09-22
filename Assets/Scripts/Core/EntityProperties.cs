@@ -17,18 +17,6 @@ public abstract class EntityProperties : ScriptableObject
     public float Armor;
     public DmgType ArmorType;
 
-    public SpellType SpellArmorType;
-
-    public enum SpellType
-    {
-        Fire,
-        Water,
-        Earth,
-        Air,
-        Light,
-        Darkness
-    }
-
     public T Clone<T>() where T: EntityProperties
     {
         return MemberwiseClone() as T;

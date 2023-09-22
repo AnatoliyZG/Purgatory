@@ -38,6 +38,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DayPass());
     }
 
+    public Entity Hero;
+
+    public List<Entity> capitans;
+
+    public List<Transform> UnitListUI;
+
+
     [Button]
     public void ChangePhase()
     {
@@ -64,6 +71,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Transform UnitUI;
+    
+    public Transform canvas;
+    public Transform capicansList;
+    
     public int height;
 
     public int width;
