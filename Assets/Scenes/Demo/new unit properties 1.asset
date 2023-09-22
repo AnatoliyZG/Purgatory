@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Hp: 0
+  MaxHp: 0
+  Mp: 0
+  MaxMp: 0
   VisionDistance: 5
   AttackRange: 8
   AttackFrequency: 0
@@ -21,7 +24,8 @@ MonoBehaviour:
   DamageType: 0
   Armor: 0
   ArmorType: 0
-  SpellArmorType: 0
+  Image: {fileID: 0}
   MoveSpeed: 3
+  Type: 1
   CriticalChanse: 10
   CriticalDamage: 1.5

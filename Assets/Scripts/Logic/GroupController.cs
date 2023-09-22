@@ -1,32 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GroupController : MonoBehaviour
 {
     public static GroupController instance;
-    private GameManager manager;
+
+    public Action<Unit> onAddHero;
+
+    public Action<Unit> onAddCaptain;
 
 
     public void Awake()
     {
         instance = this;
-        manager = GameManager.instance;
     }
 
-    public void CreateHeroUI(Unit hero)
+    public static void Add(Unit unit)
     {
-        manager.Hero = Instantiate(manager.UnitUI, Vector3.zero, Quaternion.identity, manager.canvas);
-        manager.Hero.GetComponent<RectTransform>().position = new Vector2(210, 995);
-        manager.Hero.transform.localScale = Vector2.one;
+        if (instance == null)
+            return;
 
-    }
-
-    public void CreateCapitanUI(Unit capitan)
-    {
-        manager.UnitListUI.Add(Instantiate(manager.UnitUI, Vector3.zero, Quaternion.identity, manager.capicansList));
-        manager.capitans.Add(capitan);
-
-
+        switch (unit.unitProperties.Type)
+        {
+            case UnitProperties.UnitType.Hero:
+                instance.onAddHero?.Invoke(unit);
+                return;
+            case UnitProperties.UnitType.Capitan:
+                instance.onAddCaptain?.Invoke(unit);
+                return;
+        }
     }
 }

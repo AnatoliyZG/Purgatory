@@ -30,16 +30,9 @@ public class Unit : Entity
             inputController = new BotInput(this);
         }
 
-        if (type == EntityType.Ally)
+        if (type == EntityType.Ally && unitProperties.Type != UnitType.Worker)
         {
-            if (unitProperties.Type == UnitType.Capitan)
-            {
-                GroupController.instance.CreateCapitanUI(this);
-            }
-            else if (unitProperties.Type == UnitType.Hero)
-            {
-                GroupController.instance.CreateHeroUI(this);
-            }
+            GroupController.Add(this);
         }
     }
 }
