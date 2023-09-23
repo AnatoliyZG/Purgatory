@@ -24,8 +24,7 @@ MonoBehaviour:
   DamageType: 0
   Armor: 0
   ArmorType: 0
-  Image: {fileID: 0}
+  Image: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   MoveSpeed: 3
-  Type: 0
   CriticalChanse: 10
   CriticalDamage: 1.5

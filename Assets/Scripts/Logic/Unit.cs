@@ -15,6 +15,15 @@ public class Unit : Entity
 
     public InputController inputController;
 
+    public UnitType unitType;
+
+    public enum UnitType
+    {
+        Worker,
+        Capitan,
+        Hero
+    }
+
     public override void Start()
     {
         base.Start();
@@ -30,7 +39,7 @@ public class Unit : Entity
             inputController = new BotInput(this);
         }
 
-        if (type == EntityType.Ally && unitProperties.Type != UnitType.Worker)
+        if (type == EntityType.Ally && unitType != UnitType.Worker)
         {
             GroupController.Add(this);
         }

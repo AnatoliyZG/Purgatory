@@ -11,6 +11,11 @@ public class UnitUI : MonoBehaviour
     public Slider hpSlider;
     public Slider mpSlider;
 
+    public void Awake()
+    {
+        //Fighting.onGetHit
+    }
+
     public void Setup(Unit unit)
     {
         nameUnit.text = unit.properties.Name;
@@ -18,8 +23,5 @@ public class UnitUI : MonoBehaviour
 
         hpSlider.maxValue = unit.properties.MaxHp;
         hpSlider.value = unit.properties.Hp;
-
-        mpSlider.maxValue = unit.properties.MaxMp;
-        mpSlider.value = unit.properties.Mp;
     }
 }

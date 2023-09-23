@@ -22,12 +22,12 @@ public class GroupController : MonoBehaviour
         if (instance == null)
             return;
 
-        switch (unit.unitProperties.Type)
+        switch (unit.unitType)
         {
-            case UnitProperties.UnitType.Hero:
+            case Unit.UnitType.Hero:
                 instance.onAddHero?.Invoke(unit);
                 return;
-            case UnitProperties.UnitType.Capitan:
+            case Unit.UnitType.Capitan:
                 instance.onAddCaptain?.Invoke(unit);
                 return;
         }
