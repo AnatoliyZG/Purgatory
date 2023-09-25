@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public uint CurrentDay = 0;
 
+    public Transform Sun;
+
     public List<Entity> enemies;
 
     public List<Entity> allies;
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         StartCoroutine(DayPass());
+        StartCoroutine(SunRotate());
     }
 
 
@@ -48,11 +51,29 @@ public class GameManager : MonoBehaviour
         dayChange?.Invoke(currentPhase);
     }
 
+    public IEnumerator SunRotate()
+    {
+        float time = 0;
+
+        while (true)
+        {
+            time += Time.deltaTime;
+
+            float height = time / (60 * DayLength);
+
+            Sun.localEulerAngles = Vector3.Lerp(Vector3.zero, new Vector3(360, 0, 0), height);
+
+            if (height > 1)
+                time = 0;
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
     public IEnumerator DayPass()
     {
         while (true)
         {
-
             yield return new WaitForSeconds(DayLength * Day * 60);
             ChangePhase();
 

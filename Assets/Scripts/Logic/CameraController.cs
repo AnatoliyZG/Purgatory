@@ -83,7 +83,7 @@ public class CameraController : MonoBehaviour
                 };
             }
         }
-        else if (Input.GetKey(KeyCode.Mouse1))
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
 
@@ -98,8 +98,15 @@ public class CameraController : MonoBehaviour
                 }
                 else
                 {
-                    foreach (var c in selectedEntities)
-                        c.inputController.StartPath(hit.point);
+                    Vector3 back = (Vector3.zero - hit.point) / hit.point.magnitude;
+                    Vector3 right = Quaternion.AngleAxis(-90, Vector3.up) * back;
+
+                    int i = 0;
+                    int j = 0;
+                    while (i + j < selectedEntities.Count)
+                        for (; i < 4; i++)
+                            for (; j < 4; j++)
+                                selectedEntities[i + j].inputController.StartPath(hit.point + 1.5f * i * back + 1.5f * j * right);
                 }
             }
             else if (selectedEntity != null && selectedEntity is Unit unit)
@@ -123,10 +130,10 @@ public class CameraController : MonoBehaviour
 
             selectedEntities.Clear();
 
-            foreach (var c in hits)
-                selectedEntities.Add(c.GetComponent<Unit>());
+            for (int i = 0; i < Mathf.Min(6,hits.Length); i++) 
+                selectedEntities.Add(hits[i].GetComponent<Unit>());
 
-            selectedEntities = selectedEntities.OrderBy(a => a.unitProperties.AttackRange).ToList();
+            selectedEntities = selectedEntities.OrderBy(a => (int)a.properties.rank).ToList();
         }
         Move(Input.mousePosition.x, Screen.width, Vector3.right);
         Move(Input.mousePosition.y, Screen.height, Vector3.forward);
