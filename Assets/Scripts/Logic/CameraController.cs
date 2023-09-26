@@ -101,12 +101,19 @@ public class CameraController : MonoBehaviour
                     Vector3 back = (Vector3.zero - hit.point) / hit.point.magnitude;
                     Vector3 right = Quaternion.AngleAxis(-90, Vector3.up) * back;
 
-                    int i = 0;
-                    int j = 0;
-                    while (i + j < selectedEntities.Count)
-                        for (; i < 4; i++)
-                            for (; j < 4; j++)
-                                selectedEntities[i + j].inputController.StartPath(hit.point + 1.5f * i * back + 1.5f * j * right);
+                    int m = 0;
+                    for (int i = 0; i < 3; i++)
+                        for (int j = 0; j < 3; j++)
+                        {
+                            if (m == selectedEntities.Count)
+                            {
+                                i = 10;
+                                break;
+                            }
+
+                            selectedEntities[m].inputController.StartPath(hit.point + 2f * i * back + 2f * j * right);
+                            m++;
+                        }
                 }
             }
             else if (selectedEntity != null && selectedEntity is Unit unit)
@@ -133,7 +140,7 @@ public class CameraController : MonoBehaviour
             for (int i = 0; i < Mathf.Min(6,hits.Length); i++) 
                 selectedEntities.Add(hits[i].GetComponent<Unit>());
 
-            selectedEntities = selectedEntities.OrderBy(a => (int)a.properties.rank).ToList();
+            //selectedEntities = selectedEntities.OrderBy(a => (int)a.properties.rank).ToList();
         }
         Move(Input.mousePosition.x, Screen.width, Vector3.right);
         Move(Input.mousePosition.y, Screen.height, Vector3.forward);
