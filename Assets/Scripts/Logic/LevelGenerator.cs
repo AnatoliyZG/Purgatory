@@ -16,13 +16,13 @@ public class LevelGenerator : MonoBehaviour
 
     private List<Vector3> vertices;
 
-    public int MaxResources;
+    public int MaxWood;
 
-    public float Radius;
+    public int MaxRock;
 
     public int BaseRadius;
 
-    public int MaxBorder;
+    public int MaxRadius;
 
     public GameObject Wood;
 
@@ -54,30 +54,57 @@ public class LevelGenerator : MonoBehaviour
 
         meshCollider.sharedMesh = mesh;
 
-        for(int i = 0; i < mapOffset.random.Next(MaxResources - 20, MaxResources); i++)
-        {
-        begin:
-            Vector3 position = new Vector3((BaseRadius + mapOffset.random.Next(MaxBorder)) * mapOffset.GenerateSign(), 0.5f, (BaseRadius + mapOffset.random.Next(MaxBorderw)) * mapOffset.GenerateSign());
+        SpawnResources();
+    }
 
-            if(Physics.CheckSphere(position, Radius, 1 << 9))
-                goto begin;
+    public void SpawnResources()
+    {
+        Random random = new Random(Seed);
+
+        int resourceCount = random.Next((int)(MaxWood * .8f), MaxWood);
+
+        for (int i = 0; i < resourceCount; i++)
+        {
+            Instantiate(Wood, GetRndPosition(random), Quaternion.identity);
+        }
+
+        resourceCount = random.Next((int)(MaxRock * .8f), MaxRock);
+
+        for (int i = 0; i < resourceCount; i++)
+        {
+            Instantiate(Rock, GetRndPosition(random), Quaternion.identity);
+        }
+    }
+
+    private Vector3 GetRndPosition(Random random)
+    {
+        float angl = random.Next(0, 720) / 2f * Mathf.Deg2Rad;
+
+        return new Vector3(Mathf.Sin(angl), 0, Mathf.Cos(angl)) *  random.Next(BaseRadius, MaxRadius);
+    }
+
+    //private void SpawnResource(GameObject resource, )
+
+    /*
+    public Vector3 GetNearestVertex(RaycastHit hit, )
+    {
+                
+       // begin:
+            // Vector3 position = new Vector3((BaseRadius + random.Next(MaxBorder)) * mapOffset.GenerateSign(), 0.5f, (BaseRadius + mapOffset.random.Next(MaxBorderw)) * mapOffset.GenerateSign());
+
+          //  if (Physics.CheckSphere(position, Radius, 1 << 9))
+           //     goto begin;
 
             switch (mapOffset.random.Next(3))
             {
                 case 1:
-                    Instantiate(Wood,position,Quaternion.identity);
+                    Instantiate(Wood, position, Quaternion.identity);
                     break;
                 case 2:
                     Instantiate(Rock, position, Quaternion.identity);
                     break;
             }
-        }
-    }
-
-    /*
-    public Vector3 GetNearestVertex(RaycastHit hit, )
-    {
-
+            
     }
     */
 
@@ -101,12 +128,5 @@ public class LevelGenerator : MonoBehaviour
 
         public float NextF() => (offsets[current++] - 127) / 1280f;
 
-        public int GenerateSign()
-        {
-            if (random.Next(0, 2) == 0)
-                return -1;
-            else
-                return 1;
-    }
     }
 }

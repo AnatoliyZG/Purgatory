@@ -57,7 +57,6 @@ public class FogOfWar : MonoBehaviour
             fog.SetPixels(colors);
             fog.Apply();
             yield return new WaitForSeconds(0.2f);
-
         }
     }
 

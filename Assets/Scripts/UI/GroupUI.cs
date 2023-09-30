@@ -8,6 +8,7 @@ public class GroupUI : MonoBehaviour
 
     public List<UnitUI> Captains = new();
 
+    public UnitUI HeroPrefab;
     public UnitUI UnitPrefab;
 
     public Transform Content;
@@ -21,7 +22,6 @@ public class GroupUI : MonoBehaviour
     public void CreateHeroUI(Unit hero)
     {
         MainHero = Instantiate(UnitPrefab, Vector3.zero, Quaternion.identity, Content);
-        MainHero.transform.localScale = Vector2.one;
         MainHero.transform.SetAsFirstSibling();
         MainHero.Setup(hero);
     }

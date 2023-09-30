@@ -50,6 +50,12 @@ public class ResourceController : MonoBehaviour
         }
     }
 
+    [Sirenix.OdinInspector.Button]
+    public void AddWood()
+    {
+        wood += 5;
+    }
+
     private void Awake()
     {
         controller = this;

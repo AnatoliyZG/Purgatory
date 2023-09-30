@@ -17,7 +17,7 @@ MonoBehaviour:
   MaxHp: 100
   Mp: 100
   MaxMp: 100
-  VisionDistance: 0
+  VisionDistance: 8
   AttackRange: 2
   AttackFrequency: 0
   Damage: 0
