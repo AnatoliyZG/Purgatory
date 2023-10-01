@@ -63,55 +63,30 @@ public class LevelGenerator : MonoBehaviour
 
         int resourceCount = random.Next((int)(MaxWood * .8f), MaxWood);
 
-        for (int i = 0; i < resourceCount; i++)
+        for (int i = 0; i < 720;)
         {
-            Instantiate(Wood, GetRndPosition(random), Quaternion.identity);
+            float angl = i * Mathf.Deg2Rad;
+
+            Instantiate(Wood, new Vector3(Mathf.Cos(angl + random.Next(-1, 2)), 0, Mathf.Sin(angl + random.Next(-1, 2))) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
+
+            i += 360 / resourceCount;
         }
 
         resourceCount = random.Next((int)(MaxRock * .8f), MaxRock);
 
-        for (int i = 0; i < resourceCount; i++)
+        for (int i = 0; i < 720;)
         {
-            Instantiate(Rock, GetRndPosition(random), Quaternion.identity);
+            float angl = i * Mathf.Deg2Rad;
+
+            Instantiate(Rock, new Vector3(Mathf.Cos(angl + random.Next(-1, 2)), 0, Mathf.Sin(angl + random.Next(-1, 2))) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
+
+            i += 360 / resourceCount;
         }
-    }
-
-    private Vector3 GetRndPosition(Random random)
-    {
-        float angl = random.Next(0, 720) / 2f * Mathf.Deg2Rad;
-
-        return new Vector3(Mathf.Sin(angl), 0, Mathf.Cos(angl)) *  random.Next(BaseRadius, MaxRadius);
-    }
-
-    //private void SpawnResource(GameObject resource, )
-
-    /*
-    public Vector3 GetNearestVertex(RaycastHit hit, )
-    {
-                
-       // begin:
-            // Vector3 position = new Vector3((BaseRadius + random.Next(MaxBorder)) * mapOffset.GenerateSign(), 0.5f, (BaseRadius + mapOffset.random.Next(MaxBorderw)) * mapOffset.GenerateSign());
-
-          //  if (Physics.CheckSphere(position, Radius, 1 << 9))
-           //     goto begin;
-
-            switch (mapOffset.random.Next(3))
-            {
-                case 1:
-                    Instantiate(Wood, position, Quaternion.identity);
-                    break;
-                case 2:
-                    Instantiate(Rock, position, Quaternion.identity);
-                    break;
-            }
-            
-    }
-    */
-
-    private struct MapOffset
-    {
-        private byte[] offsets;
-        private int current;
+}
+private struct MapOffset
+{
+    private byte[] offsets;
+    private int current;
 
         public Random random;
 
