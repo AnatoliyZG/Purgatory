@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -354,10 +354,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Seed: 1503
   MapPlane: {fileID: 1804722382}
-  MaxWood: 50
-  MaxRock: 50
-  BaseRadius: 40
-  MaxRadius: 100
+  MaxWood: 360
+  MaxRock: 0
+  BaseRadius: 15
+  MaxRadius: 20
   Wood: {fileID: 3337427732481556672, guid: 915561e9a67614ad9add14ab2bc15fd0, type: 3}
   Rock: {fileID: 7506118386718908239, guid: 8ef678e0440624117b824c1999f41ad9, type: 3}
 --- !u!64 &1804722384

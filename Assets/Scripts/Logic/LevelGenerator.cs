@@ -63,30 +63,26 @@ public class LevelGenerator : MonoBehaviour
 
         int resourceCount = random.Next((int)(MaxWood * .8f), MaxWood);
 
-        for (int i = 0; i < 720;)
+        for (int i = 0; i < resourceCount; i ++)
         {
-            float angl = i * Mathf.Deg2Rad;
+            float angl = (360f / resourceCount) * i;
 
-            Instantiate(Wood, new Vector3(Mathf.Cos(angl + random.Next(-1, 2)), 0, Mathf.Sin(angl + random.Next(-1, 2))) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
-
-            i += 360 / resourceCount;
+            Instantiate(Wood, new Vector3(Mathf.Cos(angl), 0, Mathf.Sin(angl)) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
         }
 
         resourceCount = random.Next((int)(MaxRock * .8f), MaxRock);
 
-        for (int i = 0; i < 720;)
+        for (int i = 0; i < resourceCount; i++)
         {
-            float angl = i * Mathf.Deg2Rad;
+            float angl = (360f / resourceCount) * i;
 
-            Instantiate(Rock, new Vector3(Mathf.Cos(angl + random.Next(-1, 2)), 0, Mathf.Sin(angl + random.Next(-1, 2))) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
-
-            i += 360 / resourceCount;
+            Instantiate(Rock, new Vector3(Mathf.Cos(angl), 0, Mathf.Sin(angl)) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
         }
-}
-private struct MapOffset
-{
-    private byte[] offsets;
-    private int current;
+    }
+    private struct MapOffset
+    {
+        private byte[] offsets;
+        private int current;
 
         public Random random;
 
