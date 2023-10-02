@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: new unit properties 1
   m_EditorClassIdentifier: 
   Name: 
-  Hp: 0
-  MaxHp: 0
+  Hp: 100
+  MaxHp: 100
   Mp: 0
   MaxMp: 0
   VisionDistance: 5
@@ -26,6 +26,5 @@ MonoBehaviour:
   ArmorType: 0
   Image: {fileID: 0}
   MoveSpeed: 3
-  Type: 1
   CriticalChanse: 10
   CriticalDamage: 1.5

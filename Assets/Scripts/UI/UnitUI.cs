@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class UnitUI : MonoBehaviour
 {
@@ -11,11 +12,16 @@ public class UnitUI : MonoBehaviour
     public Slider hpSlider;
     public Slider mpSlider;
 
-    public void Awake()
-    {
-        //Fighting.onGetHit
-    }
+    public event Action<Impact> onGetHit;
+    public event Action<Impact> onAttack;
 
+    public void SetupHero(Unit unit)
+    {
+        Setup(unit);
+
+        mpSlider.maxValue = unit.properties.MaxMp;
+        mpSlider.value = unit.properties.Mp;
+    }
     public void Setup(Unit unit)
     {
         nameUnit.text = unit.properties.Name;

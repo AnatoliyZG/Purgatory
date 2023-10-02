@@ -21,9 +21,9 @@ public class GroupUI : MonoBehaviour
 
     public void CreateHeroUI(Unit hero)
     {
-        MainHero = Instantiate(UnitPrefab, Vector3.zero, Quaternion.identity, Content);
+        MainHero = Instantiate(HeroPrefab, Vector3.zero, Quaternion.identity, Content);
         MainHero.transform.SetAsFirstSibling();
-        MainHero.Setup(hero);
+        MainHero.SetupHero(hero);
     }
 
     public void CreateCapitanUI(Unit capitan)
@@ -32,4 +32,14 @@ public class GroupUI : MonoBehaviour
         un.Setup(capitan);
         Captains.Add(un);
     }
+
+    //public void OnEnable(Unit unit)
+    //{
+    //    onGetHit += Setup();
+    //}
+
+    //public void OnDisable(Unit unit)
+    //{
+    //    onGetHit += Setup(unit);
+    //}
 }
