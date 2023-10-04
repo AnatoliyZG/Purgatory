@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        StartCoroutine(DayPass());
-        StartCoroutine(SunRotate());
+        StartCoroutine(DayPass(0));
+        StartCoroutine(SunRotate(0));
     }
 
 
@@ -51,37 +51,62 @@ public class GameManager : MonoBehaviour
         dayChange?.Invoke(currentPhase);
     }
 
-    public IEnumerator SunRotate()
+    public IEnumerator SunRotate(float time)
     {
-        float time = 0;
+        float _time = time;
 
         while (true)
         {
-            time += Time.deltaTime;
+            _time += Time.deltaTime;
 
-            float height = time / (60 * DayLength);
+            float height = _time / (60 * DayLength);
 
             Sun.localEulerAngles = Vector3.Lerp(Vector3.zero, new Vector3(360, 0, 0), height);
 
             if (height > 1)
-                time = 0;
+                _time = 0;
 
             yield return new WaitForEndOfFrame();
         }
     }
 
-    public IEnumerator DayPass()
+    public IEnumerator DayPass(float time)
     {
         while (true)
         {
-            yield return new WaitForSeconds(DayLength * Day * 60);
-            ChangePhase();
+            if (time >= Day) 
+            {
+                yield return new WaitForSeconds((DayLength - time) * 60);
+                ChangePhase();
 
-            yield return new WaitForSeconds(DayLength * Night * 60);
-            ChangePhase();
+                time = 0;
+
+            }else 
+            {
+                yield return new WaitForSeconds((Day - time) * 60);
+                ChangePhase();
+
+                yield return new WaitForSeconds(Night * 60);
+                ChangePhase();
+
+                time = 0;
+            }
+
+            
         }
     }
-    
+
+    public void TimeSet(DayPhase dayPhase,uint currentDay,float time)  
+    {
+        StopAllCoroutines();
+
+        currentPhase = dayPhase;
+        CurrentDay = currentDay;
+
+        StartCoroutine(SunRotate(time));
+        StartCoroutine(DayPass(time));
+    }
+
     public int height;
 
     public int width;
