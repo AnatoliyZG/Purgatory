@@ -8,20 +8,19 @@ public class Dungeon : MonoBehaviour
     public Action OnEnter;
     public Action OnExit;
 
-    public GameObject dungeon;
-
-    public GameManager GameManager;
 
     public List<Unit> Participants = new();
+
+    private GameManager gameManager => GameManager.instance;
 
     private void Start()
     {
         OnExit += DestroyDungeon;
-        OnEnter += GameManager.StopAllCoroutines;
+        OnEnter += gameManager.StopAllCoroutines;
     }
 
     public void DestroyDungeon()
     {
-        Destroy(GetComponent<GameObject>());
+        Destroy(gameObject);
     }
 }
