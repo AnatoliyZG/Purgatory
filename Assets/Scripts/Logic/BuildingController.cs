@@ -11,7 +11,7 @@ public class BuildingController : MonoBehaviour
     private Building[,] buildings;
     private Building unplacedBuilding;
 
-    private void Awake()
+    private void Start()
     {
         buildings = new Building[GameManager.instance.width, GameManager.instance.height];
         _camera = Camera.main;
