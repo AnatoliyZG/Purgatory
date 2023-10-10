@@ -18,8 +18,6 @@ public class FogOfWar : MonoBehaviour
         StartCoroutine(StartFogOfWar());
     }
 
-
-
     IEnumerator StartFogOfWar()
     {
         while (true)

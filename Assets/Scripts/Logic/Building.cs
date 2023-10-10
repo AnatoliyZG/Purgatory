@@ -19,6 +19,8 @@ public class Building : Entity
 
     public Action OnPlace;
 
+    public List<EntityAction<Building>> entityActions = new();
+
     public Action<Unit> OnEnter;
 
     public Action<Unit> OnQuit;

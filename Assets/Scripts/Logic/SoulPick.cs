@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class SoulPick : MonoBehaviour 
 {
@@ -12,7 +13,7 @@ public class SoulPick : MonoBehaviour
 
     public Unit Soul;
 
-    private Image[] cards;
+    private UnityEngine.UI.Image[] cards;
 
     private List<UnitProperties> souls = new List<UnitProperties>();
 
@@ -24,11 +25,11 @@ public class SoulPick : MonoBehaviour
 
     private GameManager gameManager => GameManager.instance;
 
-
     public void Start()
     {
         gameManager.dayChange += OnDayChange;
-        cards = SoulCards.GetComponentsInChildren<Image>(true);
+        cards = SoulCards.GetComponentsInChildren<UnityEngine.UI.Image>(true);
+        SoulGenerate(3);
     }
 
     private void OnDayChange(DayPhase phase)
@@ -45,13 +46,14 @@ public class SoulPick : MonoBehaviour
             UnitProperties prop = new UnitProperties()
             {
                 Damage = Random.Range(10, 15),
-                Hp = Random.Range(10, 15)
+                Hp = Random.Range(10, 15),
+                MoveSpeed = 3
             };
 
             souls.Add(prop);
 
-            cards[i].GetComponent<Button>().onClick.RemoveAllListeners();
-            cards[i].GetComponent<Button>().onClick.AddListener(() => SoulChoose(prop, q));
+            cards[i].GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+            cards[i].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => SoulChoose(prop, q));
             cards[i].GetComponentInChildren<TextMeshProUGUI>(true).text = $"Damage={souls[i].Damage}\n Hp={souls[i].Hp}";
         }
 
@@ -62,13 +64,17 @@ public class SoulPick : MonoBehaviour
     {
         content.SetActive(false);
 
+        int i = 360 / selectedSouls.Count;
+        int j = i;
         foreach (var c in selectedSouls)
         {
-            Unit unit = Instantiate(Soul, new Vector3(0, 1, 0), Quaternion.identity);
+            Unit unit = Instantiate(Soul, new Vector3(Mathf.Cos(j), 0.5f, Mathf.Sin(j)) * 3, Quaternion.identity);
             unit.unitProperties = c.properties;
             souls.Remove(c.properties);
 
             gameManager.allies.Add(unit);
+
+            j += i;
         }
 
         foreach (var c in souls)

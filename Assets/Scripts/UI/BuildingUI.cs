@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class BuildingUI : MonoBehaviour
 {
@@ -10,12 +11,17 @@ public class BuildingUI : MonoBehaviour
 
     private GameObject _workersCards => BuildingCanvas.transform.GetChild(0).gameObject;
 
-    public Image[] _content = new Image[5];
+    private Image[] _content = new Image[5];
 
     private Building _currentBuilding;
 
+    private Button[] actionButtons = new Button[4];
+
+    private GameObject _actionCards => BuildingCanvas.transform.GetChild(2).gameObject;
+
     private void Start()
     {
+        actionButtons = _actionCards.GetComponentsInChildren<Button>(true);
         _content = _workersCards.GetComponentsInChildren<Image>(true);
         CameraController.controller.onFocusedBuilding += OpenUI;
     }
@@ -47,7 +53,18 @@ public class BuildingUI : MonoBehaviour
 
         building.OnEnter += OnEnter;
 
-        BuildingCanvas.SetActive(true);
+        _workersCards.SetActive(true);
+
+        BuildingCanvas.transform.GetChild(1).gameObject.SetActive(true);
+
+        for(int i = 0; i < building.entityActions.Count; i++)
+        {
+            int q = i;
+            actionButtons[i].onClick.RemoveAllListeners();
+            actionButtons[i].gameObject.SetActive(true);
+            actionButtons[i].onClick.AddListener(() => building.entityActions[q].Execute(building));
+            actionButtons[i].GetComponent<TextMeshProUGUI>().text = building.entityActions[q].Description;
+        }
     }
 
     public void CloseUI()

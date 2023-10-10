@@ -12,11 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d9cf76d06c5c4ca480bdc2c9e86667f, type: 3}
   m_Name: new build properties
   m_EditorClassIdentifier: 
-  Name: 
-  Hp: 0
+  Name: Rock
+  Hp: 100
+  MaxHp: 0
+  Mp: 0
+  MaxMp: 0
+  VisionDistance: 5
+  AttackRange: 0
+  AttackFrequency: 0
   Damage: 0
   DamageType: 0
   Armor: 0
   ArmorType: 0
-  SpellArmorType: 0
+  Image: {fileID: 0}
   Size: {x: 1, y: 1}
+  Cost: 0

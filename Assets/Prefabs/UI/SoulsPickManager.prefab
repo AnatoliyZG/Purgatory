@@ -410,7 +410,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2096264104547796189}
         m_TargetAssemblyTypeName: SoulPick, Logic
         m_MethodName: StopPickUp
         m_Mode: 1

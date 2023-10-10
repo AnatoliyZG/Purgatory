@@ -12,9 +12,13 @@ public class ResourceController : MonoBehaviour
 
     private float Rock = 0;
 
+    private float money = 0;
+
     public Action<float> OnWoodChanged;
 
     public Action<float> OnRockChanged;
+
+    public Action<float> OnMoneyChanged;
 
     public static float wood
     {
@@ -47,6 +51,23 @@ public class ResourceController : MonoBehaviour
             controller.OnRockChanged?.Invoke(value);
 
             controller.Rock = value;
+        }
+    }
+
+    public static float Money
+    {
+        get => controller?.money ?? 0;
+        set
+        {
+            if (controller == null)
+            {
+                Debug.LogError("Resource manager is null");
+                return;
+            }
+
+            controller.OnMoneyChanged?.Invoke(value);
+
+            controller.money = value;
         }
     }
 
