@@ -72,7 +72,7 @@ public class SoulPick : MonoBehaviour
             unit.unitProperties = c.properties;
             souls.Remove(c.properties);
 
-            gameManager.allies.Add(unit);
+            gameManager.AddToAllies(unit);
 
             j += i;
         }

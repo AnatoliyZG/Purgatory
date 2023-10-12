@@ -9,6 +9,8 @@ public class BuildingUI : MonoBehaviour
 {
     public GameObject BuildingCanvas;
 
+    public GameObject _actionCards;
+
     private GameObject _workersCards => BuildingCanvas.transform.GetChild(0).gameObject;
 
     private Image[] _content = new Image[5];
@@ -16,8 +18,6 @@ public class BuildingUI : MonoBehaviour
     private Building _currentBuilding;
 
     private Button[] actionButtons = new Button[4];
-
-    private GameObject _actionCards => BuildingCanvas.transform.GetChild(2).gameObject;
 
     private void Start()
     {
@@ -60,18 +60,24 @@ public class BuildingUI : MonoBehaviour
         for(int i = 0; i < building.entityActions.Count; i++)
         {
             int q = i;
-            actionButtons[i].onClick.RemoveAllListeners();
+            actionButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();
             actionButtons[i].gameObject.SetActive(true);
             actionButtons[i].onClick.AddListener(() => building.entityActions[q].Execute(building));
-            actionButtons[i].GetComponent<TextMeshProUGUI>().text = building.entityActions[q].Description;
+            actionButtons[i].onClick.AddListener(() => CloseUI());
+            actionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = building.entityActions[q].Description;
         }
     }
 
     public void CloseUI()
     {
-        BuildingCanvas.SetActive(false);
+        _workersCards.SetActive(false);
+
+        BuildingCanvas.transform.GetChild(1).gameObject.SetActive(false);
 
         _currentBuilding.OnEnter -= OnEnter;
+
+        for (int i = 0; i < actionButtons.Length; i++)
+            actionButtons[i].gameObject.SetActive(false);
 
         foreach (var c in _content)
             c.color = Color.white;

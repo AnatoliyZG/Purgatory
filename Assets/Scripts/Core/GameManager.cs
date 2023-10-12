@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public Transform Sun;
 
+
+
     public List<Entity> enemies;
 
     public List<Entity> allies;
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
     public float Day;
 
     public float Night => DayLength - Day;
+
+    public Action<float> OnSoulsChanged;
 
     private void Awake()
     {
@@ -105,6 +109,12 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(SunRotate(time));
         StartCoroutine(DayPass(time));
+    }
+
+    public void AddToAllies(Entity entity)
+    {
+        allies.Add(entity);
+        OnSoulsChanged.Invoke(allies.Count);
     }
 
     public int height;

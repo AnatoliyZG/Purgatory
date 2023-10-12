@@ -8,9 +8,9 @@ public class ResourceController : MonoBehaviour
 {
     public static ResourceController controller;
 
-    private float Wood = 0;
+    private float Wood = 200;
 
-    private float Rock = 0;
+    private float Rock = 80;
 
     private float money = 0;
 

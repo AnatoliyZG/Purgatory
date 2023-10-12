@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "new sell action", menuName = "Sell Action", order = 51)]
 public class Sell : EntityAction<Building>
 {
-    public override void Execute(Building building)
-    {
-        Destroy(building.gameObject);
+    public float Percent = 0.5f;
 
-        ResourceController.Money += building.buildProperties.Cost * 0.5f;
+    public override void Execute(Building building)
+    { 
+        ResourceController.wood += building.buildProperties.WoodCost * Percent;
+        ResourceController.rock += building.buildProperties.RockCost * Percent;
 
         GameManager.instance.buildings.Remove(building);
+
+        Destroy(building.gameObject);
     }
 }

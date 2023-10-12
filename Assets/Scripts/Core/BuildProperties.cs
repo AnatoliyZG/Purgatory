@@ -7,5 +7,7 @@ public class BuildProperties : EntityProperties
 {
     public Vector2Int Size = Vector2Int.one;
 
-    public float Cost;
+    public float WoodCost;
+
+    public float RockCost;
 }

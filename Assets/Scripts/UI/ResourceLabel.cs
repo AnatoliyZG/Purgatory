@@ -24,6 +24,10 @@ public class ResourceLabel : MonoBehaviour
                 RefreshText(ResourceController.rock);
                 ResourceController.controller.OnRockChanged += RefreshText;
                 return;
+            case ResourceType.Soul:
+                RefreshText(GameManager.instance.allies.Count);
+                GameManager.instance.OnSoulsChanged += RefreshText;
+                return;
         }
     }
 
@@ -36,5 +40,6 @@ public class ResourceLabel : MonoBehaviour
     {
         Wood,
         Rock,
+        Soul
     }
 }
