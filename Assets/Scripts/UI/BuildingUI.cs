@@ -53,9 +53,7 @@ public class BuildingUI : MonoBehaviour
 
         building.OnEnter += OnEnter;
 
-        _workersCards.SetActive(true);
-
-        BuildingCanvas.transform.GetChild(1).gameObject.SetActive(true);
+        BuildingCanvas.gameObject.SetActive(true);
 
         for(int i = 0; i < building.entityActions.Count; i++)
         {
@@ -70,14 +68,12 @@ public class BuildingUI : MonoBehaviour
 
     public void CloseUI()
     {
-        _workersCards.SetActive(false);
-
-        BuildingCanvas.transform.GetChild(1).gameObject.SetActive(false);
-
-        _currentBuilding.OnEnter -= OnEnter;
-
         for (int i = 0; i < actionButtons.Length; i++)
             actionButtons[i].gameObject.SetActive(false);
+
+        BuildingCanvas.gameObject.SetActive(false);
+
+        _currentBuilding.OnEnter -= OnEnter;
 
         foreach (var c in _content)
             c.color = Color.white;
