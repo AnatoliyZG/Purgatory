@@ -26,12 +26,12 @@ public class ResourceLabel : MonoBehaviour
                 return;
             case ResourceType.Soul:
                 RefreshText(GameManager.instance.allies.Count);
-                GameManager.instance.OnSoulsChanged += RefreshText;
+                GameManager.instance.OnSoulsChanged += (a, b) => RefreshText(GameManager.instance.allies.Count);
                 return;
         }
     }
 
-    private void RefreshText(float value)
+    private void RefreshText(int value)
     {
         text.text = value.ToString();
     }

@@ -8,19 +8,19 @@ public class ResourceController : MonoBehaviour
 {
     public static ResourceController controller;
 
-    private float Wood = 200;
+    private int Wood = 200;
 
-    private float Rock = 80;
+    private int Rock = 80;
 
-    private float money = 0;
+    private int money = 0;
 
-    public Action<float> OnWoodChanged;
+    public Action<int> OnWoodChanged;
 
-    public Action<float> OnRockChanged;
+    public Action<int> OnRockChanged;
 
-    public Action<float> OnMoneyChanged;
+    public Action<int> OnMoneyChanged;
 
-    public static float wood
+    public static int wood
     {
         get => controller?.Wood ?? 0;
         set
@@ -37,7 +37,7 @@ public class ResourceController : MonoBehaviour
         }
     }
 
-    public static float rock
+    public static int rock
     {
         get => controller?.Rock ?? 0;
         set
@@ -54,7 +54,7 @@ public class ResourceController : MonoBehaviour
         }
     }
 
-    public static float Money
+    public static int Money
     {
         get => controller?.money ?? 0;
         set
@@ -69,12 +69,6 @@ public class ResourceController : MonoBehaviour
 
             controller.money = value;
         }
-    }
-
-    [Sirenix.OdinInspector.Button]
-    public void AddWood()
-    {
-        wood += 5;
     }
 
     private void Awake()

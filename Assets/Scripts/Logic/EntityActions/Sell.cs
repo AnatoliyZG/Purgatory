@@ -9,8 +9,8 @@ public class Sell : EntityAction<Building>
 
     public override void Execute(Building building)
     { 
-        ResourceController.wood += building.buildProperties.WoodCost * Percent;
-        ResourceController.rock += building.buildProperties.RockCost * Percent;
+        ResourceController.wood += (int)(building.buildProperties.WoodCost * Percent);
+        ResourceController.rock += (int)(building.buildProperties.RockCost * Percent);
 
         GameManager.instance.buildings.Remove(building);
 

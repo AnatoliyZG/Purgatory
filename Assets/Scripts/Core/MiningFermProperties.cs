@@ -6,7 +6,7 @@ using static ResourcesPlaceProperties;
 [CreateAssetMenu(fileName = "new minig propertries", menuName = "Minig Ferm Properties", order = 51)]
 public class MiningFermProperties : BuildProperties
 {
-    public float Efficiency;
+    public int Efficiency;
 
     public ResourcesType resourcesType;
 

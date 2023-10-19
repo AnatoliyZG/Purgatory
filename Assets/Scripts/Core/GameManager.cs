@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,15 +16,13 @@ public class GameManager : MonoBehaviour
 
     public uint CurrentDay = 0;
 
-    public Transform Sun;
+    public Light Sun;
 
+    public ObservableCollection<Entity> enemies;
 
+    public ObservableCollection<Entity> allies;
 
-    public List<Entity> enemies;
-
-    public List<Entity> allies;
-
-    public List<Entity> buildings;
+    public ObservableCollection<Entity> buildings;
 
     public int DayLength = 8;
 
@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
 
     public float Night => DayLength - Day;
 
-    public Action<float> OnSoulsChanged;
+    public Action<Entity, bool> OnSoulsChanged;
+
+    public Vector2Int MapSize;
 
     private void Awake()
     {
@@ -39,6 +41,19 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(DayPass(0));
         StartCoroutine(SunRotate(0));
+
+        allies.CollectionChanged += (a, b) =>
+        {
+            switch (b.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    OnSoulsChanged(b.NewItems[0] as Entity, true);
+                    return;
+                case NotifyCollectionChangedAction.Remove:
+                    OnSoulsChanged(b.OldItems[0] as Entity, false);
+                    return;
+            }
+        };
     }
 
 
@@ -65,7 +80,7 @@ public class GameManager : MonoBehaviour
 
             float height = _time / (60 * DayLength);
 
-            Sun.localEulerAngles = Vector3.Lerp(Vector3.zero, new Vector3(360, 0, 0), height);
+            Sun.transform.localEulerAngles = Vector3.Lerp(Vector3.zero, new Vector3(360, 0, 0), height);
 
             if (height > 1)
                 _time = 0;
@@ -95,8 +110,6 @@ public class GameManager : MonoBehaviour
 
                 time = 0;
             }
-
-            
         }
     }
 
@@ -110,16 +123,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SunRotate(time));
         StartCoroutine(DayPass(time));
     }
-
-    public void AddToAllies(Entity entity)
-    {
-        allies.Add(entity);
-        OnSoulsChanged.Invoke(allies.Count);
-    }
-
-    public int height;
-
-    public int width;
 }
 
 public enum DayPhase

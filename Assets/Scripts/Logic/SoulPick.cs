@@ -3,58 +3,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
+using System.Linq;
 
 public class SoulPick : MonoBehaviour 
 {
     public GameObject content => transform.GetChild(0).gameObject;
 
-    public GameObject SoulCards;
+    public Transform SoulsParent;
+
+    public Button SoulCard;
 
     public Unit Soul;
 
-    private UnityEngine.UI.Image[] cards;
+    public int PickPeriod = 1;
 
-    private List<UnitProperties> souls = new List<UnitProperties>();
+    public int SoulsCount = 3;
 
-    private List<(UnitProperties properties, int index)> selectedSouls = new();
+    public int MaxSoulsPick = 2;
 
-    private int _cycle = 1;
+    private SelectedSoul[] souls;
 
-    private uint _maxSouls = 2;
+    private List<SelectedSoul> selectedSouls = new();
 
     private GameManager gameManager => GameManager.instance;
 
     public void Start()
     {
+        SoulGenerate(SoulsCount);
+
         gameManager.dayChange += OnDayChange;
-        cards = SoulCards.GetComponentsInChildren<UnityEngine.UI.Image>(true);
-        SoulGenerate(3);
     }
 
     private void OnDayChange(DayPhase phase)
     {
-        if(phase == DayPhase.day && gameManager.CurrentDay % _cycle == 0)
-            SoulGenerate(3);
+        if (phase == DayPhase.day && gameManager.CurrentDay % PickPeriod == 0)
+        {
+            SoulGenerate(SoulsCount);
+        }
     }
 
     private void SoulGenerate(int quantity)
     {
+        foreach(var soul in souls)
+        {
+            Destroy(soul.button.gameObject);
+        }
+
+        souls = new SelectedSoul[quantity];
+
+        selectedSouls.Clear();
+
         for (int i = 0; i < quantity; i++)
         {
-            int q = i;
-            UnitProperties prop = new UnitProperties()
+            UnitProperties unitProperties = new UnitProperties()
             {
                 Damage = Random.Range(10, 15),
                 Hp = Random.Range(10, 15),
                 MoveSpeed = 3
             };
 
-            souls.Add(prop);
+            var button = Instantiate<Button>(SoulCard, SoulsParent);
 
-            cards[i].GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-            cards[i].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => SoulChoose(prop, q));
-            cards[i].GetComponentInChildren<TextMeshProUGUI>(true).text = $"Damage={souls[i].Damage}\n Hp={souls[i].Hp}";
+            SelectedSoul soul = new SelectedSoul(button, unitProperties);
+
+            souls[i] = soul;
+
+            button.onClick.AddListener(() => SoulChoose(soul));
+
+            button.GetComponentInChildren<TextMeshProUGUI>(true).text = $"Damage={unitProperties.Damage}\n Hp={unitProperties.Hp}";
         }
 
         content.SetActive(true);
@@ -62,51 +78,66 @@ public class SoulPick : MonoBehaviour
 
     public void StopPickUp()
     {
-        content.SetActive(false);
-
         int i = 360 / selectedSouls.Count;
-        int j = i;
-        foreach (var c in selectedSouls)
+
+        for(int j = 0; j < selectedSouls.Count; j++)
         {
-            Unit unit = Instantiate(Soul, new Vector3(Mathf.Cos(j), 0.5f, Mathf.Sin(j)) * 3, Quaternion.identity);
-            unit.unitProperties = c.properties;
-            souls.Remove(c.properties);
+            Unit unit = Instantiate(Soul, new Vector3(Mathf.Cos(j * i), 0, Mathf.Sin(j * i)) * 3f, Quaternion.identity);
 
-            gameManager.AddToAllies(unit);
+            unit.unitProperties = selectedSouls[j].unitProperties;
 
-            j += i;
+            gameManager.allies.Add(unit);
         }
 
-        foreach (var c in souls)
+        //Оставшиеся души обращаем во врагов
+        foreach (var c in souls.Except(selectedSouls))
         {
             gameManager.enemies.Add(new Unit()
             {
-                unitProperties = c
+                unitProperties = c.unitProperties
             });
         }
 
-        souls.Clear();
-        selectedSouls.Clear();
+        content.SetActive(false);
     }
 
-    public void SoulChoose(UnitProperties prop,int index)
+    private void SoulChoose(SelectedSoul soul)
     {         
-        if (cards[index].color == Color.grey)
+        if (selectedSouls.Contains(soul))
         {
-            cards[index].color = Color.white;
-            selectedSouls.Remove((prop,index));
+            RemoveSoul(soul);
         }
         else
         {
-            cards[index].color = Color.grey;
+            soul.image.color = Color.grey;
 
-            if (selectedSouls.Count == _maxSouls)
+            if (selectedSouls.Count == MaxSoulsPick)
             {
-                cards[selectedSouls[0].index].color = Color.white;
-                selectedSouls[0] = (prop, index);
+                RemoveSoul(selectedSouls[0]);
             }
-            else
-                selectedSouls.Add((prop, index));
+
+            selectedSouls.Add(soul);
+        }
+
+        void RemoveSoul(SelectedSoul soul)
+        {
+            soul.image.color = Color.white;
+            selectedSouls.Remove(soul);
+        }
+    }
+
+    private struct SelectedSoul
+    {
+        public Button button;
+
+        public Image image => button.image;
+
+        public UnitProperties unitProperties;
+
+        public SelectedSoul(Button button, UnitProperties unitProperties)
+        {
+            this.button = button;
+            this.unitProperties = unitProperties;
         }
     }
 }

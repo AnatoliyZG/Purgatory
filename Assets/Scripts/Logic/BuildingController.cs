@@ -13,7 +13,7 @@ public class BuildingController : MonoBehaviour
 
     private void Start()
     {
-        buildings = new Building[GameManager.instance.width, GameManager.instance.height];
+        buildings = new Building[GameManager.instance.MapSize.x, GameManager.instance.MapSize.y];
         _camera = Camera.main;
     }
 
