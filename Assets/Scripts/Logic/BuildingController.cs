@@ -56,11 +56,23 @@ public class BuildingController : MonoBehaviour
                     PlaceBuilding(x, y);
                 }
             }
+
+            float Rotate = Input.GetAxis("Mouse ScrollWheel");
+
+            if(Rotate > 0)
+            {
+                unplacedBuilding.transform.localEulerAngles += Vector3.up * 90;
+            }
+            else if(Rotate < 0)
+            {
+                unplacedBuilding.transform.localEulerAngles -= Vector3.up * 90;
+            }
         }
     }
 
     private bool IsPlaceBuilding(int placeX, int placeY)
     {
+        /*
         placeX += buildings.GetLength(0) / 2;
         placeY += buildings.GetLength(1) / 2;
 
@@ -75,14 +87,17 @@ public class BuildingController : MonoBehaviour
                 if(buildings[placeX + x, placeY + y] != null) return false;
             }
         }
+        */
         return true;
     }
     private void PlaceBuilding(int placeX, int placeY)
     {
+        unplacedBuilding.OnPlace?.Invoke();
+
+        /*
         placeX += buildings.GetLength(0) / 2;
         placeY += buildings.GetLength(1) / 2;
 
-        unplacedBuilding.OnPlace?.Invoke();
         for (int x = 0; x < unplacedBuilding.Size.x; x++)
         {
             for (int y = 0; y < unplacedBuilding.Size.y; y++)
@@ -90,6 +105,7 @@ public class BuildingController : MonoBehaviour
                 buildings[placeX + x, placeY + y] = unplacedBuilding;
             }
         }
+        */
         unplacedBuilding.SetNormalColor();
         unplacedBuilding = null;
     }

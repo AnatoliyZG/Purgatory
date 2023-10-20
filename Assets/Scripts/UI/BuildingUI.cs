@@ -7,26 +7,28 @@ using TMPro;
 
 public class BuildingUI : MonoBehaviour
 {
-    public GameObject BuildingCanvas;
+    public GameObject Content;
 
-    public GameObject _actionCards;
+    public Transform ActionContent;
 
-    private GameObject _workersCards => BuildingCanvas.transform.GetChild(0).gameObject;
+    public Transform WorkersContent;
+
+    public Button ActionPrefab;
 
     private Image[] _content = new Image[5];
 
     private Building _currentBuilding;
 
-    private Button[] actionButtons = new Button[4];
+    private List<Button> _actionButton = new List<Button>();
 
     private void Start()
     {
-        actionButtons = _actionCards.GetComponentsInChildren<Button>(true);
-        _content = _workersCards.GetComponentsInChildren<Image>(true);
+        _content = WorkersContent.GetComponentsInChildren<Image>(true);
+
         CameraController.controller.onFocusedBuilding += OpenUI;
     }
 
-    public void Refresh()
+    public void RefreshWorkers()
     {
         for (int i = 0; i < _currentBuilding.workers.Count; i++)
         {
@@ -40,53 +42,58 @@ public class BuildingUI : MonoBehaviour
         }
     }
 
-    public void OnEnter(Unit unit)
+    public void Refresh(Unit unit)
     {
-        Refresh();
+        RefreshWorkers();
     }
 
     public void OpenUI(Building building)
     {
+        if (_currentBuilding == building)
+            return;
+
+        if(_currentBuilding != null) {
+            CloseUI();
+        }
+
         _currentBuilding = building;
 
-        Refresh();
+        RefreshWorkers();
 
-        building.OnQuit += OnEnter;
+        building.OnQuit += Refresh;
 
-        building.OnEnter += OnEnter;
+        building.OnEnter += Refresh;
 
-        BuildingCanvas.gameObject.SetActive(true);
+        Content.gameObject.SetActive(true);
 
-        for(int i = 0; i < building.entityActions.Count; i++)
+        foreach(var action in building.entityActions)
         {
-            Sell sell = (Sell)building.entityActions[0];
-            int q = i;
-            actionButtons[i].onClick.RemoveAllListeners();
-            actionButtons[i].gameObject.SetActive(true);
-            if (building.entityActions[i].IsInterectable == true)
-            {
-                actionButtons[i].onClick.AddListener(() => building.entityActions[q].Execute(building));
-            }
-            else
-            {
-                sell.OnSell += building.entityActions[i].Cancel;
-                actionButtons[i].interactable = false;
-            }
-            actionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = building.entityActions[q].Description;
+            Button button = Instantiate<Button>(ActionPrefab, ActionContent);
+
+            button.onClick.AddListener(() => action.Execute(building));
+
+            button.GetComponentInChildren<TextMeshProUGUI>().text = action.Description;
+
+            _actionButton.Add(button);
         }
     }
 
     public void CloseUI()
     {
-        for (int i = 0; i < actionButtons.Length; i++)
-            actionButtons[i].gameObject.SetActive(false);
+        foreach(var btn in _actionButton)
+        {
+            Destroy(btn.gameObject);
+        }
+        _actionButton.Clear();
 
-        BuildingCanvas.gameObject.SetActive(false);
+        _currentBuilding.OnQuit -= Refresh;
 
-        _currentBuilding.OnEnter -= OnEnter;
+        _currentBuilding.OnEnter -= Refresh;
 
         foreach (var c in _content)
             c.color = Color.white;
+
+        Content.gameObject.SetActive(false);
     }
 
     public void PickWorker(int i, Unit worker) 

@@ -18,11 +18,11 @@ public class GameManager : MonoBehaviour
 
     public Light Sun;
 
-    public ObservableCollection<Entity> enemies;
+    public ObservableCollection<Entity> enemies = new ObservableCollection<Entity>();
 
-    public ObservableCollection<Entity> allies;
+    public ObservableCollection<Entity> allies = new ObservableCollection<Entity>();
 
-    public ObservableCollection<Entity> buildings;
+    public ObservableCollection<Entity> buildings = new ObservableCollection<Entity>();
 
     public float _time;
 

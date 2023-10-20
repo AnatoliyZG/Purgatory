@@ -21,7 +21,7 @@ public class SoulPick : MonoBehaviour
 
     public int MaxSoulsPick = 2;
 
-    private SelectedSoul[] souls;
+    private SelectedSoul[] souls = new SelectedSoul[0];
 
     private List<SelectedSoul> selectedSouls = new();
 

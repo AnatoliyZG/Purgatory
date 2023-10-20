@@ -23,6 +23,11 @@ public class Sell : EntityAction<Building>
 
         OnSell?.Invoke();
 
+        foreach(var b in building.entityActions)
+        {
+            b.Cancel();
+        }
+
         Destroy(building.gameObject);
     }
 }
