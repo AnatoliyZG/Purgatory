@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
 
     public ObservableCollection<Entity> buildings;
 
+    public float _time;
+
+    public uint MaxSoulsCount;
+
     public int DayLength = 8;
 
     [PropertyRange(0, "DayLength")]
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SunRotate(float time)
     {
-        float _time = time;
+        _time = time;
 
         while (true)
         {

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9cf76d06c5c4ca480bdc2c9e86667f, type: 3}
+  m_Name: Fence properties
+  m_EditorClassIdentifier: 
+  Name: 
+  Hp: 30
+  MaxHp: 0
+  Mp: 0
+  MaxMp: 0
+  VisionDistance: 0
+  AttackRange: 0
+  AttackFrequency: 0
+  Damage: 0
+  DamageType: 0
+  Armor: 0
+  ArmorType: 0
+  Image: {fileID: 0}
+  Size: {x: 0, y: 1}
+  WoodCost: 20
+  RockCost: 0

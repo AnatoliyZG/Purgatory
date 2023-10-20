@@ -68,4 +68,11 @@ public class Building : Entity
             }
         }
     }
+
+    public void SetPassiveActions()
+    {
+        foreach (var c in entityActions)
+            if (!c.IsInterectable)
+                c.Execute(this);
+    }
 }

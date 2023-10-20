@@ -8,7 +8,6 @@ public class BuildingAttack : MonoBehaviour
 {
     public Building building => GetComponent<Building>();
 
-
     private void OnTriggerEnter(Collider other)
     {
         Entity entity = other.GetComponent<Unit>();

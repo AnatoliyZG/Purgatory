@@ -89,7 +89,6 @@ public class SoulPick : MonoBehaviour
             gameManager.allies.Add(unit);
         }
 
-        //Оставшиеся души обращаем во врагов
         foreach (var c in souls.Except(selectedSouls))
         {
             gameManager.enemies.Add(new Unit()

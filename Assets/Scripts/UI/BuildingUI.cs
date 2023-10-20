@@ -51,17 +51,27 @@ public class BuildingUI : MonoBehaviour
 
         Refresh();
 
+        building.OnQuit += OnEnter;
+
         building.OnEnter += OnEnter;
 
         BuildingCanvas.gameObject.SetActive(true);
 
         for(int i = 0; i < building.entityActions.Count; i++)
         {
+            Sell sell = (Sell)building.entityActions[0];
             int q = i;
-            actionButtons[i].GetComponent<Button>().onClick.RemoveAllListeners();
+            actionButtons[i].onClick.RemoveAllListeners();
             actionButtons[i].gameObject.SetActive(true);
-            actionButtons[i].onClick.AddListener(() => building.entityActions[q].Execute(building));
-            actionButtons[i].onClick.AddListener(() => CloseUI());
+            if (building.entityActions[i].IsInterectable == true)
+            {
+                actionButtons[i].onClick.AddListener(() => building.entityActions[q].Execute(building));
+            }
+            else
+            {
+                sell.OnSell += building.entityActions[i].Cancel;
+                actionButtons[i].interactable = false;
+            }
             actionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = building.entityActions[q].Description;
         }
     }
