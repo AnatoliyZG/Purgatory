@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731689, g: 0.13414702, b: 0.1210784, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -143,7 +143,6 @@ GameObject:
   - component: {fileID: 187608308}
   - component: {fileID: 187608309}
   - component: {fileID: 187608310}
-  - component: {fileID: 187608311}
   m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
@@ -317,18 +316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1239c944dfe16ba4f95f8ef85a2f953b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &187608311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187608303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19029abd05d8ace4d944ae36f962e799, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &557189507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -336,10 +323,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1561787818}
     m_Modifications:
-    - target: {fileID: 22572157219453444, guid: 635a095fc42bc4134a57f3b03a4dd214, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 187608311}
     - target: {fileID: 2166687479503848324, guid: 635a095fc42bc4134a57f3b03a4dd214, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
