@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "new sell action", menuName = "Sell Action", order = 51)]
+[CreateAssetMenu(fileName = "Sell action", menuName = "Actions/Sell", order = 51)]
 public class Sell : EntityAction<Building>
 {
     public float Percent = 0.5f;

@@ -15,30 +15,23 @@ public class BuildingUI : MonoBehaviour
 
     public Button ActionPrefab;
 
-    private Image[] _content = new Image[5];
-
     private Building _currentBuilding;
 
     private List<Button> _actionButton = new List<Button>();
 
     private void Start()
     {
-        _content = WorkersContent.GetComponentsInChildren<Image>(true);
-
-        CameraController.controller.onFocusedBuilding += OpenUI;
+        CameraController.controller.onFocused += OpenUI;
+        CameraController.controller.onUnfocused += CloseUI;
     }
 
     public void RefreshWorkers()
     {
+        //TODO:
+
         for (int i = 0; i < _currentBuilding.workers.Count; i++)
         {
-            int q = i;
-            Unit unit = _currentBuilding.workers[q];
 
-            _content[i].color = Color.black;
-
-            _content[i].GetComponent<Button>().onClick.RemoveAllListeners();
-            _content[i].GetComponent<Button>().onClick.AddListener(() => PickWorker(q, unit));
         }
     }
 
@@ -47,14 +40,17 @@ public class BuildingUI : MonoBehaviour
         RefreshWorkers();
     }
 
-    public void OpenUI(Building building)
+    public void OpenUI(Entity entity)
     {
-        if (_currentBuilding == building)
+        if (_currentBuilding == entity)
             return;
 
         if(_currentBuilding != null) {
             CloseUI();
         }
+
+        if (entity is not Building building)
+            return;
 
         _currentBuilding = building;
 
@@ -80,30 +76,36 @@ public class BuildingUI : MonoBehaviour
 
     public void CloseUI()
     {
+        if (!Content.activeSelf)
+            return;
+
         foreach(var btn in _actionButton)
         {
             Destroy(btn.gameObject);
         }
+
         _actionButton.Clear();
 
         _currentBuilding.OnQuit -= Refresh;
 
         _currentBuilding.OnEnter -= Refresh;
 
-        foreach (var c in _content)
-            c.color = Color.white;
-
-        Content.gameObject.SetActive(false);
+        Content.SetActive(false);
     }
 
-    public void PickWorker(int i, Unit worker) 
+    public void PickWorker(int i) 
     {
+        if (_currentBuilding.workers.Count <= i)
+            return;
+
+        Unit worker = _currentBuilding.workers[i];
+
         worker.gameObject.SetActive(true);
 
         _currentBuilding.workers.Remove(worker);
 
-        _content[i].color = Color.white;
-
         _currentBuilding.OnQuit?.Invoke(worker);
+
+        RefreshWorkers();
     }
 }

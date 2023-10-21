@@ -50,10 +50,10 @@ public class MiningFerm : Building
             {
                 switch (MiningFermProperties.resourcesType)
                 {
-                    case ResourcesPlaceProperties.ResourcesType.Wood:
+                    case ResourcesType.Wood:
                         ResourceController.wood += MiningFermProperties.Efficiency;
                         break;
-                    case ResourcesPlaceProperties.ResourcesType.Rock:
+                    case ResourcesType.Rock:
                         ResourceController.rock += MiningFermProperties.Efficiency;
                         break;
                 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "new soulsexchange action", menuName = "SoulsExchange Action", order = 51)]
+[CreateAssetMenu(fileName = "SoulsExchange action", menuName = "Actions/SoulsExchange", order = 51)]
 public class SoulsExchange : EntityAction<Building>
 {
     public override bool IsInterectable => true;

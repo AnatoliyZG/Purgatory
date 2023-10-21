@@ -7,14 +7,24 @@ public class SelectUnitUI : MonoBehaviour
     public GameObject Content;
     public TextMeshProUGUI UnitHp;
 
-    // Start is called before the first frame update
     void Start()
     {
-        CameraController.controller.onFocused += (a) =>
+        CameraController.controller.onFocused += Select;
+    }
+
+
+    public void Select(Entity entity)
+    {
+        if(entity is Unit unit)
         {
-            Content.SetActive(true);
-            UnitHp.text = a.unitProperties.Hp.ToString();
-        };
+            Select(unit);
+        }
+    }
+
+    public void Select(Unit unit)
+    {
+        Content.SetActive(true);
+        UnitHp.text = unit.unitProperties.Hp.ToString();
     }
 
 }

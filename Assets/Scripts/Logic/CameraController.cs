@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 
@@ -16,17 +17,15 @@ public class CameraController : MonoBehaviour
 
     public List<Unit> selectedEntities = new();
 
-    private SoulPick _soulPick;
-
     public float MoveBorder = 40;
 
-    public event Action<Unit> onFocused;
+    public event Action<Entity> onFocused;
 
-    public event Action<Building> onFocusedBuilding;
+    public event Action onUnfocused;
 
     private Camera _camera;
 
-    private Vector3 position1;
+    private Vector3 BorderStart;
 
     private void Awake()
     {
@@ -36,7 +35,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         _camera = Camera.main;
-        _soulPick = GetComponent<SoulPick>();
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Move(float point, float maxBorder, Vector3 direction)
@@ -58,9 +57,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.mousePosition.x < 0 || Input.mousePosition.x > Screen.width || Input.mousePosition.y < 0 || Input.mousePosition.y > Screen.height)
-            return;
+        if (Input.mousePosition.x < 0 || Input.mousePosition.x > Screen.width || Input.mousePosition.y < 0 || Input.mousePosition.y > Screen.height) return;
 
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+        
         RaycastHit hit;
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -69,18 +69,25 @@ public class CameraController : MonoBehaviour
             {
                 switch (hit.transform.gameObject.layer)
                 {
-                    case 7:
+                    case 7 or 8:
                         selectedEntity = hit.transform.GetComponent<Entity>();
-                        onFocused?.Invoke((Unit)selectedEntity);
-                        break;
-                    case 8:
-                        selectedEntity = hit.transform.GetComponent<Entity>();
-                        onFocusedBuilding?.Invoke(hit.collider.GetComponent<Building>());
+
+                        if(selectedEntity is Unit unit)
+                        {
+                            selectedEntities = new List<Unit>() { unit };
+                        }
+
+                        onFocused?.Invoke(selectedEntity);
                         break;
                     case 6:
-                        position1 = hit.point;
+                        BorderStart = hit.point;
                         break;
                 };
+            }
+            else
+            {
+                onUnfocused?.Invoke();
+                selectedEntity = null;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -98,42 +105,38 @@ public class CameraController : MonoBehaviour
                 }
                 else
                 {
-                    Vector3 back = (Vector3.zero - hit.point) / hit.point.magnitude;
-                    Vector3 right = Quaternion.AngleAxis(-90, Vector3.up) * back;
+                    EntityPosition position = new EntityPosition();
 
-                    int m = 0;
-                    for (int i = 0; i < 3; i++)
-                        for (int j = 0; j < 3; j++)
-                        {
-                            if (m == selectedEntities.Count)
-                            {
-                                i = 10;
-                                break;
-                            }
+                    Vector3 middlePos = selectedEntities[0].transform.position;
 
-                            selectedEntities[m].inputController.StartPath(hit.point + 2f * i * back + 2f * j * right);
-                            m++;
-                        }
-                }
-            }
-            else if (selectedEntity != null && selectedEntity is Unit unit)
-            {
-                if (target != null)
-                {
-                    unit.inputController.StartPath(target);
-                }
-                else
-                {
-                    unit.inputController.StartPath(hit.point);
+                    foreach(var entity in selectedEntities)
+                    {
+                        middlePos = Vector3.Lerp(middlePos, entity.transform.position, .5f);
+                    }
+
+                    middlePos.y = hit.point.y;
+
+                    Vector3 zDirect = (hit.point - middlePos).normalized;
+
+                    Vector3 xDirect = new Vector3(zDirect.z, 0, zDirect.x);
+
+                    Vector2Int offset = Vector2Int.zero;
+
+                    foreach (var entity in selectedEntities)
+                    {
+                        entity.inputController.StartPath(hit.point + xDirect * offset.x + zDirect * offset.y);
+
+                        offset = position.Next();
+                    }
                 }
             }
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 6))
         {
             Vector3 position2 = hit.point;
-            Vector3 half = new Vector3(Mathf.Abs(position2.x - position1.x), 100, Mathf.Abs(position2.z - position1.z)) * .5f;
+            Vector3 half = new Vector3(Mathf.Abs(position2.x - BorderStart.x), 100, Mathf.Abs(position2.z - BorderStart.z)) * .5f;
 
-            Collider[] hits = Physics.OverlapBox(Vector3.Lerp(position1, position2, 0.5f), half, Quaternion.identity, 1 << 7);
+            Collider[] hits = Physics.OverlapBox(Vector3.Lerp(BorderStart, position2, 0.5f), half, Quaternion.identity, 1 << 7);
 
             selectedEntities.Clear();
 
@@ -144,10 +147,9 @@ public class CameraController : MonoBehaviour
         }
         Move(Input.mousePosition.x, Screen.width, Vector3.right);
         Move(Input.mousePosition.y, Screen.height, Vector3.forward);
-
-        Zoom(Input.GetAxis("Mouse ScrollWheel"));
     }
 
+#if UNITY_EDITOR
     public void OnDrawGizmos()
     {
         if (Input.GetKey(KeyCode.Mouse0))
@@ -156,10 +158,31 @@ public class CameraController : MonoBehaviour
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 6))
             {
                 Vector3 position2 = hit.point;
-                Vector3 half = new Vector3(Mathf.Abs(position2.x - position1.x), 0, Mathf.Abs(position2.z - position1.z));
+                Vector3 half = new Vector3(Mathf.Abs(position2.x - BorderStart.x), 0, Mathf.Abs(position2.z - BorderStart.z));
                 Gizmos.color = new Color(0, 1, 0, .2f);
-                Gizmos.DrawCube(Vector3.Lerp(position1, position2, 0.5f), half);
+                Gizmos.DrawCube(Vector3.Lerp(BorderStart, position2, 0.5f), half);
             }
+        }
+    }
+#endif
+
+
+    private struct EntityPosition
+    {
+        public int x;
+
+        public int y;
+
+        public Vector2Int Next()
+        {
+            x++;
+
+            if (x == 2)
+                x = -1;
+            else if (x == 0)
+                y++;
+
+            return new Vector2Int(x, y);
         }
     }
 }
