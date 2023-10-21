@@ -7,21 +7,18 @@ public class MiningFerm : Building
 {
     public List<ResourcesPlace> ResAround = new();
 
-    public GameObject Exclamation;
-
     public MiningFermProperties MiningFermProperties => properties as MiningFermProperties;
 
     public GameObject exlamation;
 
-    private void Start()
+    private void Awake()
     {
-        GetResourcesAround();
+        OnPlace += () =>
+        {
+            GetResourcesAround();
 
-        OnPlace += GetResourcesAround;
-
-        OnEnter += SetToWork;
-
-        exlamation = Instantiate(Exclamation, new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), Quaternion.Euler(-180f, 0f, 0f));
+            OnEnter += SetToWork;
+        };
     }
 
     public void SetToWork(Unit unit)
@@ -40,7 +37,8 @@ public class MiningFerm : Building
             if (ResAround.Count == 0 || workers.Count == 0)
             {
                 StopWorking();
-                exlamation = Instantiate(Exclamation, new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), Quaternion.Euler(-180f, 0f, 0f));
+                exlamation.SetActive(true);
+
             }
 
             yield return new WaitForSeconds(MiningFermProperties.MiningTime);
@@ -79,7 +77,7 @@ public class MiningFerm : Building
     {
         StopAllCoroutines();
 
-        if(workers.Count == 0)
-            exlamation = Instantiate(Exclamation, new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z), Quaternion.Euler(-180f, 0f, 0f));
+        if (workers.Count == 0)
+            exlamation.SetActive(true);
     }
 }

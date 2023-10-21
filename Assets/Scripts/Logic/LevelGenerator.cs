@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 using Random = System.Random;
 
@@ -24,9 +25,9 @@ public class LevelGenerator : MonoBehaviour
 
     public int MaxRadius;
 
-    public GameObject Wood;
+    public ResourcesPlace Wood;
 
-    public GameObject Rock;
+    public ResourcesPlace Rock;
 
     private void Start()
     {
@@ -35,6 +36,8 @@ public class LevelGenerator : MonoBehaviour
         mesh = MapPlane.GetComponent<MeshFilter>().mesh;
 
         Generate();
+
+        AstarPath.active.Scan();
     }
 
     public void Generate()
@@ -63,20 +66,31 @@ public class LevelGenerator : MonoBehaviour
 
         int resourceCount = random.Next((int)(MaxWood * .8f), MaxWood);
 
-        for (int i = 0; i < resourceCount; i ++)
-        {
-            float angl = (360f / resourceCount) * i;
-
-            Instantiate(Wood, new Vector3(Mathf.Cos(angl), 0, Mathf.Sin(angl)) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
-        }
+        Spawn(resourceCount, Wood);
 
         resourceCount = random.Next((int)(MaxRock * .8f), MaxRock);
 
-        for (int i = 0; i < resourceCount; i++)
-        {
-            float angl = (360f / resourceCount) * i;
+        Spawn(resourceCount, Rock);
 
-            Instantiate(Rock, new Vector3(Mathf.Cos(angl), 0, Mathf.Sin(angl)) * random.Next(BaseRadius, MaxRadius), Quaternion.identity);
+        void Spawn(int resourceCount, ResourcesPlace obj)
+        {
+            for (int i = 0; i < resourceCount; i++)
+            {
+                float angl = (360f / resourceCount) * i;
+
+                int distance = random.Next(BaseRadius, MaxRadius);
+
+                var pos = new Vector3Int((int)(Mathf.Cos(angl) * distance), 0, (int)(Mathf.Sin(angl) * distance));
+
+                ref bool cell = ref GameManager.instance.GetCell(pos.x, pos.z);
+
+                if (cell) continue;
+                else cell = true;
+
+                var place = Instantiate(obj,new Vector3(.5f,0,.5f) + pos, Quaternion.identity);
+
+                ((IMapObject)place).Setup(pos.x, pos.z);
+            }
         }
     }
     private struct MapOffset

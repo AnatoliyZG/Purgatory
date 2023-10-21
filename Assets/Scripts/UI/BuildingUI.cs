@@ -90,6 +90,8 @@ public class BuildingUI : MonoBehaviour
 
         _currentBuilding.OnEnter -= Refresh;
 
+        _currentBuilding = null;
+
         Content.SetActive(false);
     }
 

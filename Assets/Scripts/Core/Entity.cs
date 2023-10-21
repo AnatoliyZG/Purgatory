@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class Entity : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public abstract class Entity : MonoBehaviour
     public Fighting fighting;
 
     public EntityType type;
+
+    public Action OnDead;
 
     public enum EntityType
     {
@@ -20,5 +23,10 @@ public abstract class Entity : MonoBehaviour
     public virtual void Start()
     {
         fighting = new Fighting(this);
+    }
+
+    private void OnDestroy()
+    {
+        OnDead?.Invoke();
     }
 }

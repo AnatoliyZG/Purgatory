@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public static bool[,] objectMap;
+
     public DayPhase currentPhase = DayPhase.day;
 
     public event Action<DayPhase> dayChange;
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     public Vector2Int MapSize;
 
+    public ref bool GetCell(int x, int y) => ref objectMap[x + MapSize.x / 2, y + MapSize.y / 2];
+
     private void Awake()
     {
         instance = this;
@@ -58,6 +62,8 @@ public class GameManager : MonoBehaviour
                     return;
             }
         };
+
+        objectMap = new bool[MapSize.x, MapSize.y];
     }
 
 
@@ -66,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         currentPhase = currentPhase == DayPhase.day ? DayPhase.night : DayPhase.day;
 
-        if(currentPhase == DayPhase.day)
+        if (currentPhase == DayPhase.day)
         {
             CurrentDay++;
         }
@@ -97,14 +103,15 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (time >= Day) 
+            if (time >= Day)
             {
                 yield return new WaitForSeconds((DayLength - time) * 60);
                 ChangePhase();
 
                 time = 0;
 
-            }else 
+            }
+            else
             {
                 yield return new WaitForSeconds((Day - time) * 60);
                 ChangePhase();
@@ -117,7 +124,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void TimeSet(DayPhase dayPhase,uint currentDay,float time)  
+    public void TimeSet(DayPhase dayPhase, uint currentDay, float time)
     {
         StopAllCoroutines();
 
@@ -126,6 +133,22 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(SunRotate(time));
         StartCoroutine(DayPass(time));
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (objectMap != null)
+
+            for (int x = 0; x < objectMap.GetLength(0); x++)
+            {
+                for (int y = 0; y < objectMap.GetLength(1); y++)
+                {
+                    Vector3 start = new Vector3(x - MapSize.x / 2, 0, y - MapSize.y / 2);
+
+                    Gizmos.color = objectMap[x, y] ? Color.red : Color.green;
+                    Gizmos.DrawLine(start, start + new Vector3(1, 0, 1));
+                }
+            }
     }
 }
 

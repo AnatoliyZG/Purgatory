@@ -3,27 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Building : Entity
+public class Building : Entity, IMapObject
 {
     public override EntityProperties properties => buildProperties;
 
-    public Vector2Int Size => buildProperties.Size;
+    public int Size => buildProperties.Size;
 
     public BuildProperties buildProperties;
 
     public SphereCollider attackRadius;
 
+    private Renderer mainRenderer;
+
     public List<Unit> workers = new List<Unit>();
 
-    private Renderer MainRenderer;
+    public List<EntityAction<Building>> entityActions = new();
 
     public Action OnPlace;
-
-    public List<EntityAction<Building>> entityActions = new();
 
     public Action<Unit> OnEnter;
 
     public Action<Unit> OnQuit;
+
+    public int x { get; set; } = 0;
+
+    public int y { get; set; } = 0;
+
+    public int angle { get; set; } = 0;
+
+    public override void Start()
+    {
+        base.Start();
+
+        mainRenderer = GetComponentInChildren<Renderer>();
+
+        buildProperties = buildProperties.Clone<BuildProperties>();
+
+        OnDead += () =>
+        {
+            foreach (var b in entityActions)
+            {
+                b.Cancel();
+            }
+
+            GameManager.instance.buildings.Remove(this);
+
+            Dispose();
+        };
+ 
+    }
 
     public void AddWorker(Unit unit)
     {
@@ -31,48 +59,28 @@ public class Building : Entity
         OnEnter?.Invoke(unit);
     }
 
-    public override void Start()
-    {
-        base.Start();
-
-        MainRenderer = GetComponentInChildren<Renderer>();
-
-        buildProperties = buildProperties.Clone<BuildProperties>();
-    }
-
     public void SetStateColor(bool available)
     {
-        if(MainRenderer == null)
+        if(mainRenderer == null)
         {
             return;
         }
-        if (available) MainRenderer.material.color = Color.green;
-        else MainRenderer.material.color = Color.red;
+        if (available) mainRenderer.material.color = Color.green;
+        else mainRenderer.material.color = Color.red;
 
     }
     public void SetNormalColor()
     {
-        MainRenderer.material.color = Color.white;
+        mainRenderer.material.color = Color.white;
     }
 
-    private void OnDrawGizmos()
+    public void Dispose()
     {
-        for (int x = 0; x < buildProperties.Size.x; x++)
+        BuildingController.BuildingAction(this, x, y, (x, y) =>
         {
-            for (int y = 0; y < buildProperties.Size.y; y++)
-            {
-                if ((x + y) % 2 == 0) Gizmos.color = new Color(0f, 1f, 0.22f, 1f);
-                else Gizmos.color = new Color(0f, 0.48f, 0.1f, 1f);
+            GameManager.instance.GetCell(x, y) = false;
 
-                Gizmos.DrawCube(transform.position + new Vector3(x, 0, y), new Vector3(1, .1f, 1));
-            }
-        }
-    }
-
-    public void SetPassiveActions()
-    {
-        foreach (var c in entityActions)
-            if (!c.IsInterectable)
-                c.Execute(this);
+            return true;
+        });
     }
 }

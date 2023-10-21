@@ -79,15 +79,13 @@ public class CameraController : MonoBehaviour
 
                         onFocused?.Invoke(selectedEntity);
                         break;
-                    case 6:
+                    default:
+                        onUnfocused?.Invoke();
+                        selectedEntity = null;
+
                         BorderStart = hit.point;
                         break;
                 };
-            }
-            else
-            {
-                onUnfocused?.Invoke();
-                selectedEntity = null;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1))

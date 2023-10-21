@@ -25,6 +25,6 @@ MonoBehaviour:
   Armor: 0
   ArmorType: 0
   Image: {fileID: 0}
-  Size: {x: 1, y: 1}
+  Size: 1
   WoodCost: 100
   RockCost: 0
