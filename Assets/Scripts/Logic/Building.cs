@@ -7,7 +7,7 @@ public class Building : Entity, IMapObject
 {
     public override EntityProperties properties => buildProperties;
 
-    public int Size => buildProperties.Size;
+    public int Size => buildProperties.SizeX;
 
     public BuildProperties buildProperties;
 

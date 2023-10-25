@@ -8,6 +8,12 @@ using static GameManager;
 
 public class BuildingController : MonoBehaviour
 {
+    public Transform BuildCircle;
+
+    public static Transform buildCircle => buildCircle;
+
+    private static float buildRadius;
+
     private Camera _camera;
 
     private Building unplacedBuilding;
@@ -18,12 +24,18 @@ public class BuildingController : MonoBehaviour
 
     private void Start()
     {
-        _camera = Camera.main;
+        _camera = Camera.main; 
+
+        buildRadius = BuildCircle.localScale.x;
     }
 
-    [Button]
-    public void StartBuildForPlace(Building Build)
+
+    public void StartBuildForPlace(Building Build,BuildProperties buildProperties) 
     {
+        //BuildCircle.gameObject.SetActive(true);
+
+        SetProperties(Build,buildProperties);
+
         if (unplacedBuilding != null)
         {
             Destroy(unplacedBuilding.gameObject);
@@ -70,7 +82,6 @@ public class BuildingController : MonoBehaviour
         if (x > objectMap.GetLength(0) || y > objectMap.GetLength(1) || instance.GetCell(x, y) == true)
             return false;
 
-
         return true;
     }
 
@@ -78,6 +89,11 @@ public class BuildingController : MonoBehaviour
     {
         int mx = _angle == 0 || _angle == -1 || _angle == 3 ? 1 : -1;
         int my = _angle == 0 || _angle == 1 || _angle == -3 ? 1 : -1;
+
+        if(Vector3.Distance(new Vector3(x, y), buildCircle.transform.position) >= buildRadius)  
+        {
+            return false;
+        }
 
         for (int i = 0; i < building.Size; i++)
         {
@@ -90,9 +106,12 @@ public class BuildingController : MonoBehaviour
         
         return true;
     }
+
     public static void PlaceBuilding(int placeX, int placeY, Building building)
     {
         building.OnPlace?.Invoke();
+
+        //buildCircle.gameObject.SetActive(false);
 
         ((IMapObject)building).Setup(placeX, placeY, _angle);
 
@@ -103,5 +122,14 @@ public class BuildingController : MonoBehaviour
         building.SetNormalColor();
 
         building = null;
+    }
+
+    public void SetProperties(Building building,BuildProperties buildProperties) 
+    {
+        building.buildProperties = buildProperties;
+
+        building.transform.GetChild(0).localScale = new Vector3(buildProperties.SizeX, buildProperties.SizeY, buildProperties.SizeZ);
+        building.GetComponent<BoxCollider>().transform.localScale = new Vector3(buildProperties.SizeX, buildProperties.SizeY, buildProperties.SizeZ);
+        building.GetComponent<SphereCollider>().radius = buildProperties.AttackRange;
     }
 }

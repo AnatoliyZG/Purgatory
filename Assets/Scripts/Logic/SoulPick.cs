@@ -78,23 +78,36 @@ public class SoulPick : MonoBehaviour
 
     public void StopPickUp()
     {
-        int i = 360 / selectedSouls.Count;
-
-        for(int j = 0; j < selectedSouls.Count; j++)
+        if (selectedSouls.Count > 0)
         {
-            Unit unit = Instantiate(Soul, new Vector3(Mathf.Cos(j * i), 0, Mathf.Sin(j * i)) * 3f, Quaternion.identity);
+            int i = 360 / selectedSouls.Count;
 
-            unit.unitProperties = selectedSouls[j].unitProperties;
-
-            gameManager.allies.Add(unit);
-        }
-
-        foreach (var c in souls.Except(selectedSouls))
-        {
-            gameManager.enemies.Add(new Unit()
+            for (int j = 0; j < selectedSouls.Count; j++)
             {
-                unitProperties = c.unitProperties
-            });
+                Unit unit = Instantiate(Soul, new Vector3(Mathf.Cos(j * i), 0, Mathf.Sin(j * i)) * 3f, Quaternion.identity);
+
+                unit.unitProperties = selectedSouls[j].unitProperties;
+
+                gameManager.allies.Add(unit);
+            }
+
+            foreach (var c in souls.Except(selectedSouls))
+            {
+                gameManager.enemies.Add(new Unit()
+                {
+                    unitProperties = c.unitProperties
+                });
+            }
+        }
+        else
+        {
+            foreach (var c in souls.Except(selectedSouls))
+            {
+                gameManager.enemies.Add(new Unit()
+                {
+                    unitProperties = c.unitProperties
+                });
+            }
         }
 
         content.SetActive(false);
