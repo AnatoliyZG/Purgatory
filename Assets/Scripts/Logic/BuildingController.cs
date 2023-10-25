@@ -8,11 +8,11 @@ using static GameManager;
 
 public class BuildingController : MonoBehaviour
 {
+    public Building BuildPrefab;
+
     public Transform BuildCircle;
 
-    public static Transform buildCircle => buildCircle;
-
-    private static float buildRadius;
+    public float BuildRadius;
 
     private Camera _camera;
 
@@ -24,23 +24,22 @@ public class BuildingController : MonoBehaviour
 
     private void Start()
     {
-        _camera = Camera.main; 
+        _camera = Camera.main;
 
-        buildRadius = BuildCircle.localScale.x;
+        BuildCircle.localScale = new Vector3(BuildRadius * 2, BuildRadius * 2, 1);
     }
 
 
-    public void StartBuildForPlace(Building Build,BuildProperties buildProperties) 
+    public void StartBuildForPlace(BuildProperties buildProperties) 
     {
-        //BuildCircle.gameObject.SetActive(true);
-
-        SetProperties(Build,buildProperties);
-
         if (unplacedBuilding != null)
         {
             Destroy(unplacedBuilding.gameObject);
         }
-        unplacedBuilding = Instantiate(Build);
+
+        unplacedBuilding = Instantiate(BuildPrefab);
+
+        unplacedBuilding.buildProperties = buildProperties;
     }
 
     private void Update()
@@ -57,17 +56,24 @@ public class BuildingController : MonoBehaviour
                 int x = Mathf.RoundToInt(worldPos.x);
                 int y = Mathf.RoundToInt(worldPos.z);
 
-                bool _available = BuildingAction(unplacedBuilding, x, y, IsCellEmpty);
-
                 unplacedBuilding.transform.position = new Vector3(x, 0, y);
 
-                unplacedBuilding.SetStateColor(_available);
-
-                if (_available && Input.GetKeyDown(KeyCode.Mouse0))
+                if (Vector2Int.Distance(new Vector2Int(x, y), Vector2Int.zero) < BuildRadius)
                 {
-                    PlaceBuilding(x, y, unplacedBuilding);
-                    unplacedBuilding = null;
-                    return;
+                    bool _available = BuildingAction(unplacedBuilding, x, y, IsCellEmpty);
+
+                    unplacedBuilding.SetStateColor(_available);
+
+                    if (_available && Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        PlaceBuilding(x, y, unplacedBuilding);
+                        unplacedBuilding = null;
+                        return;
+                    }
+                }
+                else
+                {
+                    unplacedBuilding.SetStateColor(false);
                 }
 
                 buildAngle += Mathf.CeilToInt(Input.GetAxis("Mouse ScrollWheel"));
@@ -90,11 +96,6 @@ public class BuildingController : MonoBehaviour
         int mx = _angle == 0 || _angle == -1 || _angle == 3 ? 1 : -1;
         int my = _angle == 0 || _angle == 1 || _angle == -3 ? 1 : -1;
 
-        if(Vector3.Distance(new Vector3(x, y), buildCircle.transform.position) >= buildRadius)  
-        {
-            return false;
-        }
-
         for (int i = 0; i < building.Size; i++)
         {
             for (int j = 0; j < building.Size; j++)
@@ -111,8 +112,6 @@ public class BuildingController : MonoBehaviour
     {
         building.OnPlace?.Invoke();
 
-        //buildCircle.gameObject.SetActive(false);
-
         ((IMapObject)building).Setup(placeX, placeY, _angle);
 
         BuildingAction(building, placeX, placeY, (x, y) => instance.GetCell(x, y) = true);
@@ -120,16 +119,5 @@ public class BuildingController : MonoBehaviour
         instance.buildings.Add(building);
 
         building.SetNormalColor();
-
-        building = null;
-    }
-
-    public void SetProperties(Building building,BuildProperties buildProperties) 
-    {
-        building.buildProperties = buildProperties;
-
-        building.transform.GetChild(0).localScale = new Vector3(buildProperties.SizeX, buildProperties.SizeY, buildProperties.SizeZ);
-        building.GetComponent<BoxCollider>().transform.localScale = new Vector3(buildProperties.SizeX, buildProperties.SizeY, buildProperties.SizeZ);
-        building.GetComponent<SphereCollider>().radius = buildProperties.AttackRange;
     }
 }

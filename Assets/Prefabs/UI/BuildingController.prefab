@@ -88,7 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19029abd05d8ace4d944ae36f962e799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BuildPrefab: {fileID: 7084784408901664986, guid: 787c4a0fbe198774abaab86301968c1f, type: 3}
   BuildCircle: {fileID: 0}
+  BuildRadius: 15
 --- !u!1 &4006896560219869913
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,11 +546,19 @@ PrefabInstance:
     - target: {fileID: 5071503718199153814, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 5118259145498725391}
+    - target: {fileID: 5071503718199153814, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartBuildForPlace
       objectReference: {fileID: 0}
     - target: {fileID: 5071503718199153814, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 7084784408901664986, guid: 787c4a0fbe198774abaab86301968c1f, type: 3}
+      objectReference: {fileID: 11400000, guid: 5fb43166cc1a9734388618153cbdfa74, type: 2}
+    - target: {fileID: 5071503718199153814, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: BuildProperties, Core
+      objectReference: {fileID: 0}
     - target: {fileID: 5329892067313741161, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
       propertyPath: m_Name
       value: BuildingObject

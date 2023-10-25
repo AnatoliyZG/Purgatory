@@ -7,11 +7,13 @@ public class Building : Entity, IMapObject
 {
     public override EntityProperties properties => buildProperties;
 
-    public int Size => buildProperties.SizeX;
+    public int Size => buildProperties.Size;
 
     public BuildProperties buildProperties;
 
     public SphereCollider attackRadius;
+
+    public BoxCollider boxCollider;
 
     private Renderer mainRenderer;
 
@@ -25,6 +27,8 @@ public class Building : Entity, IMapObject
 
     public Action<Unit> OnQuit;
 
+    private Transform buildingTranform => transform.GetChild(0);
+
     public int x { get; set; } = 0;
 
     public int y { get; set; } = 0;
@@ -37,7 +41,7 @@ public class Building : Entity, IMapObject
 
         mainRenderer = GetComponentInChildren<Renderer>();
 
-        buildProperties = buildProperties.Clone<BuildProperties>();
+        SetProperties(buildProperties);
 
         OnDead += () =>
         {
@@ -51,6 +55,23 @@ public class Building : Entity, IMapObject
             Dispose();
         };
  
+    }
+
+    public void SetProperties(BuildProperties buildProperties)
+    {
+        this.buildProperties = buildProperties.Clone<BuildProperties>();
+
+        Vector3 size = new Vector3(Size, 1, Size);
+        Vector3 offset = size / 2f;
+
+        buildingTranform.localScale = size;
+        buildingTranform.localPosition = offset;
+
+        boxCollider.size = size;
+        boxCollider.center = offset;
+
+        attackRadius.radius = buildProperties.AttackRange;
+        attackRadius.center = offset;
     }
 
     public void AddWorker(Unit unit)
