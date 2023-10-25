@@ -6,13 +6,12 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    //private Image image;
-
     private TextMeshProUGUI text;
+
+    private GameManager manager => GameManager.instance;
 
     private void Start()
     {
-        //image = GetComponent<Image>();
         text = GetComponent<TextMeshProUGUI>();
         StartCoroutine(StartTimer());
     }
@@ -21,9 +20,9 @@ public class Timer : MonoBehaviour
     {
         while (true)
         {
-            uint time = (uint)GameManager.instance._time;
-            text.text = $"{(uint)(time / 60)}:{time % 60}";
-            yield return new WaitForEndOfFrame();
+            text.text = $"{manager.CurrentTime.Minutes}:{string.Format("{0:d2}", manager.CurrentTime.Seconds)}";
+
+            yield return new WaitForSeconds(1f);
         }
     }
 }

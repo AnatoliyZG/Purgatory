@@ -26,14 +26,16 @@ public class GameManager : MonoBehaviour
 
     public ObservableCollection<Entity> buildings = new ObservableCollection<Entity>();
 
-    public float _time;
-
     public uint MaxSoulsCount;
 
-    public int DayLength = 8;
+    public TimeSpan CurrentTime;
+
+    public Vector3 SunRotationOffset;
+
+    public int DayLength = 480;
 
     [PropertyRange(0, "DayLength")]
-    public float Day;
+    public int Day;
 
     public float Night => DayLength - Day;
 
@@ -47,8 +49,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        StartCoroutine(DayPass(0));
-        StartCoroutine(SunRotate(0));
+        StartCoroutine(SunRotate());
 
         allies.CollectionChanged += (a, b) =>
         {
@@ -80,59 +81,29 @@ public class GameManager : MonoBehaviour
         dayChange?.Invoke(currentPhase);
     }
 
-    public IEnumerator SunRotate(float time)
-    {
-        _time = time;
-
-        while (true)
-        {
-            _time += Time.deltaTime;
-
-            float height = _time / (60 * DayLength);
-
-            Sun.transform.localEulerAngles = Vector3.Lerp(Vector3.zero, new Vector3(360, 0, 0), height);
-
-            if (height > 1)
-                _time = 0;
-
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-    public IEnumerator DayPass(float time)
+    public IEnumerator SunRotate()
     {
         while (true)
         {
-            if (time >= Day)
+            CurrentTime = new TimeSpan();
+
+            while (CurrentTime.TotalSeconds < DayLength)
             {
-                yield return new WaitForSeconds((DayLength - time) * 60);
-                ChangePhase();
+                CurrentTime = CurrentTime.Add(TimeSpan.FromSeconds(Time.fixedDeltaTime));
 
-                time = 0;
+                double height = CurrentTime.TotalSeconds / DayLength;
 
+                Sun.transform.localEulerAngles = Vector3.Lerp(SunRotationOffset, SunRotationOffset + Vector3.right * 360, (float)height);
+
+                if(CurrentTime.TotalSeconds == Day)
+                {
+                    ChangePhase();
+                }
+
+                yield return new WaitForFixedUpdate();
             }
-            else
-            {
-                yield return new WaitForSeconds((Day - time) * 60);
-                ChangePhase();
-
-                yield return new WaitForSeconds(Night * 60);
-                ChangePhase();
-
-                time = 0;
-            }
+            ChangePhase();
         }
-    }
-
-    public void TimeSet(DayPhase dayPhase, uint currentDay, float time)
-    {
-        StopAllCoroutines();
-
-        currentPhase = dayPhase;
-        CurrentDay = currentDay;
-
-        StartCoroutine(SunRotate(time));
-        StartCoroutine(DayPass(time));
     }
 
     private void OnDrawGizmos()
