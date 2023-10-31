@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     public Light Sun;
 
+    public Entity Base;
+
     public ObservableCollection<Entity> enemies = new ObservableCollection<Entity>();
 
     public ObservableCollection<Entity> allies = new ObservableCollection<Entity>();

@@ -147,7 +147,7 @@ public class CameraController : MonoBehaviour
         Move(Input.mousePosition.y, Screen.height, Vector3.forward);
     }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     public void OnDrawGizmos()
     {
         if (Input.GetKey(KeyCode.Mouse0))
@@ -162,7 +162,7 @@ public class CameraController : MonoBehaviour
             }
         }
     }
-#endif
+//#endif
 
 
     private struct EntityPosition

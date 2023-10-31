@@ -47,27 +47,42 @@ public abstract class InputController : EntityFeature<Unit>
             entity.StopCoroutine(movementCoroutine);
         }
 
-        OnNear = (target) =>
+        if (entity.type == Entity.EntityType.Ally)
         {
-            if (target is Building build)
+            OnNear = (target) =>
             {
-                //ЕСЛИ ЦЕЛЬ ЗДАНИЕ
-                entity.gameObject.SetActive(false);
-                build.AddWorker(entity);
-            
-            }else if(target.type == entity.type)
-            {
-                //ЕСЛИ ЦЕЛЬ СЮЗНИК
-            }else if(target is Traps)
-            {
+                if (target is Building build)
+                {
+                    //ЕСЛИ ЦЕЛЬ ЗДАНИЕ
+                    entity.gameObject.SetActive(false);
+                    build.AddWorker(entity);
 
-            }
-            else 
+                }
+                else if (target.type == entity.type)
+                {
+                    //ЕСЛИ ЦЕЛЬ СЮЗНИК
+
+
+                }
+                else if (target is Traps)
+                {
+
+                }
+                else
+                {
+                    //ЕСЛИ ЦЕЛЬ ВРАГ
+                    entity.fighting.BeginAttacking(target);
+                }
+            };
+        }
+        else
+        {
+            OnNear = (target) =>
             {
-                //ЕСЛИ ЦЕЛЬ ВРАГ
-                entity.fighting.BeginAttacking(target);
-            }
-        };
+                if (target.type == Entity.EntityType.Ally)
+                    entity.fighting.BeginAttacking(target);
+            };
+        }
 
         movementCoroutine = entity.StartCoroutine(_trackCoroutine(target));
 
@@ -84,23 +99,43 @@ public abstract class InputController : EntityFeature<Unit>
             yield return entity.StartCoroutine(path.WaitForPath());
             List<Vector3> points = path.vectorPath;
 
-            if (target.type == entity.type)
+            if (entity.type == Entity.EntityType.Ally)
             {
-                while (Vector3.Distance(transform.position, target.transform.position) >= 2f)
+                if (target.type == entity.type)
                 {
-                    if (DirectMove(points[0]))
+                    while (Vector3.Distance(transform.position, target.transform.position) >= 2f)
                     {
-                        points.RemoveAt(0);
-                    } 
+                        if (DirectMove(points[0]))
+                        {
+                            points.RemoveAt(0);
+                        }
 
-                    if (Vector3.Distance(targetPos, target.transform.position) > .5f) break;
-                    
+                        if (Vector3.Distance(targetPos, target.transform.position) > .5f) break;
 
-                    yield return new WaitForEndOfFrame();
+
+                        yield return new WaitForEndOfFrame();
+                    }
+
+                    //TODO:
+                    OnNear?.Invoke(target);
                 }
+                else
+                {
+                    while (Vector3.Distance(transform.position, target.transform.position) >= entity.unitProperties.AttackRange)
+                    {
+                        if (DirectMove(points[0]))
+                        {
+                            points.RemoveAt(0);
+                        }
 
-                //TODO:
-                OnNear?.Invoke(target);
+                        if (Vector3.Distance(targetPos, target.transform.position) > .5f) break;
+
+                        yield return new WaitForEndOfFrame();
+                    }
+
+                    //TODO:
+                    OnNear?.Invoke(target);
+                }
             }
             else
             {
@@ -111,7 +146,7 @@ public abstract class InputController : EntityFeature<Unit>
                         points.RemoveAt(0);
                     }
 
-                    if(Vector3.Distance(targetPos, target.transform.position) > .5f) break;
+                    if (Vector3.Distance(targetPos, target.transform.position) > .5f) break;
 
                     yield return new WaitForEndOfFrame();
                 }
@@ -119,6 +154,7 @@ public abstract class InputController : EntityFeature<Unit>
                 //TODO:
                 OnNear?.Invoke(target);
             }
+            
 
             yield return new WaitWhile(() => Vector3.Distance(targetPos, target.transform.position) < .5f);
         }

@@ -19,8 +19,6 @@ public class Building : Entity, IMapObject
 
     public List<Unit> workers = new List<Unit>();
 
-    public List<EntityAction<Building>> entityActions = new();
-
     public Action OnPlace;
 
     public Action<Unit> OnEnter;
@@ -45,7 +43,7 @@ public class Building : Entity, IMapObject
 
         OnDead += () =>
         {
-            foreach (var b in entityActions)
+            foreach (var b in buildProperties.entityActions)
             {
                 b.Cancel();
             }

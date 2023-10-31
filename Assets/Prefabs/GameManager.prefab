@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 8314740106795361541}
   - component: {fileID: 8314740106795361540}
   - component: {fileID: 8314740106795361542}
+  - component: {fileID: 7266523186227314175}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -214,10 +215,11 @@ MonoBehaviour:
   currentPhase: 0
   CurrentDay: 0
   Sun: {fileID: 8314740106365681978}
+  Base: {fileID: 0}
   MaxSoulsCount: 0
   SunRotationOffset: {x: 0, y: 0, z: 0}
-  DayLength: 480
-  Day: 300
+  DayLength: 8
+  Day: 1
   MapSize: {x: 200, y: 200}
 --- !u!114 &8314740106795361542
 MonoBehaviour:
@@ -239,3 +241,15 @@ MonoBehaviour:
   MaxRadius: 100
   Wood: {fileID: 7677609383459810147, guid: 8297218091e12d74f940760682bb49fe, type: 3}
   Rock: {fileID: 3358948787182482814, guid: 082c8c49c08ff38488732d2b391999e4, type: 3}
+--- !u!114 &7266523186227314175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8314740106795361539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56453a182dbaa485e8370b3a365dc628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

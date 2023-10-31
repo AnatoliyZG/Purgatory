@@ -39,7 +39,7 @@ public class BuildingController : MonoBehaviour
 
         unplacedBuilding = Instantiate(BuildPrefab);
 
-        unplacedBuilding.buildProperties = buildProperties;
+        unplacedBuilding.SetProperties(buildProperties);
     }
 
     private void Update()

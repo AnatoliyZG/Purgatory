@@ -557,7 +557,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 5fb43166cc1a9734388618153cbdfa74, type: 2}
     - target: {fileID: 5071503718199153814, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: BuildProperties, Core
+      value: BuildProperties, Logic
       objectReference: {fileID: 0}
     - target: {fileID: 5329892067313741161, guid: e66aa916c00b9d24d908e2e5bd2bfd01, type: 3}
       propertyPath: m_Name

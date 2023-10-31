@@ -93,7 +93,7 @@ public class SoulPick : MonoBehaviour
 
             foreach (var c in souls.Except(selectedSouls))
             {
-                gameManager.enemies.Add(new Unit()
+                gameManager.enemies.Add(new Enemy()
                 {
                     unitProperties = c.unitProperties
                 });
@@ -103,7 +103,7 @@ public class SoulPick : MonoBehaviour
         {
             foreach (var c in souls.Except(selectedSouls))
             {
-                gameManager.enemies.Add(new Unit()
+                gameManager.enemies.Add(new Enemy()
                 {
                     unitProperties = c.unitProperties
                 });

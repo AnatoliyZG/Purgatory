@@ -9,13 +9,9 @@ public class Upgrade : EntityAction<Building>
 
     public override string Description => $"Улучшает здание";
 
-
     public override void Execute(Building obj)
     {
-        /*
-        obj.buildProperties.Hp += BoostHp;
-        ResourceController.rock -= CostRock;
-        ResourceController.wood -= CostWood;
-        */
+        Debug.Log($"BuildProperties/{obj.buildProperties.Name} {obj.buildProperties.BuildLevel + 1}");
+        obj.SetProperties(Resources.Load<BuildProperties>($"BuildProperties/{obj.buildProperties.Name} {obj.buildProperties.BuildLevel + 1}"));
     }
 }

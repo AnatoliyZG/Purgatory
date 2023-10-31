@@ -62,11 +62,14 @@ public class BuildingUI : MonoBehaviour
 
         Content.gameObject.SetActive(true);
 
-        foreach(var action in building.entityActions)
+        foreach(var action in building.buildProperties.entityActions)
         {
             Button button = Instantiate<Button>(ActionPrefab, ActionContent);
 
             button.onClick.AddListener(() => action.Execute(building));
+
+            button.onClick.AddListener(() => CloseUI());
+            button.onClick.AddListener(() => OpenUI(entity));
 
             button.GetComponentInChildren<TextMeshProUGUI>().text = action.Description;
 
