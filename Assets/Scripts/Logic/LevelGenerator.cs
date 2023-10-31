@@ -89,6 +89,8 @@ public class LevelGenerator : MonoBehaviour
 
                 var place = Instantiate(obj,new Vector3(.5f,0,.5f) + pos, Quaternion.identity);
 
+                place.gameObject.hideFlags = HideFlags.HideInHierarchy;
+
                 ((IMapObject)place).Setup(pos.x, pos.z);
             }
         }

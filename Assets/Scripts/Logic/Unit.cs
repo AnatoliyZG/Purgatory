@@ -2,8 +2,7 @@ using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnitProperties;
-using static UnityEngine.UI.CanvasScaler;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Seeker))]
 

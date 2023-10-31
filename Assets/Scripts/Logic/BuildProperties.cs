@@ -11,6 +11,8 @@ public class BuildProperties : EntityProperties
 
     public List<EntityAction<Building>> entityActions = new();
 
+    public BuildProperties NextLevel;
+
     public float WoodCost;
 
     public float RockCost;

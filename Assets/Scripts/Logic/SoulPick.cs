@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
-public class SoulPick : MonoBehaviour 
+public class SoulPick : MonoBehaviour
 {
     public GameObject content => transform.GetChild(0).gameObject;
 
@@ -44,7 +44,7 @@ public class SoulPick : MonoBehaviour
 
     private void SoulGenerate(int quantity)
     {
-        foreach(var soul in souls)
+        foreach (var soul in souls)
         {
             Destroy(soul.button.gameObject);
         }
@@ -90,31 +90,18 @@ public class SoulPick : MonoBehaviour
 
                 gameManager.allies.Add(unit);
             }
-
-            foreach (var c in souls.Except(selectedSouls))
-            {
-                gameManager.enemies.Add(new Enemy()
-                {
-                    unitProperties = c.unitProperties
-                });
-            }
         }
-        else
+
+        foreach (var c in souls.Except(selectedSouls))
         {
-            foreach (var c in souls.Except(selectedSouls))
-            {
-                gameManager.enemies.Add(new Enemy()
-                {
-                    unitProperties = c.unitProperties
-                });
-            }
+            gameManager.enemies.Add(c.unitProperties);
         }
 
         content.SetActive(false);
     }
 
     private void SoulChoose(SelectedSoul soul)
-    {         
+    {
         if (selectedSouls.Contains(soul))
         {
             RemoveSoul(soul);

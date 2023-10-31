@@ -11,7 +11,6 @@ public class Upgrade : EntityAction<Building>
 
     public override void Execute(Building obj)
     {
-        Debug.Log($"BuildProperties/{obj.buildProperties.Name} {obj.buildProperties.BuildLevel + 1}");
-        obj.SetProperties(Resources.Load<BuildProperties>($"BuildProperties/{obj.buildProperties.Name} {obj.buildProperties.BuildLevel + 1}"));
+        obj.SetProperties(Resources.Load<BuildProperties>($"BuldingProperties/{obj.buildProperties.Name} {obj.buildProperties.BuildLevel + 1}"));
     }
 }

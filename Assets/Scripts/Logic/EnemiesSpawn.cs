@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class EnemiesSpawn : MonoBehaviour
 {
-    public GameObject Enemy;
+    public Enemy EnemyPrefab;
 
     private GameManager instance => GameManager.instance;
 
     public void SpawnEnemies(DayPhase currentPhase)
     {
-        if(currentPhase==DayPhase.night)
-            for (int i = 0; i < instance.enemies.Count; i++)
+        if (currentPhase == DayPhase.night)
+        {
+            foreach(var enemyProperties in instance.enemies)
             {
-                float angl = (360f / instance.enemies.Count) * i;
+                float angl = Random.Range(0,360);
 
-                GameObject enemy = Instantiate(Enemy, new Vector3(50 * Mathf.Cos(angl), 0, 50 * Mathf.Sin(angl)), Quaternion.identity);
+                var enemy = Instantiate(EnemyPrefab, new Vector3(50 * Mathf.Cos(angl), 0, 50 * Mathf.Sin(angl)), Quaternion.identity);
 
-                enemy.GetComponent<Enemy>().unitProperties = instance.enemies[i].GetComponent<Enemy>().unitProperties;
+                enemy.unitProperties = enemyProperties;
             }
+        }
     }
 
     private void Start()

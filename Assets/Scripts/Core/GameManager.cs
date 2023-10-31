@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     public Entity Base;
 
-    public ObservableCollection<Entity> enemies = new ObservableCollection<Entity>();
+    public ObservableCollection<UnitProperties> enemies = new ObservableCollection<UnitProperties>();
 
     public ObservableCollection<Entity> allies = new ObservableCollection<Entity>();
 
