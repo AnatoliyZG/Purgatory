@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6643969053402036761}
   - component: {fileID: 2295520285156508016}
   - component: {fileID: 2444438552661293496}
-  - component: {fileID: -3851906706714453675}
+  - component: {fileID: -7341969842439760032}
   m_Layer: 7
   m_Name: Ally
   m_TagString: Untagged
@@ -145,7 +145,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-3851906706714453675
+--- !u!114 &-7341969842439760032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,14 +154,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 950615488886865050}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c28ad3c0c5a40cc9ad1396299f0804, type: 3}
+  m_Script: {fileID: 11500000, guid: a1c2931b0b97b404cb46c43a4dcdf0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisionSphere: {fileID: 7095206079341573696}
+  VisionSphere: {fileID: 0}
   type: 0
   unitProperties: {fileID: 0}
-  unitType: 0
-  attackState: 2
 --- !u!1 &5000730633651025154
 GameObject:
   m_ObjectHideFlags: 0

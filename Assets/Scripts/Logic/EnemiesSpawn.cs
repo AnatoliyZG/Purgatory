@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemiesSpawn : MonoBehaviour
 {
-    public Enemy EnemyPrefab;
+    public Unit EnemyPrefab;
 
     private GameManager instance => GameManager.instance;
 

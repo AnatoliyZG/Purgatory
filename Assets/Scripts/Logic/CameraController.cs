@@ -15,13 +15,13 @@ public class CameraController : MonoBehaviour
 
     public Entity selectedEntity;
 
-    public List<Ally> selectedEntities = new();
+    public List<Unit> selectedEntities = new();
 
     public float MoveBorder = 40;
 
     public event Action<Entity> onFocused;
 
-    public event Action<List<Ally>> onFocusedAlly;
+    public event Action<List<Unit>> onFocusedAlly;
 
     public event Action onUnfocused;
 
@@ -74,9 +74,9 @@ public class CameraController : MonoBehaviour
                     case 7 or 8:
                         selectedEntity = hit.transform.GetComponent<Entity>();
 
-                        if(selectedEntity is Ally unit)
+                        if(selectedEntity is Unit unit)
                         {
-                            selectedEntities = new List<Ally>() { unit };
+                            selectedEntities = new List<Unit>() { unit };
 
                             onFocusedAlly?.Invoke(selectedEntities);
                         }
@@ -146,7 +146,7 @@ public class CameraController : MonoBehaviour
             selectedEntities.Clear();
 
             for (int i = 0; i < Mathf.Min(6,hits.Length); i++) 
-                selectedEntities.Add(hits[i].GetComponent<Ally>());
+                selectedEntities.Add(hits[i].GetComponent<Unit>());
 
             onFocusedAlly?.Invoke(selectedEntities);
 
@@ -172,7 +172,6 @@ public class CameraController : MonoBehaviour
         }
     }
 //#endif
-
 
     private struct EntityPosition
     {

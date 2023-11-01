@@ -13,7 +13,7 @@ public class UnitUI : MonoBehaviour
 
     private List<GameObject> UnitCards = new();
 
-    public void SetActiveUI(List<Ally> units)
+    public void SetActiveUI(List<Unit> units)
     { 
         if (units.Count == 0)
         {
