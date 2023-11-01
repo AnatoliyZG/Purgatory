@@ -5,6 +5,8 @@ using System;
 
 public abstract class Entity : MonoBehaviour
 {
+    public SphereCollider VisionSphere;
+
     public abstract EntityProperties properties { get; }
 
     public Fighting fighting;
@@ -12,6 +14,8 @@ public abstract class Entity : MonoBehaviour
     public EntityType type;
 
     public Action OnDead;
+
+    public Action<Entity> OnGetHit;
 
     public enum EntityType
     {
@@ -29,4 +33,5 @@ public abstract class Entity : MonoBehaviour
     {
         OnDead?.Invoke();
     }
+
 }

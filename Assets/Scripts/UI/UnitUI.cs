@@ -1,33 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
-using System;
 
 public class UnitUI : MonoBehaviour
 {
-    public TextMeshProUGUI nameUnit;
-    public Image image;
-    public Slider hpSlider;
-    public Slider mpSlider;
+    public GameObject CardPrefab;
 
-    public event Action<Impact> onGetHit;
-    public event Action<Impact> onAttack;
+    public Transform unitUI;
 
-    public void SetupHero(Unit unit)
-    {
-        Setup(unit);
+    public CameraController cameraController;
 
-        mpSlider.maxValue = unit.properties.MaxMp;
-        mpSlider.value = unit.properties.Mp;
+    private List<GameObject> UnitCards = new();
+
+    public void SetActiveUI(List<Ally> units)
+    { 
+        if (units.Count == 0)
+        {
+            if (UnitCards.Count > 0)
+                foreach (var c in UnitCards)
+                    Destroy(c);
+
+            UnitCards.Clear();
+        }
+        else
+        {
+            if (UnitCards.Count > 0) 
+            {
+                foreach (var c in UnitCards)
+                    Destroy(c);
+            }
+            UnitCards.Clear();
+
+            foreach (var c in units)
+            {
+                var b = Instantiate(CardPrefab, unitUI);
+
+                UnitCards.Add(b);
+            }
+        }
     }
-    public void Setup(Unit unit)
-    {
-        nameUnit.text = unit.properties.Name;
-        image.sprite = unit.properties.Image;
 
-        hpSlider.maxValue = unit.properties.MaxHp;
-        hpSlider.value = unit.properties.Hp;
+    private void Start()
+    {
+        cameraController.onFocusedAlly += SetActiveUI;
+    }
+
+    public void SetCard(Unit unit,GameObject card)
+    {
+
     }
 }

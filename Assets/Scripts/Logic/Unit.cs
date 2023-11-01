@@ -14,22 +14,13 @@ public class Unit : Entity
 
     public InputController inputController;
 
-    public UnitType unitType;
-
-    public enum UnitType
-    {
-        Worker,
-        Capitan,
-        Hero
-    }
-
     public override void Start()
     {
         base.Start();
 
-        unitProperties = unitProperties.Clone<UnitProperties>();
+        SetProperties(unitProperties);
 
-        if(type == EntityType.Ally)
+        if (type == EntityType.Ally || type == EntityType.Monster) 
         {
             inputController = new PlayerInput(this);
         }
@@ -37,10 +28,12 @@ public class Unit : Entity
         {
             inputController = new BotInput(this);
         }
+    }
 
-        if (type == EntityType.Ally && unitType != UnitType.Worker)
-        {
-            GroupController.Add(this);
-        }
+    public void SetProperties(UnitProperties unitProperties)
+    {
+        VisionSphere.radius = unitProperties.AttackRange;
+
+        this.unitProperties = unitProperties.Clone<UnitProperties>();
     }
 }

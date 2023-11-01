@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    private List<Entity> victims;
+    private List<Entity> victims = new List<Entity>();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Entity>().type == EntityType.Ally)
+        if (other.gameObject.layer==7 || other.gameObject.layer == 8) 
         {
             if (victims.Count==0)
                 inputController.StartPath(other.GetComponent<Entity>());
@@ -19,7 +19,7 @@ public class Enemy : Unit
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<Entity>().type == EntityType.Ally)
+        if (other.gameObject.layer == 7 || other.gameObject.layer == 8)
         {
             victims.Remove(other.GetComponent<Entity>());
 

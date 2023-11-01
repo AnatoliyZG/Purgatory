@@ -31,5 +31,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3f60a322f46b45c1ac463ac27a34764, type: 2}
   - {fileID: 11400000, guid: b0c35915110ab417f95aec0594eec11c, type: 2}
   - {fileID: 11400000, guid: 8b1e216c121bf47ddbe32952d3557ce6, type: 2}
+  NextLevel: {fileID: 11400000, guid: 8fb3b664fbaf946cc95127b26aefb5bc, type: 2}
   WoodCost: 80
   RockCost: 50

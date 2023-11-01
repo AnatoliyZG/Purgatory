@@ -29,6 +29,6 @@ public class Spell : MonoBehaviour
 
     public void Execute(Entity target)
     {
-        target.fighting.GetHit(new Impact(target, type, Damage));
+//        target.fighting.GetHit(new Impact(target, type, Damage));
     }
 }

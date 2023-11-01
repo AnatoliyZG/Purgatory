@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Fighting : EntityFeature<Entity>
 {
-    public event Action<Impact> onGetHit;
+    public event Action<Entity> onGetHit;
     public event Action<Impact> onAttack;
 
     public float Damage;
@@ -16,13 +16,13 @@ public class Fighting : EntityFeature<Entity>
         Impact impact = new Impact(target, entity);
         onAttack?.Invoke(impact);
 
-        target.fighting.GetHit(impact);
+        target.fighting.GetHit(impact,entity);
         _lastAttack = Time.time;
     }
 
-    public void GetHit(Impact impact)
+    public void GetHit(Impact impact,Entity entity) 
     {
-        onGetHit?.Invoke(impact);
+        onGetHit?.Invoke(entity);
 
         entity.properties.Hp -= impact.damage;
     }

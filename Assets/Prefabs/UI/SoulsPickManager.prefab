@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SoulsParent: {fileID: 7606560486749348349}
   SoulCard: {fileID: 1536687732509179613, guid: ec01a5131dc979e4681511173e7ee5b2, type: 3}
-  Soul: {fileID: 1060319019365536069, guid: 25128fc99b288a0469c77cc5522822ac, type: 3}
+  Soul: {fileID: -3851906706714453675, guid: 25128fc99b288a0469c77cc5522822ac, type: 3}
   PickPeriod: 1
   SoulsCount: 3
   MaxSoulsPick: 2

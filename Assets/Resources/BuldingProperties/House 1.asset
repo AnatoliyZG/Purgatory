@@ -30,5 +30,6 @@ MonoBehaviour:
   entityActions:
   - {fileID: 11400000, guid: b3f60a322f46b45c1ac463ac27a34764, type: 2}
   - {fileID: 11400000, guid: b0c35915110ab417f95aec0594eec11c, type: 2}
+  NextLevel: {fileID: 11400000, guid: 5fb43166cc1a9734388618153cbdfa74, type: 2}
   WoodCost: 100
   RockCost: 0

@@ -15,11 +15,13 @@ public class CameraController : MonoBehaviour
 
     public Entity selectedEntity;
 
-    public List<Unit> selectedEntities = new();
+    public List<Ally> selectedEntities = new();
 
     public float MoveBorder = 40;
 
     public event Action<Entity> onFocused;
+
+    public event Action<List<Ally>> onFocusedAlly;
 
     public event Action onUnfocused;
 
@@ -72,14 +74,19 @@ public class CameraController : MonoBehaviour
                     case 7 or 8:
                         selectedEntity = hit.transform.GetComponent<Entity>();
 
-                        if(selectedEntity is Unit unit)
+                        if(selectedEntity is Ally unit)
                         {
-                            selectedEntities = new List<Unit>() { unit };
+                            selectedEntities = new List<Ally>() { unit };
+
+                            onFocusedAlly?.Invoke(selectedEntities);
                         }
 
                         onFocused?.Invoke(selectedEntity);
                         break;
                     default:
+                        selectedEntities.Clear();
+                        onFocusedAlly?.Invoke(selectedEntities);
+
                         onUnfocused?.Invoke();
                         selectedEntity = null;
 
@@ -139,7 +146,9 @@ public class CameraController : MonoBehaviour
             selectedEntities.Clear();
 
             for (int i = 0; i < Mathf.Min(6,hits.Length); i++) 
-                selectedEntities.Add(hits[i].GetComponent<Unit>());
+                selectedEntities.Add(hits[i].GetComponent<Ally>());
+
+            onFocusedAlly?.Invoke(selectedEntities);
 
             //selectedEntities = selectedEntities.OrderBy(a => (int)a.properties.rank).ToList();
         }

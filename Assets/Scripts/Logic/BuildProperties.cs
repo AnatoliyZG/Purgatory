@@ -13,7 +13,7 @@ public class BuildProperties : EntityProperties
 
     public BuildProperties NextLevel;
 
-    public float WoodCost;
+    public int WoodCost;
 
-    public float RockCost;
+    public int RockCost;
 }

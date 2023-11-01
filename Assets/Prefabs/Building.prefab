@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  buildProperties: {fileID: 0}
+  buildProperties: {fileID: 11400000, guid: 4f7e5fe35e6a14baeb80267b2b1c64eb, type: 2}
   attackRadius: {fileID: 542148881723499121}
   boxCollider: {fileID: 1709143064239259663}
   workers: []

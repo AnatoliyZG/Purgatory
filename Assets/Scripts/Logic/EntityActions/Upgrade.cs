@@ -11,6 +11,10 @@ public class Upgrade : EntityAction<Building>
 
     public override void Execute(Building obj)
     {
-        obj.SetProperties(Resources.Load<BuildProperties>($"BuldingProperties/{obj.buildProperties.Name} {obj.buildProperties.BuildLevel + 1}"));
+        obj.SetProperties(obj.buildProperties.NextLevel);
+
+        ResourceController.wood -= obj.buildProperties.WoodCost;
+
+        ResourceController.rock -= obj.buildProperties.RockCost;
     }
 }

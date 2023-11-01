@@ -21,6 +21,8 @@ public class Building : Entity, IMapObject
 
     public Action OnPlace;
 
+    public Action OnSell;
+
     public Action<Unit> OnEnter;
 
     public Action<Unit> OnQuit;
@@ -36,6 +38,8 @@ public class Building : Entity, IMapObject
     public override void Start()
     {
         base.Start();
+
+        OnPlace += PayCost;
 
         mainRenderer = GetComponentInChildren<Renderer>();
 
@@ -101,5 +105,12 @@ public class Building : Entity, IMapObject
 
             return true;
         });
+    }
+
+    public void PayCost()
+    {
+        ResourceController.wood -= buildProperties.WoodCost;
+
+        ResourceController.rock -= buildProperties.RockCost;
     }
 }

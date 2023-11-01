@@ -218,8 +218,8 @@ MonoBehaviour:
   Base: {fileID: 0}
   MaxSoulsCount: 0
   SunRotationOffset: {x: 0, y: 0, z: 0}
-  DayLength: 8
-  Day: 1
+  DayLength: 67
+  Day: 47
   MapSize: {x: 200, y: 200}
 --- !u!114 &8314740106795361542
 MonoBehaviour:

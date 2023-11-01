@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/*
 public class GroupController : MonoBehaviour
 {
     public static GroupController instance;
@@ -33,3 +34,4 @@ public class GroupController : MonoBehaviour
         }
     }
 }
+*/
