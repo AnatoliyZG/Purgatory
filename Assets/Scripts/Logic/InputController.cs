@@ -121,7 +121,7 @@ public abstract class InputController : EntityFeature<Unit>
                 }
                 else
                 {
-                    while (Vector3.Distance(transform.position, target.transform.position) >= entity.unitProperties.AttackRange)
+                    while (Vector3.Distance(transform.position, target.transform.position) > entity.unitProperties.AttackRange)
                     {
                         if (DirectMove(points[0]))
                         {
@@ -139,7 +139,7 @@ public abstract class InputController : EntityFeature<Unit>
             }
             else
             {
-                while (Vector3.Distance(transform.position, target.transform.position) >= entity.unitProperties.AttackRange)
+                while (Vector3.Distance(transform.position, target.transform.position) > entity.unitProperties.AttackRange)
                 {
                     if (DirectMove(points[0]))
                     {

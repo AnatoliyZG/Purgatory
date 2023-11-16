@@ -14,8 +14,6 @@ public class Sell : EntityAction<Building>
 
     public override void Execute(Building building)
     {
-        building.OnSell?.Invoke();
-
         ResourceController.wood += (int)(building.buildProperties.WoodCost * Percent);
         ResourceController.rock += (int)(building.buildProperties.RockCost * Percent);
 

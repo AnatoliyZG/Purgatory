@@ -21,8 +21,6 @@ public class Building : Entity, IMapObject
 
     public Action OnPlace;
 
-    public Action OnSell;
-
     public Action<Unit> OnEnter;
 
     public Action<Unit> OnQuit;

@@ -54,7 +54,7 @@ public class BuildingUI : MonoBehaviour
 
         _currentBuilding = building;
 
-        _currentBuilding.OnSell += CloseUI;
+        _currentBuilding.OnDead += CloseUI;
 
         RefreshWorkers();
 

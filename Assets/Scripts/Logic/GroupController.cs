@@ -12,7 +12,6 @@ public class GroupController : MonoBehaviour
 
     public Action<Unit> onAddCaptain;
 
-
     public void Awake()
     {
         instance = this;

@@ -6,10 +6,7 @@ using System;
 
 public class PlayerInput : InputController
 {
-
-
     public PlayerInput(Unit entity) : base(entity)
     {
     }
-
 }

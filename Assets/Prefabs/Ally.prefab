@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2295520285156508016}
   - component: {fileID: 2444438552661293496}
   - component: {fileID: -7341969842439760032}
+  - component: {fileID: -2509535562507508660}
   m_Layer: 7
   m_Name: Ally
   m_TagString: Untagged
@@ -157,9 +158,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c2931b0b97b404cb46c43a4dcdf0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisionSphere: {fileID: 0}
+  VisionSphere: {fileID: 7095206079341573696}
   type: 0
   unitProperties: {fileID: 0}
+  unitType: 0
+--- !u!114 &-2509535562507508660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950615488886865050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3db738a08274985b09aa8e77e3ef10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackState: 1
+  reactor: {fileID: -7341969842439760032}
 --- !u!1 &5000730633651025154
 GameObject:
   m_ObjectHideFlags: 0
