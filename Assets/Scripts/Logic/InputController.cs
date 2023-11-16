@@ -121,6 +121,7 @@ public abstract class InputController : EntityFeature<Unit>
                 }
                 else
                 {
+                    Debug.Log(entity.unitProperties.AttackRange);
                     while (Vector3.Distance(transform.position, target.transform.position) > entity.unitProperties.AttackRange)
                     {
                         if (DirectMove(points[0]))
@@ -166,7 +167,9 @@ public abstract class InputController : EntityFeature<Unit>
         Path path = seeker.StartPath(transform.position, point);
 
         yield return entity.StartCoroutine(path.WaitForPath());
+
         List<Vector3> points = path.vectorPath;
+
         while (points.Count > 0)
         {
             if (DirectMove(points[0]))

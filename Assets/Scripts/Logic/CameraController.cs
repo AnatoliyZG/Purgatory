@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 8 | 1 << 7 | 1 << 6))
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 8 | 1 << 7 | 1 << 6, QueryTriggerInteraction.Ignore))
             {
                 switch (hit.transform.gameObject.layer)
                 {
@@ -97,7 +97,7 @@ public class CameraController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit);
+            Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, ~0, QueryTriggerInteraction.Ignore);
 
             Entity target = hit.transform.GetComponent<Entity>();
 
@@ -136,20 +136,23 @@ public class CameraController : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 6))
+        else if (Input.GetKeyUp(KeyCode.Mouse0) && Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 6, QueryTriggerInteraction.Ignore))
         {
             Vector3 position2 = hit.point;
-            Vector3 half = new Vector3(Mathf.Abs(position2.x - BorderStart.x), 100, Mathf.Abs(position2.z - BorderStart.z)) * .5f;
 
-            Collider[] hits = Physics.OverlapBox(Vector3.Lerp(BorderStart, position2, 0.5f), half, Quaternion.identity, 1 << 7);
+            if (Vector3.Distance(BorderStart, position2) > .5f)
+            {
+                Vector3 half = new Vector3(Mathf.Abs(position2.x - BorderStart.x), 100, Mathf.Abs(position2.z - BorderStart.z)) * .5f;
 
-            selectedEntities.Clear();
+                Collider[] hits = Physics.OverlapBox(Vector3.Lerp(BorderStart, position2, 0.5f), half, Quaternion.identity, 1 << 7);
 
-            for (int i = 0; i < Mathf.Min(6,hits.Length); i++) 
-                selectedEntities.Add(hits[i].GetComponent<Unit>());
+                selectedEntities.Clear();
 
-            onFocusedAlly?.Invoke(selectedEntities);
+                for (int i = 0; i < Mathf.Min(6, hits.Length); i++)
+                    selectedEntities.Add(hits[i].GetComponent<Unit>());
 
+                onFocusedAlly?.Invoke(selectedEntities);
+            }
             //selectedEntities = selectedEntities.OrderBy(a => (int)a.properties.rank).ToList();
         }
         Move(Input.mousePosition.x, Screen.width, Vector3.right);
@@ -162,7 +165,7 @@ public class CameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0))
         {
             RaycastHit hit;
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 6))
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out hit, 100, 1 << 6, QueryTriggerInteraction.Ignore))
             {
                 Vector3 position2 = hit.point;
                 Vector3 half = new Vector3(Mathf.Abs(position2.x - BorderStart.x), 0, Mathf.Abs(position2.z - BorderStart.z));

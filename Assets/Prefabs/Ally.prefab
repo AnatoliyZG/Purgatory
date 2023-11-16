@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2295520285156508016}
   - component: {fileID: 2444438552661293496}
   - component: {fileID: -7341969842439760032}
-  - component: {fileID: -2509535562507508660}
+  - component: {fileID: 1686620592478124945}
   m_Layer: 7
   m_Name: Ally
   m_TagString: Untagged
@@ -162,7 +162,7 @@ MonoBehaviour:
   type: 0
   unitProperties: {fileID: 0}
   unitType: 0
---- !u!114 &-2509535562507508660
+--- !u!114 &1686620592478124945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,11 +171,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 950615488886865050}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c3db738a08274985b09aa8e77e3ef10, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fa41654b7874064f8d84a25308a624d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackState: 1
-  reactor: {fileID: -7341969842439760032}
+  attackState: 0
 --- !u!1 &5000730633651025154
 GameObject:
   m_ObjectHideFlags: 0
