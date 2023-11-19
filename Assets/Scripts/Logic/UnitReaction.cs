@@ -17,7 +17,9 @@ public abstract class UnitReaction : MonoBehaviour
         reactor.onTriggerEnter += UnitComeIn;
         reactor.onTriggerExit += UnitLeave;
     }
-        
+
+    protected abstract IEnumerator seekCoroutine();
+
     public virtual void UnitComeIn(Entity entity)
     {
         if(reactor.type != entity.type)

@@ -61,7 +61,8 @@ public class SoulPick : MonoBehaviour
                 Hp = Random.Range(10, 15),
                 MoveSpeed = 5,
                 AttackFrequency = 1,
-                AttackRange = 5
+                AttackRange = Random.Range(3,7),
+                VisionDistance = 15
             };
 
             var button = Instantiate<Button>(SoulCard, SoulsParent);

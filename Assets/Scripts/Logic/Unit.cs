@@ -41,7 +41,7 @@ public class Unit : Entity
 
     public void SetProperties(UnitProperties unitProperties)
     {
-        VisionSphere.radius = unitProperties.AttackRange;
+        VisionSphere.radius = unitProperties.VisionDistance;
 
         this.unitProperties = unitProperties.Clone<UnitProperties>();
     }
@@ -49,15 +49,8 @@ public class Unit : Entity
     private void OnTriggerEnter(Collider other)
     {
         var entity = other.GetComponent<Entity>();
-        if (entity!=null)
+        if (entity != null) 
             onTriggerEnter?.Invoke(entity);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        var entity = other.GetComponent<Entity>();
-        if (entity != null)
-            onTriggerStay?.Invoke(entity);
     }
 
     private void OnTriggerExit(Collider other)
