@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 //[CreateAssetMenu(fileName = "Stats", menuName = "Entity Properties", order = 51)]
 
 public abstract class EntityProperties : ScriptableObject
 {
     public string Name;
-    public float Hp;
+    public float Hp
+    {
+        get { return Hp; }
+        set
+        {
+            if (value > MaxHp)
+            {
+                Hp = MaxHp;
+            }
+        }
+    }
     public float MaxHp;
     public float Mp;
     public float MaxMp;
@@ -20,6 +31,8 @@ public abstract class EntityProperties : ScriptableObject
 
     public float Armor;
     public DmgType ArmorType;
+
+    public Action<Entity> OnChangeHp;
 
     public T Clone<T>() where T: EntityProperties
     {

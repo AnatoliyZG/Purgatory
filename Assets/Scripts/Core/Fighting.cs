@@ -16,15 +16,16 @@ public class Fighting : EntityFeature<Entity>
         Impact impact = new Impact(target, entity);
         onAttack?.Invoke(impact);
 
-        target.fighting.GetHit(impact,entity);
+        target.fighting.onGetHit?.Invoke(entity);
+        target.fighting.GetHit(impact,target);
         _lastAttack = Time.time;
     }
 
-    public void GetHit(Impact impact,Entity entity) 
+    public void GetHit(Impact impact,Entity Entity) 
     {
-        onGetHit?.Invoke(entity);
+        Entity.OnChangeHp?.Invoke();
 
-        entity.properties.Hp -= impact.damage;
+        Entity.properties.Hp -= impact.damage;
     }
 
     public Fighting(Entity entity) : base(entity)

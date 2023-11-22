@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
 public class SelectUnitUI : MonoBehaviour
 {
     public GameObject Content;
@@ -9,9 +10,8 @@ public class SelectUnitUI : MonoBehaviour
 
     void Start()
     {
-        CameraController.controller.onFocused += Select;
+        //CameraController.controller.onFocused += Select;
     }
-
 
     public void Select(Entity entity)
     {

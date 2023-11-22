@@ -15,8 +15,6 @@ public class Building : Entity, IMapObject
 
     public BoxCollider boxCollider;
 
-    private Renderer mainRenderer;
-
     public List<Unit> workers = new List<Unit>();
 
     public Action OnPlace;
@@ -25,13 +23,15 @@ public class Building : Entity, IMapObject
 
     public Action<Unit> OnQuit;
 
-    private Transform buildingTranform => transform.GetChild(0);
-
     public int x { get; set; } = 0;
 
     public int y { get; set; } = 0;
 
     public int angle { get; set; } = 0;
+
+    private Transform buildingTranform => transform.GetChild(0);
+
+    private Renderer mainRenderer;
 
     public override void Start()
     {
@@ -42,6 +42,10 @@ public class Building : Entity, IMapObject
         mainRenderer = GetComponentInChildren<Renderer>();
 
         SetProperties(buildProperties);
+
+        StartCoroutine(BuildingHeal());
+
+        OnChangeHp += SetHpSlider;
 
         OnDead += () =>
         {
@@ -110,5 +114,20 @@ public class Building : Entity, IMapObject
         ResourceController.wood -= buildProperties.WoodCost;
 
         ResourceController.rock -= buildProperties.RockCost;
+    }
+
+    private IEnumerator BuildingHeal()
+    {
+        while (true)
+        {
+            if (workers.Count > 0 && GameManager.instance.currentPhase == DayPhase.day) 
+            {
+                yield return new WaitForSeconds(buildProperties.HealTime);
+
+                buildProperties.Hp = +buildProperties.HealScale * workers.Count;
+            }
+
+            yield return new WaitForSeconds(.5f);
+        }
     }
 }

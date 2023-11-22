@@ -16,4 +16,8 @@ public class BuildProperties : EntityProperties
     public int WoodCost;
 
     public int RockCost;
+
+    public int HealTime;
+
+    public int HealScale;
 }

@@ -9,8 +9,6 @@ public class UnitUI : MonoBehaviour
 
     public Transform unitUI;
 
-    public CameraController cameraController;
-
     private List<GameObject> UnitCards = new();
 
     public void SetActiveUI(List<Unit> units)
@@ -43,7 +41,7 @@ public class UnitUI : MonoBehaviour
 
     private void Start()
     {
-        cameraController.onFocusedAlly += SetActiveUI;
+        CameraController.controller.onFocusedAlly += SetActiveUI;
     }
 
     public void SetCard(Unit unit,GameObject card)

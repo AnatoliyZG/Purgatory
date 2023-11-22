@@ -11,17 +11,29 @@ public abstract class Entity : MonoBehaviour
 
     public Fighting fighting;
 
+    public GameObject Projector;
+
     public EntityType type;
 
     public Action OnDead;
 
-    public Action<Entity> OnGetHit;
+    public GameObject HpSlider;
+
+    public Action OnChangeHp;
 
     public enum EntityType
     {
         Ally,
         Monster,
         Neutral
+    }
+
+    public bool IsDamaged()
+    {
+        if (properties.Hp != properties.MaxHp)
+            return true;
+        else
+            return false;
     }
 
     public virtual void Start()
@@ -32,6 +44,16 @@ public abstract class Entity : MonoBehaviour
     private void OnDestroy()
     {
         OnDead?.Invoke();
+    }
+
+    public void SetHpSlider()
+    {
+        if (IsDamaged())
+        {
+            HpSlider.SetActive(true);
+        }
+        else
+            HpSlider.SetActive(false);
     }
 
 }

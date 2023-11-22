@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour
 
     public event Action onUnfocused;
 
+    private List<Entity> showedUnits = new();
+
     private Camera _camera;
 
     private Vector3 BorderStart;
@@ -38,6 +40,9 @@ public class CameraController : MonoBehaviour
     {
         _camera = Camera.main;
         Cursor.lockState = CursorLockMode.Confined;
+
+        onFocused += SetProjector;
+        onFocusedAlly += SetProjectors;
     }
 
     private void Move(float point, float maxBorder, Vector3 direction)
@@ -80,8 +85,11 @@ public class CameraController : MonoBehaviour
 
                             onFocusedAlly?.Invoke(selectedEntities);
                         }
-
-                        onFocused?.Invoke(selectedEntity);
+                        else
+                        {
+                            onFocused?.Invoke(selectedEntity);
+                        }
+                    
                         break;
                     default:
                         selectedEntities.Clear();
@@ -192,6 +200,55 @@ public class CameraController : MonoBehaviour
                 y++;
 
             return new Vector2Int(x, y);
+        }
+    }
+
+    public void SetProjector(Entity entity)
+    {
+        if (entity != null && showedUnits[0] != entity)
+        {
+            entity.Projector.SetActive(true);
+            showedUnits[0].Projector.SetActive(false);
+
+            showedUnits.Clear();
+            showedUnits.Add(entity);
+        }
+        else if (entity == null)
+        {
+            showedUnits[0].Projector.SetActive(false);
+
+            showedUnits.Clear();
+        }
+    }
+
+    public void SetProjectors(List<Unit> units)
+    {
+        if (units.Count == 0)
+        {
+            if (showedUnits.Count > 0)
+                foreach (var c in showedUnits)
+                    c.Projector.SetActive(false);
+
+            showedUnits.Clear();
+        }
+        else
+        {
+            if (showedUnits.Count == 0)
+            {
+                foreach (var c in units)
+                    c.Projector.SetActive(true);
+            }
+            else
+            {
+                foreach (var c in units)
+                    c.Projector.SetActive(true);
+
+                foreach (var c in showedUnits)
+                    if (!units.Contains(c))
+                        c.Projector.SetActive(false);
+            }
+
+            showedUnits = units.ToList<Entity>();
         }
     }
 }
